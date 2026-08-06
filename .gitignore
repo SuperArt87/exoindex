@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+db.sqlite3
+staticfiles/
+.env
+venv/
+env/
+*.egg-info/
+.DS_Store
+planetmarket-backend.zip
