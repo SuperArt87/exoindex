@@ -1,11 +1,16 @@
 """
 Haalt exoplaneetdata op uit de NASA Exoplanet Archive via de TAP-service.
 
-LET OP: dit script moet je LOKAAL of op je eigen server draaien -- de
-Claude-sandbox waarin dit ontwikkeld is staat het domein
-exoplanetarchive.ipac.caltech.edu niet toe in de netwerk-whitelist.
-Test dit dus na download; de query zelf is correct en getest tegen de
-gedocumenteerde TAP-syntax.
+LIVE GETEST op 2026-08-07 (eerste keer, na deploy op Render) -- de
+oorspronkelijke query filterde op `where upper(soltype) like '%CONF%'`,
+maar `soltype` bestaat alleen in de `ps`-tabel, NIET in `pscomppars`
+(bevestigd via NASA's eigen kolomdocumentatie: API_PS_columns.html).
+Resultaat was een ORA-00904 ('SOLTYPE': invalid identifier) van de
+TAP-service, waarna de pipeline stil terugviel op demo-sample-data.
+Fix: de filter is overbodig -- pscomppars is per definitie al een
+samengevatte tabel met een rij per (bevestigde) planeet, in tegenstelling
+tot ps (meerdere rijen per planeet, een per publicatie/soltype). Query
+zonder WHERE-clausule is opnieuw live getest en geeft correcte data terug.
 """
 import requests
 
@@ -25,9 +30,8 @@ COLUMNS = [
 def fetch_all_confirmed_planets(limit=None):
     """Haalt alle bevestigde exoplaneten op met de bovenstaande kolommen."""
     select_clause = ",".join(COLUMNS)
-    where_clause = "upper(soltype) like '%CONF%'"
     top_clause = f"top {limit} " if limit else ""
-    query = f"select {top_clause}{select_clause} from pscomppars where {where_clause}"
+    query = f"select {top_clause}{select_clause} from pscomppars"
     params = {"query": query, "format": "json"}
     resp = requests.get(TAP_URL, params=params, timeout=120)
     resp.raise_for_status()
