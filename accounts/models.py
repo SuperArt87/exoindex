@@ -55,6 +55,28 @@ class User(AbstractUser):
         return f"{self.username} ({self.tier})"
 
 
+class Transaction(models.Model):
+    """
+    Transactielogboek -- ELKE koop/verkoop-actie, in tegenstelling tot
+    PortfolioEntry (dat alleen de HUIDIGE bezitsstatus toont). Dit is de
+    bron voor de vraag/populariteit-laag in de marktwaarde: hoe vaak wordt
+    een planeet gekocht/verkocht, los van wie 'm nu bezit.
+    """
+    ACTION_CHOICES = [("buy", "Koop"), ("sell", "Verkoop")]
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="transactions")
+    planet = models.ForeignKey("catalog.Planet", on_delete=models.CASCADE, related_name="transactions")
+    action = models.CharField(max_length=4, choices=ACTION_CHOICES)
+    price_credits = models.DecimalField(max_digits=14, decimal_places=2)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"{self.user.username} {self.action} {self.planet.planet_name} @ {self.price_credits}"
+
+
 class PortfolioEntry(models.Model):
     """Eén 'bezit' -- koppelt een gebruiker aan een planeet, met credits-prijs
     op moment van aankoop. Fase-2-voorbereiding voor het handelsplatform."""

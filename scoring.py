@@ -172,11 +172,11 @@ def estimate_planet_color(planet_type, eq_temp_k, molecules=None):
 #   None          -> onbekend/niet gemeten
 #
 # Bij exoplaneten is dit vrijwel nooit direct gemeten. De heuristiek hieronder
-# kan alleen onderscheid maken tussen "synchronous" en "free" op basis van
-# afstand tot de ster -- resonante staten zoals bij Mercurius zijn met de
-# huidige exoplaneetdata niet betrouwbaar te detecteren en blijven "free" als
-# beste benadering, tenzij een specifieke planeet dit uit de literatuur heeft
-# (dan handmatig invullen, net als bij het zonnestelsel).
+# kan UITSLUITEND onderscheid maken tussen "synchronous" en "free" op basis
+# van afstand tot de ster -- "resonant" kan deze functie technisch niet
+# teruggeven, want dat vereist een daadwerkelijk gemeten rotatieperiode
+# (zoals bij Mercurius), niet alleen een afstandsschatting. Voor exoplaneten
+# blijft "resonant" dus altijd een handmatige, uitzonderlijke invoer.
 # ---------------------------------------------------------------------------
 def estimate_rotation_state(semi_major_axis_au, star_spectral_type):
     if semi_major_axis_au is None:
@@ -234,7 +234,10 @@ def habitability_score(planet):
         # zodat randgevallen (net buiten HZ-grens) niet onterecht op 0 staan
         score = 5
     else:
-        score = 30 if planet.get("in_habitable_zone") else 15  # None (onbekend) = neutraal laag
+        # "onbekend" (None) verdient NIET de helft van het maximum -- dat
+        # beloont datagebrek te veel. 10 i.p.v. 15: duidelijk lager dan
+        # bevestigd binnen de HZ, maar nog altijd boven "bevestigd buiten".
+        score = 30 if planet.get("in_habitable_zone") else 10
 
     star_type = (planet.get("star_spectral_type") or "")[:1]
     star_points = {"G": 20, "K": 18, "F": 12, "M": 6}.get(star_type, 8)
@@ -249,7 +252,12 @@ def habitability_score(planet):
         score += 10 * max(0, 1 - ecc / 0.3)
 
     rotation_state = planet.get("rotation_state")
-    rotation_points = {"free": 10, "resonant": 6, "synchronous": 2}.get(rotation_state, 0)
+    # "resonant" (bv. Mercurius, 3:2) betekent GEEN permanente dag/nachtzijde
+    # zoals "synchronous", maar wel een extreem lange dag/nacht-cyclus (bij
+    # Mercurius ~176 aardse dagen) -- dat is zelf al een zware leefbaarheids-
+    # handicap (extreme temperatuurschommelingen binnen een cyclus), dus
+    # dichter bij "synchronous" gewaardeerd dan bij "free".
+    rotation_points = {"free": 10, "resonant": 4, "synchronous": 2}.get(rotation_state, 0)
     score += rotation_points
 
     # Een gebalanceerde, matige atmosfeer (zoals de Aarde) is ideaal; te dun
@@ -258,6 +266,16 @@ def habitability_score(planet):
     atmo_points = {"moderate": 8, "thin": 4, "thick": 3, "trace": 1, "deep": 0, "none": 0}.get(
         planet.get("atmosphere_density"), 0)
     score += atmo_points
+
+    # Magnetosfeer beschermt een atmosfeer tegen erosie door zonnewind --
+    # dit is direct relevant voor leefbaarheid (zie Mars: verloor grotendeels
+    # zijn atmosfeer nadat het globale magneetveld wegviel), niet alleen voor
+    # grondstofpotentieel zoals bij resource_score. Bewust een kleiner gewicht
+    # dan atmosfeer zelf, want het is een beschermende factor, geen directe
+    # leefbaarheidsvoorwaarde.
+    magnetosphere_habitability_points = {"strong": 6, "weak": 3, "detected": 3, "none": 0}.get(
+        planet.get("magnetosphere_strength"), 0)
+    score += magnetosphere_habitability_points
 
     # Moleculen -- CONTEXTGEVOELIG in plaats van vlak. Dezelfde detectie
     # betekent iets heel anders op een hete gasreus (triviaal, water zit
@@ -351,7 +369,49 @@ CONFIDENCE_FIELDS = [
 def confidence_score(planet):
     known = 0
     for f in CONFIDENCE_FIELDS:
+        if f == "detected_molecules":
+            # Rijkdom telt mee, niet alleen aanwezigheid: 1 molecuul geeft
+            # gedeeltelijk krediet, 3+ moleculen (goed gekarakteriseerd
+            # spectrum) telt als volledig -- zo springt een planeet met een
+            # rijk onderzocht spectrum (bv. HD 209458 b, 4 moleculen) er
+            # meer uit dan een planeet met een enkele losse detectie.
+            molecules = planet.get(f) or []
+            known += min(1.0, len(molecules) / 3)
+            continue
         v = planet.get(f)
         if v not in (None, [], ""):
             known += 1
     return round(100 * known / len(CONFIDENCE_FIELDS), 1)
+
+
+# ---------------------------------------------------------------------------
+# Marktwaarde -- BEWUST gescheiden in twee lagen:
+#   1. base_market_value: puur afgeleid van wetenschap + schaarste, verandert
+#      alleen bij een sync (nieuwe astronomische data).
+#   2. market_sentiment_multiplier: macro-laag (ruimtemissies, tech-nieuws,
+#      algemeen marktsentiment), verandert door MarketEvent-objecten, NOOIT
+#      door de wetenschappelijke scores zelf aan te passen.
+# De uiteindelijke market_value_credits = base_market_value * multiplier.
+# ---------------------------------------------------------------------------
+def base_market_value(habitability_score, resource_score, distance_from_earth_ly, confidence_score):
+    """
+    Eenvoudig, transparant uitgangspunt -- geen zwarte doos. Combineert
+    leefbaarheid en grondstofpotentieel (elk voor de helft), met een
+    schaarstepremie voor dichterbij gelegen planeten (net als bij vastgoed:
+    dichterbij = makkelijker voorstelbaar/aantrekkelijker = hogere waarde),
+    en een korting voor lage confidence (minder bekend = speculatiever,
+    dus voorzichtiger gewaardeerd).
+    """
+    if habitability_score is None or resource_score is None:
+        return None
+    combined = 0.5 * habitability_score + 0.5 * resource_score  # 0-100
+
+    if distance_from_earth_ly and distance_from_earth_ly > 0:
+        scarcity_bonus = max(0.5, 1 - (distance_from_earth_ly / 5000))  # dichterbij = hoger, floor op 0.5x
+    else:
+        scarcity_bonus = 1.0  # zonnestelsel (afstand=0) of onbekend: geen straf
+
+    confidence_factor = 0.45 + 0.55 * ((confidence_score or 0) / 100)  # 0.45x-1.0x
+
+    value = combined * 100 * scarcity_bonus * confidence_factor  # ruwe schaal, credits
+    return round(value, 2)

@@ -284,7 +284,7 @@
     "visual_tag": "Hot Sub-Earth",
     "system_position": 1,
     "esi_score": 0.596,
-    "habitability_score": 52.7,
+    "habitability_score": 53.7,
     "resource_score": 38.7,
     "confidence_score": 90.0,
     "biosignature_candidate": false
@@ -469,7 +469,7 @@
     "visual_tag": "Warm Sub-Earth",
     "system_position": 4,
     "esi_score": 0.655,
-    "habitability_score": 87.6,
+    "habitability_score": 90.6,
     "resource_score": 37.2,
     "confidence_score": 90.0,
     "biosignature_candidate": false
@@ -531,7 +531,7 @@
     "visual_tag": "Cold Jupiter",
     "system_position": 5,
     "esi_score": 0.214,
-    "habitability_score": 43.4,
+    "habitability_score": 49.4,
     "resource_score": 60,
     "confidence_score": 80.0,
     "biosignature_candidate": false
@@ -593,7 +593,7 @@
     "visual_tag": "Cold Jupiter",
     "system_position": 6,
     "esi_score": 0.147,
-    "habitability_score": 43.1,
+    "habitability_score": 49.1,
     "resource_score": 60,
     "confidence_score": 80.0,
     "biosignature_candidate": false
@@ -654,7 +654,7 @@
     "visual_tag": "Cold Neptune",
     "system_position": 7,
     "esi_score": 0.138,
-    "habitability_score": 43.5,
+    "habitability_score": 46.5,
     "resource_score": 47.0,
     "confidence_score": 80.0,
     "biosignature_candidate": false
@@ -715,7 +715,7 @@
     "visual_tag": "Cold Sub-Neptune",
     "system_position": 8,
     "esi_score": 0.112,
-    "habitability_score": 44.6,
+    "habitability_score": 47.6,
     "resource_score": 46.6,
     "confidence_score": 80.0,
     "biosignature_candidate": false

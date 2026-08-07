@@ -1,6 +1,13 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import User, PortfolioEntry
+from .models import User, PortfolioEntry, Transaction
+
+
+@admin.register(Transaction)
+class TransactionAdmin(admin.ModelAdmin):
+    list_display = ("user", "planet", "action", "price_credits", "created_at")
+    list_filter = ("action", "created_at")
+    search_fields = ("user__username", "planet__planet_name")
 
 
 @admin.register(User)

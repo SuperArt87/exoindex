@@ -7,3 +7,4 @@ psycopg2-binary==2.9.10
 gunicorn==26.0.0
 requests==2.33.1
 pyvo==1.9.1
+yfinance==0.2.66

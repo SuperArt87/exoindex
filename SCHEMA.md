@@ -80,10 +80,22 @@ een bron en een confidence-tier:
 | Veld | Betekenis |
 |---|---|
 | `esi_score` | Earth Similarity Index (0-1), gevestigde formule |
-| `habitability_score` | eigen samengestelde 0-100 score o.b.v. HZ, sterrentype, massa/straal, eccentriciteit, atmosfeer, C/O. Molecuulbonus is CONTEXTGEVOELIG: dezelfde detectie weegt zwaarder op een gematigde rotsachtige planeet dan op een hete gasreus |
-| `resource_score` | 0-100, gericht op grondstofpotentieel (dichtheid, type, vulkanisme) |
-| `confidence_score` | 0-100, % van scoring gebaseerd op gemeten i.p.v. geschatte velden |
-| `biosignature_candidate` | `True`/`False`/`null` -- UI-signaalvlag, GEEN claim over leven. `True` = O2 samen met H2O of CH4 gedetecteerd op een gematigde (`in_habitable_zone=True`) rotsachtige planeet. Altijd tonen met de nuance dat bekende abiotische verklaringen bestaan (bv. foto-dissociatie bij rode dwergen) |
+| `habitability_score` | eigen samengestelde 0-100 score o.b.v. HZ, sterrentype, massa/straal, eccentriciteit, atmosfeer, magnetosfeer, C/O. Molecuulbonus is CONTEXTGEVOELIG: dezelfde detectie weegt zwaarder op een gematigde rotsachtige planeet dan op een hete gasreus |
+| `base_resource_score` | pure formule (dichtheid/type/magnetosfeer/tektoniek/straal), herberekend bij elke `sync_planets`-run |
+| `resource_score` | `base_resource_score` + som van geverifieerde `ResourceDiscovery`-bonussen (blijvend, geen vervaltijd). Wordt NOOIT door `sync_planets` overschreven -- alleen door `apply_resource_discoveries` |
+| `confidence_score` | 0-100, % van scoring gebaseerd op gemeten i.p.v. geschatte velden. `detected_molecules` telt gedeeltelijk mee naar rijkdom (`min(1, aantal/3)`), niet als plat ja/nee-vakje |
+| `biosignature_candidate` | `True`/`False`/`null` -- UI-signaalvlag, GEEN claim over leven. `True` = O2 samen met H2O of CH4 gedetecteerd op een gematigde (`in_habitable_zone=True`) rotsachtige planeet |
+
+## Marktwaarde (drie lagen, elk door een apart command bijgewerkt)
+| Veld | Betekenis | Bijgewerkt door |
+|---|---|---|
+| `base_market_value_credits` | `(0,5×habitability + 0,5×resource) × 100 × schaarste_bonus × confidence_factor` | `apply_market_events` |
+| `market_sentiment_multiplier` | macro/nieuws-laag, 0,1-onbegrensd naar boven maar events zelf begrensd op ±15% na demping | `apply_market_events` |
+| `demand_multiplier` | eigen platform-vraag (koop/verkoop-activiteit laatste 7 dagen), begrensd op ±25% | `apply_demand_pricing` |
+| `market_value_credits` | FINAAL: `base × sentiment × demand` | `apply_demand_pricing` (laatste stap) |
+
+Zie `CONTEXT.md` voor de volledige formules en de redenering achter elke
+constante (dempingsfactoren, caps, VIX-gevoeligheid).
 
 ## Belangrijke datalimitatie om te communiceren op de website
 Bij verreweg de meeste exoplaneten zijn rotatiesnelheid, magnetosfeer,

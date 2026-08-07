@@ -1,12 +1,29 @@
 from django.contrib import admin
-from .models import Planet
+from .models import Planet, ResourceDiscovery, MarketEvent
+
+
+@admin.register(ResourceDiscovery)
+class ResourceDiscoveryAdmin(admin.ModelAdmin):
+    list_display = ("planet", "title", "points_bonus", "is_verified", "discovered_at")
+    list_filter = ("is_verified",)
+    search_fields = ("title", "planet__planet_name")
+    autocomplete_fields = ["planet"]
+
+
+@admin.register(MarketEvent)
+class MarketEventAdmin(admin.ModelAdmin):
+    list_display = ("title", "category", "scope", "scope_value", "magnitude",
+                     "starts_at", "half_life_days", "is_active", "is_auto_generated")
+    list_filter = ("category", "scope", "is_active", "is_auto_generated")
+    search_fields = ("title", "scope_value")
+    readonly_fields = ("is_auto_generated",)
 
 
 @admin.register(Planet)
 class PlanetAdmin(admin.ModelAdmin):
     list_display = (
         "planet_name", "host_name", "visual_tag", "planet_type",
-        "habitability_score", "resource_score", "confidence_score",
+        "habitability_score", "base_resource_score", "resource_score", "confidence_score",
         "biosignature_candidate", "is_solar_system", "last_synced_at",
     )
     list_filter = (
@@ -47,11 +64,12 @@ class PlanetAdmin(admin.ModelAdmin):
             "fields": ("atmosphere_density", "detected_molecules", "molecule_source",
                        "c_to_o_ratio", "magnetosphere_strength", "tectonic_activity")
         }),
-        ("Scores (alleen-lezen aanbevolen -- worden herberekend bij import)", {
-            "fields": ("esi_score", "habitability_score", "resource_score",
-                       "confidence_score", "biosignature_candidate")
+        ("Scores (esi/habitability/base_resource: alleen-lezen aanbevolen -- herberekend bij sync)", {
+            "fields": ("esi_score", "habitability_score", "base_resource_score",
+                       "resource_score", "confidence_score", "biosignature_candidate")
         }),
         ("Handelsplatform", {
-            "fields": ("market_value_credits",)
+            "fields": ("base_market_value_credits", "market_sentiment_multiplier",
+                       "demand_multiplier", "market_value_credits")
         }),
     )
