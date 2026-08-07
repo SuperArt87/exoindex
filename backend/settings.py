@@ -34,6 +34,16 @@ RENDER_EXTERNAL_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
+# PRODUCTIE: zet CORS_ALLOWED_ORIGINS als environment variable zodra de
+# frontend een echt domein heeft (bv. Vercel), komma-gescheiden. Standaard
+# alleen lokale dev-poorten, zodat een frontend die nog niet bestaat de API
+# nu al vanaf localhost kan aanspreken.
+CORS_ALLOWED_ORIGINS = [
+    origin for origin in
+    os.environ.get("CORS_ALLOWED_ORIGINS", "http://localhost:3000,http://localhost:5173").split(",")
+    if origin
+]
+
 
 # Application definition
 
@@ -46,6 +56,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'django_filters',
+    'corsheaders',
     'catalog',
     'accounts',
 ]
@@ -56,6 +67,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  # zo hoog mogelijk, in elk geval voor CommonMiddleware
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -150,6 +162,12 @@ STORAGES = {
 }
 
 REST_FRAMEWORK = {
+    # Planeten-catalogus blijft publiek (AllowAny als default) -- auth- en
+    # handelsendpoints zetten zelf expliciet IsAuthenticated.
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
     'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.AllowAny'],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 50,
