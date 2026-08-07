@@ -59,34 +59,56 @@ class Transaction(models.Model):
     """
     Transactielogboek -- ELKE koop/verkoop-actie, in tegenstelling tot
     PortfolioEntry (dat alleen de HUIDIGE bezitsstatus toont). Dit is de
-    bron voor de vraag/populariteit-laag in de marktwaarde: hoe vaak wordt
-    een planeet gekocht/verkocht, los van wie 'm nu bezit.
+    bron voor de vraag/populariteit-laag in de marktwaarde: hoeveel
+    EENHEDEN worden netto gekocht/verkocht, los van wie ze nu bezit.
+
+    Aandelen-model (bewust gekozen i.p.v. een 1-akte-per-planeet-model):
+    een gebruiker "gelooft" in de waarde van een hemellichaam en kan
+    daarom meerdere eenheden kopen, net als aandelen -- geen vaste,
+    schaarse voorraad per planeet. price_credits is de prijs PER EENHEID
+    op het moment van de transactie (= Planet.market_value_credits op dat
+    moment); de totale transactiewaarde is price_credits x quantity.
     """
     ACTION_CHOICES = [("buy", "Koop"), ("sell", "Verkoop")]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="transactions")
     planet = models.ForeignKey("catalog.Planet", on_delete=models.CASCADE, related_name="transactions")
     action = models.CharField(max_length=4, choices=ACTION_CHOICES)
-    price_credits = models.DecimalField(max_digits=14, decimal_places=2)
+    quantity = models.PositiveIntegerField(default=1)
+    price_credits = models.DecimalField(
+        max_digits=14, decimal_places=2, help_text="Prijs PER EENHEID op moment van transactie.",
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ["-created_at"]
 
     def __str__(self):
-        return f"{self.user.username} {self.action} {self.planet.planet_name} @ {self.price_credits}"
+        return f"{self.user.username} {self.action} {self.quantity}x {self.planet.planet_name} @ {self.price_credits}"
 
 
 class PortfolioEntry(models.Model):
-    """Eén 'bezit' -- koppelt een gebruiker aan een planeet, met credits-prijs
-    op moment van aankoop. Fase-2-voorbereiding voor het handelsplatform."""
+    """
+    Huidige bezit van een gebruiker in een planeet -- EEN rij per
+    user+planet-combinatie, met een quantity die bij elke koop optelt
+    (i.p.v. een nieuwe rij, of een geweigerde herhaalde aankoop). Zie de
+    docstring bij Transaction voor de reden van dit aandelen-model.
+
+    purchase_price_credits is het GEWOGEN GEMIDDELDE aankoopprijs per
+    eenheid (cost-basis) -- bij elke nieuwe aankoop herberekend, bij een
+    gedeeltelijke verkoop ongewijzigd gelaten (standaard "average cost"-
+    methode, je weet niet welke specifieke eenheden verkocht worden).
+    """
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="portfolio")
     planet = models.ForeignKey("catalog.Planet", on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=0)
     acquired_at = models.DateTimeField(auto_now_add=True)
-    purchase_price_credits = models.DecimalField(max_digits=14, decimal_places=2)
+    purchase_price_credits = models.DecimalField(
+        max_digits=14, decimal_places=2, help_text="Gewogen gemiddelde aankoopprijs per eenheid.",
+    )
 
     class Meta:
         unique_together = ("user", "planet")
 
     def __str__(self):
-        return f"{self.user.username} -> {self.planet.planet_name}"
+        return f"{self.user.username} -> {self.quantity}x {self.planet.planet_name}"

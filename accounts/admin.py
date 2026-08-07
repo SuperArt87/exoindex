@@ -5,7 +5,7 @@ from .models import User, PortfolioEntry, Transaction
 
 @admin.register(Transaction)
 class TransactionAdmin(admin.ModelAdmin):
-    list_display = ("user", "planet", "action", "price_credits", "created_at")
+    list_display = ("user", "planet", "action", "quantity", "price_credits", "created_at")
     list_filter = ("action", "created_at")
     search_fields = ("user__username", "planet__planet_name")
 
@@ -28,6 +28,6 @@ class UserAdmin(BaseUserAdmin):
 
 @admin.register(PortfolioEntry)
 class PortfolioEntryAdmin(admin.ModelAdmin):
-    list_display = ("user", "planet", "purchase_price_credits", "acquired_at")
+    list_display = ("user", "planet", "quantity", "purchase_price_credits", "acquired_at")
     list_filter = ("acquired_at",)
     search_fields = ("user__username", "planet__planet_name")

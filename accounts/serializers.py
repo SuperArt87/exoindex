@@ -31,18 +31,31 @@ class PortfolioEntrySerializer(serializers.ModelSerializer):
         source="planet.market_value_credits", max_digits=14, decimal_places=2,
         read_only=True, allow_null=True,
     )
+    current_total_value_credits = serializers.SerializerMethodField()
 
     class Meta:
         model = PortfolioEntry
         fields = [
-            "id", "planet", "planet_name", "purchase_price_credits",
-            "current_market_value_credits", "acquired_at",
+            "id", "planet", "planet_name", "quantity", "purchase_price_credits",
+            "current_market_value_credits", "current_total_value_credits", "acquired_at",
         ]
+
+    def get_current_total_value_credits(self, obj):
+        if obj.planet.market_value_credits is None:
+            return None
+        return obj.quantity * obj.planet.market_value_credits
 
 
 class TransactionSerializer(serializers.ModelSerializer):
     planet_name = serializers.CharField(source="planet.planet_name", read_only=True)
+    total_price_credits = serializers.SerializerMethodField()
 
     class Meta:
         model = Transaction
-        fields = ["id", "planet", "planet_name", "action", "price_credits", "created_at"]
+        fields = [
+            "id", "planet", "planet_name", "action", "quantity",
+            "price_credits", "total_price_credits", "created_at",
+        ]
+
+    def get_total_price_credits(self, obj):
+        return obj.quantity * obj.price_credits

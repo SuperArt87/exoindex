@@ -11,19 +11,21 @@ market_value_credits:
 
 FORMULE voor demand_multiplier, per planeet:
 
-    net_demand = (aantal koop-transacties in de laatste 7 dagen)
-               - (aantal verkoop-transacties in de laatste 7 dagen)
+    net_demand = (som van QUANTITY over koop-transacties in de laatste 7 dagen)
+               - (som van QUANTITY over verkoop-transacties in de laatste 7 dagen)
 
     demand_effect = clip(DEMAND_SENSITIVITY * net_demand, -MAX_DEMAND_EFFECT, +MAX_DEMAND_EFFECT)
 
     demand_multiplier = max(0.1, 1 + demand_effect)
 
-Een planeet die netto veel gekocht wordt, wordt dus duurder -- precies
-zoals vraag/aanbod op een echte markt werkt, begrensd op maximaal +-25%. In tegenstelling tot
-market_sentiment (extern, vervalt via half-life) is dit een DIRECTE,
-doorlopende afspiegeling van recente activiteit -- geen apart vervalmodel
-nodig, want het venster van "laatste 7 dagen" schuift vanzelf mee bij elke
-run.
+LET OP: dit telt EENHEDEN, niet transacties (aandelen-model -- een
+gebruiker kan in een keer 100 eenheden kopen, zie Transaction.quantity in
+accounts/models.py). Een planeet die netto veel eenheden gekocht wordt,
+wordt dus duurder -- precies zoals vraag/aanbod op een echte markt werkt,
+begrensd op maximaal +-25%. In tegenstelling tot market_sentiment (extern,
+vervalt via half-life) is dit een DIRECTE, doorlopende afspiegeling van
+recente activiteit -- geen apart vervalmodel nodig, want het venster van
+"laatste 7 dagen" schuift vanzelf mee bij elke run.
 
 Volgorde van de volledige pipeline:
     1. sync_planets
@@ -37,6 +39,7 @@ from datetime import timedelta
 
 from django.core.management.base import BaseCommand
 from django.db import transaction
+from django.db.models import Sum
 from django.utils import timezone
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[4]))
@@ -65,9 +68,9 @@ class Command(BaseCommand):
                     continue
 
                 recent = Transaction.objects.filter(planet=planet, created_at__gte=cutoff)
-                buy_count = recent.filter(action="buy").count()
-                sell_count = recent.filter(action="sell").count()
-                net_demand = buy_count - sell_count
+                buy_units = recent.filter(action="buy").aggregate(total=Sum("quantity"))["total"] or 0
+                sell_units = recent.filter(action="sell").aggregate(total=Sum("quantity"))["total"] or 0
+                net_demand = buy_units - sell_units
 
                 raw_effect = DEMAND_SENSITIVITY * net_demand
                 demand_effect = max(-MAX_DEMAND_EFFECT, min(MAX_DEMAND_EFFECT, raw_effect))

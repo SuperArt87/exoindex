@@ -44,11 +44,30 @@ class TransactionViewSet(viewsets.ReadOnlyModelViewSet):
         return Transaction.objects.filter(user=self.request.user).select_related("planet")
 
 
+def _parse_quantity(raw, default):
+    """Valideert de optionele quantity-parameter uit een koop/verkoop-request."""
+    if raw is None:
+        return default, None
+    try:
+        quantity = int(raw)
+    except (TypeError, ValueError):
+        return None, "quantity moet een geheel getal zijn."
+    if quantity < 1:
+        return None, "quantity moet minimaal 1 zijn."
+    return quantity, None
+
+
 class BuyPlanetView(APIView):
     """
-    Koopt een planeet tegen de HUIDIGE market_value_credits. Atomisch +
-    select_for_update() op de gebruiker -- zelfde voorzichtigheid als de
-    race-condition-fix in sync_planets.py, want dit is de plek waar
+    Koopt N eenheden van een planeet tegen de HUIDIGE market_value_credits
+    per eenheid. Aandelen-model (zie de docstring bij het Transaction-model
+    in accounts/models.py): geen bovengrens, een gebruiker kan zoveel
+    eenheden kopen als de overtuiging (en credits) toelaten. Herhaalde
+    aankopen tellen op in PortfolioEntry.quantity i.p.v. geweigerd te
+    worden, met een herberekend gewogen gemiddelde als cost-basis.
+
+    Atomisch + select_for_update() op de gebruiker -- zelfde voorzichtigheid
+    als de race-condition-fix in sync_planets.py, want dit is de plek waar
     credits daadwerkelijk van hand wisselen.
     """
     permission_classes = [IsAuthenticated]
@@ -61,32 +80,57 @@ class BuyPlanetView(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
+        quantity, error = _parse_quantity(request.data.get("quantity"), default=1)
+        if error:
+            return Response({"detail": error}, status=status.HTTP_400_BAD_REQUEST)
+
+        price_per_unit = planet.market_value_credits
+        total_price = price_per_unit * quantity
+
         with transaction.atomic():
             user = User.objects.select_for_update().get(pk=request.user.pk)
 
-            if PortfolioEntry.objects.filter(user=user, planet=planet).exists():
-                return Response({"detail": "Je bezit deze planeet al."}, status=status.HTTP_400_BAD_REQUEST)
-
-            price = planet.market_value_credits
-            if user.credits_balance < price:
+            if user.credits_balance < total_price:
                 return Response({"detail": "Onvoldoende credits."}, status=status.HTTP_400_BAD_REQUEST)
 
-            user.credits_balance -= price
+            user.credits_balance -= total_price
             user.save(update_fields=["credits_balance"])
-            PortfolioEntry.objects.create(user=user, planet=planet, purchase_price_credits=price)
-            Transaction.objects.create(user=user, planet=planet, action="buy", price_credits=price)
+
+            entry, created = PortfolioEntry.objects.select_for_update().get_or_create(
+                user=user, planet=planet,
+                defaults={"quantity": quantity, "purchase_price_credits": price_per_unit},
+            )
+            if not created:
+                # Gewogen gemiddelde cost-basis bijwerken met deze nieuwe aankoop.
+                total_units = entry.quantity + quantity
+                entry.purchase_price_credits = (
+                    (entry.purchase_price_credits * entry.quantity) + total_price
+                ) / total_units
+                entry.quantity = total_units
+                entry.save(update_fields=["quantity", "purchase_price_credits"])
+
+            Transaction.objects.create(
+                user=user, planet=planet, action="buy", quantity=quantity, price_credits=price_per_unit,
+            )
 
         return Response(
             {
-                "detail": f"{planet.planet_name} gekocht voor {price} credits.",
+                "detail": f"{quantity}x {planet.planet_name} gekocht voor {total_price} credits ({price_per_unit}/stuk).",
                 "credits_balance": user.credits_balance,
+                "quantity_owned": entry.quantity,
             },
             status=status.HTTP_201_CREATED,
         )
 
 
 class SellPlanetView(APIView):
-    """Verkoopt een planeet die de gebruiker bezit, tegen de HUIDIGE market_value_credits."""
+    """
+    Verkoopt N eenheden van een planeet die de gebruiker bezit, tegen de
+    HUIDIGE market_value_credits per eenheid. Zonder quantity-parameter
+    wordt de VOLLEDIGE positie verkocht (praktische default). Bij een
+    gedeeltelijke verkoop blijft de gewogen gemiddelde cost-basis
+    ongewijzigd (standaard "average cost"-methode).
+    """
     permission_classes = [IsAuthenticated]
 
     def post(self, request, planet_id):
@@ -94,20 +138,42 @@ class SellPlanetView(APIView):
 
         with transaction.atomic():
             user = User.objects.select_for_update().get(pk=request.user.pk)
-            entry = PortfolioEntry.objects.filter(user=user, planet=planet).first()
+            entry = PortfolioEntry.objects.select_for_update().filter(user=user, planet=planet).first()
             if not entry:
                 return Response({"detail": "Je bezit deze planeet niet."}, status=status.HTTP_400_BAD_REQUEST)
 
-            price = planet.market_value_credits or entry.purchase_price_credits
-            user.credits_balance += price
+            quantity, error = _parse_quantity(request.data.get("quantity"), default=entry.quantity)
+            if error:
+                return Response({"detail": error}, status=status.HTTP_400_BAD_REQUEST)
+            if quantity > entry.quantity:
+                return Response(
+                    {"detail": f"Je bezit maar {entry.quantity}x {planet.planet_name}."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+            price_per_unit = planet.market_value_credits or entry.purchase_price_credits
+            total_price = price_per_unit * quantity
+
+            user.credits_balance += total_price
             user.save(update_fields=["credits_balance"])
-            entry.delete()
-            Transaction.objects.create(user=user, planet=planet, action="sell", price_credits=price)
+
+            if quantity == entry.quantity:
+                entry.delete()
+                remaining = 0
+            else:
+                entry.quantity -= quantity
+                entry.save(update_fields=["quantity"])
+                remaining = entry.quantity
+
+            Transaction.objects.create(
+                user=user, planet=planet, action="sell", quantity=quantity, price_credits=price_per_unit,
+            )
 
         return Response(
             {
-                "detail": f"{planet.planet_name} verkocht voor {price} credits.",
+                "detail": f"{quantity}x {planet.planet_name} verkocht voor {total_price} credits ({price_per_unit}/stuk).",
                 "credits_balance": user.credits_balance,
+                "quantity_owned": remaining,
             },
             status=status.HTTP_200_OK,
         )
