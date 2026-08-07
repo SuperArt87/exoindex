@@ -1,0 +1,24 @@
+databases:
+  - name: exoindex-db
+    plan: free
+    databaseName: exoindex
+    user: exoindex
+
+services:
+  - type: web
+    plan: free
+    name: exoindex-backend
+    runtime: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn backend.wsgi:application"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: exoindex-db
+          property: connectionString
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DJANGO_DEBUG
+        value: "False"
+      - key: DJANGO_ALLOWED_HOSTS
+        value: "localhost,127.0.0.1"
