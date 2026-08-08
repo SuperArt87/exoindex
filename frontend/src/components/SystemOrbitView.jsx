@@ -16,18 +16,32 @@ import * as THREE from "three"
  * de hz_inner_au/hz_outer_au-grenzen, zodat een planeet die volgens de
  * data binnen de leefbare zone ligt, dat ook visueel is -- de relatieve
  * verhouding blijft dus behouden, alleen de absolute schaal is comprimeerd.
- * Ontbrekende orbit_semi_major_axis_au/orbit_eccentricity/orbit_period_days
- * krijgen een fallback puur voor de renderwiskunde -- nooit als gemeten
- * waarde elders getoond (zie PlanetDetailPage.jsx).
+ * Ontbrekende orbit_semi_major_axis_au/orbit_eccentricity krijgen een
+ * fallback puur voor de renderwiskunde -- nooit als gemeten waarde elders
+ * getoond (zie PlanetDetailPage.jsx).
+ *
+ * ANIMATIESNELHEID: gebruikt NIET de echte orbit_period_days (die blijft
+ * gewoon als tekst zichtbaar in de data-secties) -- de spreiding tussen de
+ * kortste en langste omlooptijd in deze catalogus is een factor ~700x
+ * (Mercurius 88 dagen vs. Neptunus ~60.000 dagen), wat op scherm zou
+ * betekenen dat de ene planeet flitst en de andere stilstaat. In plaats
+ * daarvan wordt de snelheid afgeleid van de al-gecomprimeerde
+ * schermafstand (dichterbij = sneller, net als echt, maar met een veel
+ * kleinere bandbreedte).
  */
 
-const ORBIT_MIN = 3
-const ORBIT_AU_SCALE = 2.6
-const ORBIT_FALLBACK_STEP = 2.2
-const DAY_SCALE = 0.06
+const ORBIT_MIN = 4.5
+const ORBIT_AU_SCALE = 4.6
+const ORBIT_FALLBACK_STEP = 3.8
+const ORBIT_SPEED_BASE_SECONDS = 4 // omlooptijd (in scene-seconden) op ORBIT_MIN
 
 function auToSceneDistance(au) {
   return ORBIT_MIN + ORBIT_AU_SCALE * Math.sqrt(au)
+}
+
+function sceneAngularSpeed(orbitA) {
+  const periodSeconds = ORBIT_SPEED_BASE_SECONDS * Math.pow(orbitA / ORBIT_MIN, 1.5)
+  return (2 * Math.PI) / periodSeconds
 }
 
 function rgbToThreeColor(rgb) {
@@ -68,7 +82,7 @@ export default function SystemOrbitView({ planets, highlightPlanetId, onPlanetCl
     scene.background = new THREE.Color(0x03040a)
 
     const camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 1000)
-    camera.position.set(0, 16, 24)
+    camera.position.set(0, 28, 42)
     camera.lookAt(0, 0, 0)
 
     const renderer = new THREE.WebGLRenderer({ antialias: true })
@@ -173,8 +187,12 @@ export default function SystemOrbitView({ planets, highlightPlanetId, onPlanetCl
 
       scene.add(mesh)
 
-      const periodDays = p.orbit_period_days ?? orbitA * 60
-      return { mesh, orbitA, ecc, periodDays, rotationState: p.rotation_state, angle: Math.random() * Math.PI * 2 }
+      return {
+        mesh, orbitA, ecc,
+        angularSpeed: sceneAngularSpeed(orbitA),
+        startAngle: Math.random() * Math.PI * 2,
+        rotationState: p.rotation_state,
+      }
     })
 
     // --- Klikbaar maken: raycasting naar planeetmeshes ---
@@ -222,17 +240,16 @@ export default function SystemOrbitView({ planets, highlightPlanetId, onPlanetCl
     const clock = new THREE.Clock()
 
     function animate() {
-      const elapsedDays = clock.getElapsedTime() * DAY_SCALE * 100
+      const elapsedSeconds = clock.getElapsedTime()
       starMesh.rotation.y += 0.002
 
       planetObjects.forEach((p) => {
-        const orbitSpeed = (2 * Math.PI) / p.periodDays
-        p.angle = elapsedDays * orbitSpeed
+        const angle = p.startAngle + elapsedSeconds * p.angularSpeed
 
         const a = p.orbitA
         const b = a * Math.sqrt(1 - p.ecc * p.ecc)
         const c = Math.sqrt(Math.max(0, a * a - b * b))
-        p.mesh.position.set(a * Math.cos(p.angle) - c, 0, b * Math.sin(p.angle))
+        p.mesh.position.set(a * Math.cos(angle) - c, 0, b * Math.sin(angle))
 
         if (p.rotationState === "free") p.mesh.rotation.y += 0.03
         else if (p.rotationState === "resonant") p.mesh.rotation.y += 0.01
