@@ -202,17 +202,27 @@ export default function SystemOrbitView({ planets, highlightPlanetId, onPlanetCl
 
       const radius = planetVisualRadius(p.radius_earth)
       const color = rgbToThreeColor(p.planet_color_rgb)
-      const mesh = new THREE.Mesh(
+
+      // group = wordt elke frame naar de baanpositie verplaatst. sphere zit
+      // ERIN en krijgt de as-rotatie (rotation.y) voor rotation_state -- de
+      // ring/highlight-marker zitten BEWUST op group, niet op sphere, anders
+      // schommelt een gekantelde ring mee met de as-rotatie van de planeet
+      // (net zoals Saturnus' ring in werkelijkheid ook niet meedraait met
+      // de zichtbare rotatie van de planeet zelf).
+      const group = new THREE.Group()
+      group.userData.planetId = p.id
+
+      const sphere = new THREE.Mesh(
         new THREE.SphereGeometry(radius, 24, 24),
         new THREE.MeshStandardMaterial({ color, roughness: 0.8, metalness: 0.1 })
       )
-      mesh.userData.planetId = p.id
+      group.add(sphere)
 
       const glow = new THREE.Mesh(
         new THREE.SphereGeometry(radius * 1.18, 24, 24),
         new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.15, side: THREE.BackSide })
       )
-      mesh.add(glow)
+      sphere.add(glow)
 
       if (p.has_rings) {
         const ring = new THREE.Mesh(
@@ -220,7 +230,7 @@ export default function SystemOrbitView({ planets, highlightPlanetId, onPlanetCl
           new THREE.MeshBasicMaterial({ color, side: THREE.DoubleSide, transparent: true, opacity: 0.5 })
         )
         ring.rotation.x = Math.PI / 2.5
-        mesh.add(ring)
+        group.add(ring)
       }
 
       if (String(p.id) === String(highlightPlanetId)) {
@@ -229,13 +239,13 @@ export default function SystemOrbitView({ planets, highlightPlanetId, onPlanetCl
           new THREE.MeshBasicMaterial({ color: 0x22d3ee, side: THREE.DoubleSide, transparent: true, opacity: 0.85 })
         )
         marker.rotation.x = -Math.PI / 2
-        mesh.add(marker)
+        group.add(marker)
       }
 
-      scene.add(mesh)
+      scene.add(group)
 
       return {
-        mesh, orbitA, ecc,
+        group, sphere, orbitA, ecc,
         angularSpeed: sceneAngularSpeed(orbitA),
         startAngle: Math.random() * Math.PI * 2,
         rotationState: p.rotation_state,
@@ -245,7 +255,7 @@ export default function SystemOrbitView({ planets, highlightPlanetId, onPlanetCl
     // --- Klikbaar maken: raycasting naar planeetmeshes ---
     const raycaster = new THREE.Raycaster()
     const pointerNdc = new THREE.Vector2()
-    const clickableMeshes = planetObjects.map((p) => p.mesh)
+    const clickableMeshes = planetObjects.map((p) => p.group)
 
     function planetIdFromIntersection(object) {
       let obj = object
@@ -296,10 +306,10 @@ export default function SystemOrbitView({ planets, highlightPlanetId, onPlanetCl
         const a = p.orbitA
         const b = a * Math.sqrt(1 - p.ecc * p.ecc)
         const c = Math.sqrt(Math.max(0, a * a - b * b))
-        p.mesh.position.set(a * Math.cos(angle) - c, 0, b * Math.sin(angle))
+        p.group.position.set(a * Math.cos(angle) - c, 0, b * Math.sin(angle))
 
-        if (p.rotationState === "free") p.mesh.rotation.y += 0.03
-        else if (p.rotationState === "resonant") p.mesh.rotation.y += 0.01
+        if (p.rotationState === "free") p.sphere.rotation.y += 0.03
+        else if (p.rotationState === "resonant") p.sphere.rotation.y += 0.01
       })
 
       renderer.render(scene, camera)
