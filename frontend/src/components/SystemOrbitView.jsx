@@ -2,22 +2,33 @@ import { useEffect, useRef } from "react"
 import * as THREE from "three"
 
 /**
- * Procedurele 3D-visualisatie van een stelsel (ster + planeten) -- geen
- * afbeeldingen, alleen data die de API toch al levert (planet_color_rgb/
- * star_color_rgb/orbit_eccentricity/rotation_state/has_rings). Afgeleid van
- * het concept in frontend-demo/OrbitDemo.jsx, maar met normalisatie i.p.v.
- * hardcoded waarden -- zie het plan-bestand voor de redenering.
+ * Procedurele 3D-visualisatie van een stelsel (ster + planeten + leefbare
+ * zone) -- geen afbeeldingen, alleen data die de API toch al levert
+ * (planet_color_rgb/star_color_rgb/orbit_eccentricity/rotation_state/
+ * has_rings/hz_inner_au/hz_outer_au). Afgeleid van het concept in
+ * frontend-demo/OrbitDemo.jsx.
  *
- * BELANGRIJK: dit is een SCHEMATISCHE weergave, geen letterlijke schaal.
- * Echte AU-afstanden en planeetstralen lopen te veel uiteen om 1-op-1 te
- * renderen (zie CONTEXT.md/SCHEMA.md-designprincipes). Ontbrekende
- * orbit_eccentricity/orbit_period_days krijgen een fallback puur voor de
- * renderwiskunde -- nooit als gemeten waarde elders getoond.
+ * SCHAAL: orbit-afstanden gebruiken een gecomprimeerde sqrt(AU)-schaal
+ * (auToSceneDistance) i.p.v. letterlijke AU -- puur om alles zichtbaar te
+ * houden binnen een klein canvas (een planeet op 0,02 AU zou anders
+ * onzichtbaar dicht bij de ster zitten naast een planeet op 30 AU).
+ * BELANGRIJK: dezelfde functie wordt gebruikt voor zowel planeetbanen als
+ * de hz_inner_au/hz_outer_au-grenzen, zodat een planeet die volgens de
+ * data binnen de leefbare zone ligt, dat ook visueel is -- de relatieve
+ * verhouding blijft dus behouden, alleen de absolute schaal is comprimeerd.
+ * Ontbrekende orbit_semi_major_axis_au/orbit_eccentricity/orbit_period_days
+ * krijgen een fallback puur voor de renderwiskunde -- nooit als gemeten
+ * waarde elders getoond (zie PlanetDetailPage.jsx).
  */
 
-const ORBIT_BASE = 4
-const ORBIT_STEP = 2.4
+const ORBIT_MIN = 3
+const ORBIT_AU_SCALE = 2.6
+const ORBIT_FALLBACK_STEP = 2.2
 const DAY_SCALE = 0.06
+
+function auToSceneDistance(au) {
+  return ORBIT_MIN + ORBIT_AU_SCALE * Math.sqrt(au)
+}
 
 function rgbToThreeColor(rgb) {
   if (!rgb) return new THREE.Color(0xaaaaaa)
@@ -34,7 +45,17 @@ function starVisualRadius(starRadiusSolar) {
   return Math.min(4, Math.max(1.5, 0.8 * Math.sqrt(r) + 1.5))
 }
 
-export default function SystemOrbitView({ planets, highlightPlanetId }) {
+function makeCircleLine(radius, color, opacity) {
+  const points = []
+  for (let i = 0; i <= 128; i++) {
+    const theta = (i / 128) * Math.PI * 2
+    points.push(new THREE.Vector3(radius * Math.cos(theta), 0, radius * Math.sin(theta)))
+  }
+  const geo = new THREE.BufferGeometry().setFromPoints(points)
+  return new THREE.Line(geo, new THREE.LineBasicMaterial({ color, transparent: true, opacity }))
+}
+
+export default function SystemOrbitView({ planets, highlightPlanetId, onPlanetClick }) {
   const mountRef = useRef(null)
 
   useEffect(() => {
@@ -72,6 +93,21 @@ export default function SystemOrbitView({ planets, highlightPlanetId }) {
     scene.add(new THREE.PointLight(starColor, 3, 200))
     scene.add(new THREE.AmbientLight(0x404040, 0.6))
 
+    // Leefbare zone ("Goldilocks zone") -- zelfde AU->scene-schaal als de
+    // planeetbanen, zodat de weergave consistent is met in_habitable_zone.
+    if (first.hz_inner_au != null && first.hz_outer_au != null) {
+      const innerR = auToSceneDistance(first.hz_inner_au)
+      const outerR = auToSceneDistance(first.hz_outer_au)
+      const hzBand = new THREE.Mesh(
+        new THREE.RingGeometry(innerR, outerR, 128),
+        new THREE.MeshBasicMaterial({ color: 0x22c55e, transparent: true, opacity: 0.1, side: THREE.DoubleSide })
+      )
+      hzBand.rotation.x = -Math.PI / 2
+      scene.add(hzBand)
+      scene.add(makeCircleLine(innerR, 0x22c55e, 0.4))
+      scene.add(makeCircleLine(outerR, 0x22c55e, 0.4))
+    }
+
     function makeOrbitLine(a, ecc) {
       const b = a * Math.sqrt(1 - ecc * ecc)
       const c = Math.sqrt(Math.max(0, a * a - b * b))
@@ -92,8 +128,13 @@ export default function SystemOrbitView({ planets, highlightPlanetId }) {
       return a1 - a2
     })
 
-    const planetObjects = sorted.map((p, index) => {
-      const orbitA = ORBIT_BASE + index * ORBIT_STEP
+    let lastDistance = ORBIT_MIN
+    const planetObjects = sorted.map((p) => {
+      const orbitA = p.orbit_semi_major_axis_au != null
+        ? auToSceneDistance(p.orbit_semi_major_axis_au)
+        : lastDistance + ORBIT_FALLBACK_STEP
+      lastDistance = orbitA
+
       const ecc = Math.min(0.9, Math.max(0, p.orbit_eccentricity ?? 0))
       scene.add(makeOrbitLine(orbitA, ecc))
 
@@ -103,6 +144,7 @@ export default function SystemOrbitView({ planets, highlightPlanetId }) {
         new THREE.SphereGeometry(radius, 24, 24),
         new THREE.MeshStandardMaterial({ color, roughness: 0.8, metalness: 0.1 })
       )
+      mesh.userData.planetId = p.id
 
       const glow = new THREE.Mesh(
         new THREE.SphereGeometry(radius * 1.18, 24, 24),
@@ -133,6 +175,47 @@ export default function SystemOrbitView({ planets, highlightPlanetId }) {
       const periodDays = p.orbit_period_days ?? orbitA * 60
       return { mesh, orbitA, ecc, periodDays, rotationState: p.rotation_state, angle: Math.random() * Math.PI * 2 }
     })
+
+    // --- Klikbaar maken: raycasting naar planeetmeshes ---
+    const raycaster = new THREE.Raycaster()
+    const pointerNdc = new THREE.Vector2()
+    const clickableMeshes = planetObjects.map((p) => p.mesh)
+
+    function planetIdFromIntersection(object) {
+      let obj = object
+      while (obj) {
+        if (obj.userData?.planetId !== undefined) return obj.userData.planetId
+        obj = obj.parent
+      }
+      return null
+    }
+
+    function updatePointerNdc(event) {
+      const rect = renderer.domElement.getBoundingClientRect()
+      pointerNdc.x = ((event.clientX - rect.left) / rect.width) * 2 - 1
+      pointerNdc.y = -((event.clientY - rect.top) / rect.height) * 2 + 1
+    }
+
+    function handleClick(event) {
+      if (!onPlanetClick) return
+      updatePointerNdc(event)
+      raycaster.setFromCamera(pointerNdc, camera)
+      const intersects = raycaster.intersectObjects(clickableMeshes, true)
+      if (intersects.length > 0) {
+        const planetId = planetIdFromIntersection(intersects[0].object)
+        if (planetId !== null) onPlanetClick(planetId)
+      }
+    }
+
+    function handlePointerMove(event) {
+      updatePointerNdc(event)
+      raycaster.setFromCamera(pointerNdc, camera)
+      const intersects = raycaster.intersectObjects(clickableMeshes, true)
+      renderer.domElement.style.cursor = intersects.length > 0 ? "pointer" : "default"
+    }
+
+    renderer.domElement.addEventListener("click", handleClick)
+    renderer.domElement.addEventListener("pointermove", handlePointerMove)
 
     let frameId
     const clock = new THREE.Clock()
@@ -170,10 +253,12 @@ export default function SystemOrbitView({ planets, highlightPlanetId }) {
     return () => {
       cancelAnimationFrame(frameId)
       window.removeEventListener("resize", handleResize)
+      renderer.domElement.removeEventListener("click", handleClick)
+      renderer.domElement.removeEventListener("pointermove", handlePointerMove)
       if (renderer.domElement.parentNode === mount) mount.removeChild(renderer.domElement)
       renderer.dispose()
     }
-  }, [planets, highlightPlanetId])
+  }, [planets, highlightPlanetId, onPlanetClick])
 
   return <div ref={mountRef} className="w-full h-64 sm:h-80" />
 }

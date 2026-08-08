@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useParams, Link } from "react-router-dom"
+import { useParams, Link, useNavigate } from "react-router-dom"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { getPlanet, listPlanetsByHost } from "../api/planets"
 import { getPortfolio, buyPlanet, sellPlanet } from "../api/trading"
@@ -36,6 +36,7 @@ const ROTATION_LABELS = { free: "Vrij", resonant: "Resonant", synchronous: "Sync
 
 export default function PlanetDetailPage() {
   const { id } = useParams()
+  const navigate = useNavigate()
   const { user, refreshUser } = useAuth()
   const queryClient = useQueryClient()
   const [buyQty, setBuyQty] = useState(1)
@@ -108,7 +109,11 @@ export default function PlanetDetailPage() {
 
       <div className="rounded-lg mt-3 mb-2 overflow-hidden border border-slate-800 bg-slate-900/40 relative">
         {systemPlanets?.results?.length ? (
-          <SystemOrbitView planets={systemPlanets.results} highlightPlanetId={id} />
+          <SystemOrbitView
+            planets={systemPlanets.results}
+            highlightPlanetId={id}
+            onPlanetClick={(planetId) => navigate(`/planets/${planetId}`)}
+          />
         ) : (
           <div
             className="h-64 sm:h-80"
