@@ -46,7 +46,13 @@ function sceneAngularSpeed(orbitA) {
 
 function rgbToThreeColor(rgb) {
   if (!rgb) return new THREE.Color(0xaaaaaa)
-  return new THREE.Color(rgb[0] / 255, rgb[1] / 255, rgb[2] / 255)
+  // .setRGB(..., SRGBColorSpace) is bewust i.p.v. de kortere new THREE.Color(r,g,b) --
+  // onze RGB-waarden komen uit een sRGB-blackbody-benadering (scoring.py), maar Three.js
+  // interpreteert kale (r,g,b)-getallen standaard als LINEAIRE kleurwaarden. Zonder deze
+  // expliciete conversie past de renderer er nog een keer een sRGB-transform overheen,
+  // wat kleuren laat verwateren richting wit/grijs -- precies waarom een rode dwerg en
+  // een blauwwitte ster te weinig van elkaar verschilden.
+  return new THREE.Color().setRGB(rgb[0] / 255, rgb[1] / 255, rgb[2] / 255, THREE.SRGBColorSpace)
 }
 
 function planetVisualRadius(radiusEarth) {
