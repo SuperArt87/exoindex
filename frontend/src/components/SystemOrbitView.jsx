@@ -131,10 +131,17 @@ export default function SystemOrbitView({ planets, highlightPlanetId, onPlanetCl
       const outerR = auToSceneDistance(first.hz_outer_au)
       const hzBand = new THREE.Mesh(
         new THREE.RingGeometry(innerR, outerR, 128),
-        new THREE.MeshBasicMaterial({ color: 0x22c55e, transparent: true, opacity: 0.22, side: THREE.DoubleSide, depthWrite: false })
+        new THREE.MeshBasicMaterial({
+          color: 0x22c55e, transparent: true, opacity: 0.22, side: THREE.DoubleSide, depthWrite: false,
+          // polygonOffset i.p.v. een position.y-verschuiving -- verschuift alleen de
+          // depth-buffer-waarde (lost z-fighting op), niet de echte 3D-positie. Een
+          // echte y-verschuiving veroorzaakte bij het schuine camerastandpunt een
+          // zichtbare parallax-verspringing van de band t.o.v. de banen zelf, wat de
+          // toch al krappe marge van Aarde t.o.v. de binnengrens extra liet lijken.
+          polygonOffset: true, polygonOffsetFactor: -1, polygonOffsetUnits: -1,
+        })
       )
       hzBand.rotation.x = -Math.PI / 2
-      hzBand.position.y = -0.02 // lichte offset -- voorkomt z-fighting met de banen op y=0
       scene.add(hzBand)
       scene.add(makeCircleLine(innerR, 0x4ade80, 0.7))
       scene.add(makeCircleLine(outerR, 0x4ade80, 0.7))
@@ -160,14 +167,37 @@ export default function SystemOrbitView({ planets, highlightPlanetId, onPlanetCl
       return a1 - a2
     })
 
+    // Stap 1: bereken eerst ALLE genormaliseerde baanafstanden, voordat de
+    // ellipsvorm bepaald wordt -- nodig omdat de excentriciteit-uitslag (zie
+    // stap 2) begrensd wordt door de ruimte tot de buurplaneten, en die is
+    // pas bekend als alle afstanden vastliggen.
     let lastDistance = ORBIT_MIN
-    const planetObjects = sorted.map((p) => {
+    const orbitDistances = sorted.map((p) => {
       const orbitA = p.orbit_semi_major_axis_au != null
         ? auToSceneDistance(p.orbit_semi_major_axis_au)
         : lastDistance + ORBIT_FALLBACK_STEP
       lastDistance = orbitA
+      return orbitA
+    })
 
-      const ecc = Math.min(0.9, Math.max(0, p.orbit_eccentricity ?? 0))
+    const planetObjects = sorted.map((p, index) => {
+      const orbitA = orbitDistances[index]
+
+      // Stap 2: de ECHTE excentriciteit rechtstreeks toepassen op de
+      // gecomprimeerde (log-geschaalde) baanafstand overdrijft de ellips-
+      // uitslag enorm -- dat veroorzaakte eerder dat Mercurius' baan die van
+      // Venus kruiste. Begrens de gerenderde uitslag daarom aan de
+      // daadwerkelijk beschikbare ruimte tot de buurplaneten (40% van de
+      // kleinste naburige tussenruimte), ongeacht hoe excentrisch de echte
+      // baan is -- dit voorkomt structureel dat banen elkaar kruisen, ook
+      // bij toekomstige stelsels met nog excentrischere planeten.
+      const gapPrev = index > 0 ? orbitA - orbitDistances[index - 1] : orbitA - ORBIT_MIN * 0.5
+      const gapNext = index < orbitDistances.length - 1 ? orbitDistances[index + 1] - orbitA : gapPrev
+      const maxExcursion = 0.4 * Math.min(gapPrev, gapNext)
+
+      const realEcc = Math.min(0.9, Math.max(0, p.orbit_eccentricity ?? 0))
+      const rawExcursion = orbitA * realEcc
+      const ecc = rawExcursion > 0 ? Math.min(rawExcursion, maxExcursion) / orbitA : 0
       scene.add(makeOrbitLine(orbitA, ecc))
 
       const radius = planetVisualRadius(p.radius_earth)
