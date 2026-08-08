@@ -15,3 +15,13 @@ export function listPlanets({ search, planetType, inHabitableZone, biosignatureC
 export function getPlanet(id) {
   return apiFetch(`/api/planets/${id}/`)
 }
+
+/**
+ * Alle planeten met hetzelfde host_name -- voor de stelsel-visualisatie.
+ * De standaard paginagrootte (50, zie backend REST_FRAMEWORK-settings) is
+ * ruim genoeg voor elk stelsel in deze catalogus.
+ */
+export function listPlanetsByHost(hostName) {
+  const params = new URLSearchParams({ host_name: hostName })
+  return apiFetch(`/api/planets/?${params.toString()}`)
+}

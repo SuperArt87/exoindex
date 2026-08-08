@@ -1,11 +1,12 @@
 import { useState } from "react"
 import { useParams, Link } from "react-router-dom"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { getPlanet } from "../api/planets"
+import { getPlanet, listPlanetsByHost } from "../api/planets"
 import { getPortfolio, buyPlanet, sellPlanet } from "../api/trading"
 import { useAuth } from "../context/AuthContext"
 import DataCompletenessBadge from "../components/DataCompletenessBadge"
 import BiosignatureBadge from "../components/BiosignatureBadge"
+import SystemOrbitView from "../components/SystemOrbitView"
 import { ApiError } from "../api/client"
 
 function fmt(value, unit = "") {
@@ -51,6 +52,12 @@ export default function PlanetDetailPage() {
     queryKey: ["portfolio"],
     queryFn: getPortfolio,
     enabled: Boolean(user),
+  })
+
+  const { data: systemPlanets } = useQuery({
+    queryKey: ["planets-by-host", planet?.host_name],
+    queryFn: () => listPlanetsByHost(planet.host_name),
+    enabled: Boolean(planet?.host_name),
   })
 
   const holding = portfolio?.results?.find((entry) => String(entry.planet) === String(id))
@@ -99,14 +106,42 @@ export default function PlanetDetailPage() {
     <div className="max-w-4xl mx-auto px-4 py-6 w-full">
       <Link to="/" className="text-indigo-400 text-sm">← Terug naar catalogus</Link>
 
-      <div
-        className="h-32 rounded-lg mt-3 mb-4 flex items-end p-4"
-        style={{ background: `radial-gradient(circle at 30% 30%, ${rgbCss}, #03040a 85%)` }}
-      >
+      <div className="rounded-lg mt-3 mb-2 overflow-hidden border border-slate-800 bg-slate-900/40 relative">
+        {systemPlanets?.results?.length ? (
+          <SystemOrbitView planets={systemPlanets.results} highlightPlanetId={id} />
+        ) : (
+          <div
+            className="h-64 sm:h-80"
+            style={{ background: `radial-gradient(circle at 30% 30%, ${rgbCss}, #03040a 85%)` }}
+          />
+        )}
         {planet.visual_tag && (
-          <span className="text-sm px-2 py-1 rounded bg-black/50 text-slate-100 backdrop-blur">{planet.visual_tag}</span>
+          <span className="absolute bottom-3 left-3 text-sm px-2 py-1 rounded bg-black/50 text-slate-100 backdrop-blur">
+            {planet.visual_tag}
+          </span>
         )}
       </div>
+
+      {systemPlanets?.results?.length > 1 && (
+        <div className="flex flex-wrap items-center gap-2 mb-4 text-xs">
+          <span className="text-slate-500">Stelsel {planet.host_name}:</span>
+          {systemPlanets.results.map((p) =>
+            String(p.id) === String(id) ? (
+              <span key={p.id} className="px-2 py-0.5 rounded bg-cyan-900/40 text-cyan-300 border border-cyan-800">
+                {p.planet_name}
+              </span>
+            ) : (
+              <Link
+                key={p.id}
+                to={`/planets/${p.id}`}
+                className="px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:bg-slate-700"
+              >
+                {p.planet_name}
+              </Link>
+            )
+          )}
+        </div>
+      )}
 
       <div className="flex flex-wrap items-start justify-between gap-3 mb-6">
         <div>
