@@ -19,4 +19,10 @@ class PlanetViewSet(viewsets.ReadOnlyModelViewSet):
     ordering_fields = ["habitability_score", "resource_score", "distance_from_earth_ly"]
 
     def get_serializer_class(self):
-        return PlanetListSerializer if self.action == "list" else PlanetSerializer
+        # ?full=true forceert de volledige serializer op de lijst-actie --
+        # nodig voor bv. de stelsel-3D-visualisatie (orbit/HZ/fysieke
+        # velden), zonder de standaard-catalogusrespons zwaarder te maken.
+        wants_full = self.request.query_params.get("full") == "true"
+        if self.action == "list" and not wants_full:
+            return PlanetListSerializer
+        return PlanetSerializer

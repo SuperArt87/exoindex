@@ -18,10 +18,13 @@ export function getPlanet(id) {
 
 /**
  * Alle planeten met hetzelfde host_name -- voor de stelsel-visualisatie.
- * De standaard paginagrootte (50, zie backend REST_FRAMEWORK-settings) is
- * ruim genoeg voor elk stelsel in deze catalogus.
+ * full=true is nodig omdat de standaard lijst-serializer (voor de
+ * catalogus-grid) orbit_semi_major_axis_au/hz_inner_au/hz_outer_au/etc.
+ * NIET bevat -- zonder deze parameter kan de 3D-view niet correct
+ * sorteren of de leefbare zone tekenen. De standaard paginagrootte (50,
+ * zie backend REST_FRAMEWORK-settings) is ruim genoeg voor elk stelsel.
  */
 export function listPlanetsByHost(hostName) {
-  const params = new URLSearchParams({ host_name: hostName })
+  const params = new URLSearchParams({ host_name: hostName, full: "true" })
   return apiFetch(`/api/planets/?${params.toString()}`)
 }

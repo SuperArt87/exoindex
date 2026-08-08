@@ -100,12 +100,13 @@ export default function SystemOrbitView({ planets, highlightPlanetId, onPlanetCl
       const outerR = auToSceneDistance(first.hz_outer_au)
       const hzBand = new THREE.Mesh(
         new THREE.RingGeometry(innerR, outerR, 128),
-        new THREE.MeshBasicMaterial({ color: 0x22c55e, transparent: true, opacity: 0.1, side: THREE.DoubleSide })
+        new THREE.MeshBasicMaterial({ color: 0x22c55e, transparent: true, opacity: 0.22, side: THREE.DoubleSide, depthWrite: false })
       )
       hzBand.rotation.x = -Math.PI / 2
+      hzBand.position.y = -0.02 // lichte offset -- voorkomt z-fighting met de banen op y=0
       scene.add(hzBand)
-      scene.add(makeCircleLine(innerR, 0x22c55e, 0.4))
-      scene.add(makeCircleLine(outerR, 0x22c55e, 0.4))
+      scene.add(makeCircleLine(innerR, 0x4ade80, 0.7))
+      scene.add(makeCircleLine(outerR, 0x4ade80, 0.7))
     }
 
     function makeOrbitLine(a, ecc) {
