@@ -8,10 +8,19 @@ import * as THREE from "three"
  * has_rings/hz_inner_au/hz_outer_au). Afgeleid van het concept in
  * frontend-demo/OrbitDemo.jsx.
  *
- * SCHAAL: orbit-afstanden gebruiken een gecomprimeerde sqrt(AU)-schaal
- * (auToSceneDistance) i.p.v. letterlijke AU -- puur om alles zichtbaar te
- * houden binnen een klein canvas (een planeet op 0,02 AU zou anders
- * onzichtbaar dicht bij de ster zitten naast een planeet op 30 AU).
+ * SCHAAL: orbit-afstanden gebruiken een LOGARITMISCHE AU-schaal
+ * (auToSceneDistance) i.p.v. letterlijke AU. Bewust log i.p.v. sqrt (eerdere
+ * versie): bij een log-schaal geeft een gelijke VERHOUDING (bv. "planeet B
+ * zit 1,87x verder dan planeet A") altijd dezelfde visuele afstand, ongeacht
+ * of die verhouding zich dicht bij de ster voordoet of ver weg. Dat is
+ * precies waarom Mercurius/Venus (verhouding 1,87x) bij een sqrt-schaal
+ * onterecht dicht op elkaar stonden -- de vaste ORBIT_MIN-vloerwaarde
+ * drukte hun relatieve afstand plat. Geverifieerd tegen ons eigen
+ * zonnestelsel (het enige stelsel waar we een betrouwbare intuitie over
+ * hebben) -- dat is ook de aanbevolen manier om dit soort schaalkeuzes te
+ * checken bij toekomstige aanpassingen: een abstracte heuristiek ("gap >
+ * planeetgrootte") is niet genoeg, toets tegen een stelsel met bekende
+ * verhoudingen.
  * BELANGRIJK: dezelfde functie wordt gebruikt voor zowel planeetbanen als
  * de hz_inner_au/hz_outer_au-grenzen, zodat een planeet die volgens de
  * data binnen de leefbare zone ligt, dat ook visueel is -- de relatieve
@@ -31,12 +40,14 @@ import * as THREE from "three"
  */
 
 const ORBIT_MIN = 4.5
-const ORBIT_AU_SCALE = 4.6
+const ORBIT_LOG_SCALE = 3.0
+const AU_REFERENCE = 0.01 // ondergrens (typische kortste bekende exoplaneetbaan)
 const ORBIT_FALLBACK_STEP = 3.8
 const ORBIT_SPEED_BASE_SECONDS = 4 // omlooptijd (in scene-seconden) op ORBIT_MIN
 
 function auToSceneDistance(au) {
-  return ORBIT_MIN + ORBIT_AU_SCALE * Math.sqrt(au)
+  const safeAu = Math.max(au, AU_REFERENCE)
+  return ORBIT_MIN + ORBIT_LOG_SCALE * Math.max(0, Math.log(safeAu / AU_REFERENCE))
 }
 
 function sceneAngularSpeed(orbitA) {
