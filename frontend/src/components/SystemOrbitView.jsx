@@ -69,18 +69,22 @@ function rgbToThreeColor(rgb) {
 // Planeten krijgen hier BEWUST een vaste kleur per planet_type i.p.v. de
 // continue planet_color_rgb-kleurschatting (die blijft wel gebruikt op de
 // kaartjes in de catalogus) -- in een animatie met meerdere planeten
-// tegelijk moet het type in één oogopslag te onderscheiden zijn, en de
-// artistieke planet_color_rgb-heuristiek (zie scoring.py) varieert soms te
-// subtiel tussen planeten van hetzelfde type om dat te garanderen. Hex-
-// literalen zijn hier bewust i.p.v. rgbToThreeColor()/setRGB(...,
-// SRGBColorSpace) -- new THREE.Color(hex) interpreteert een hexgetal al
-// standaard correct als sRGB, dus geen aparte conversie nodig.
+// tegelijk moet het type in één oogopslag te onderscheiden zijn. Bewust
+// een MAXIMAAL uiteenlopende (categorische) kleurenset i.p.v. thematisch
+// "realistische" tinten (bruin/terracotta/goud lagen in de eerste versie
+// te dicht bij elkaar in de kleurcirkel, en het gedempte licht op de
+// bollen maakte subtiele verschillen extra lastig te onderscheiden) -- vijf
+// kleuren gelijkmatig verspreid over de kleurcirkel blijven ook onder
+// belichting/op kleine bollen goed te onderscheiden. Hex-literalen zijn
+// bewust i.p.v. rgbToThreeColor()/setRGB(..., SRGBColorSpace) -- new
+// THREE.Color(hex) interpreteert een hexgetal al standaard correct als
+// sRGB, dus geen aparte conversie nodig.
 const PLANET_TYPE_COLORS = {
-  rocky: 0xa8785a, // aards bruin, zoals Mercurius/Mars
-  super_earth: 0xe0793c, // terracotta -- duidelijk te onderscheiden van rocky
-  sub_neptune: 0x4fd1c5, // teal -- vluchtige-stoffenrijke damp/atmosfeer
-  ice_giant: 0x5b8fd9, // ijsblauw, zoals Uranus/Neptunus
-  gas_giant: 0xe8c15a, // goud/zandkleurig, zoals Jupiter/Saturnus
+  rocky: 0xef4444, // rood
+  super_earth: 0xf97316, // oranje
+  sub_neptune: 0x06b6d4, // cyaan -- BEWUST geen groen, dat is al de kleur van de HZ-ring hieronder
+  ice_giant: 0x3b82f6, // blauw
+  gas_giant: 0xa855f7, // paars
 }
 
 function planetTypeColor(planetType) {
@@ -236,7 +240,11 @@ export default function SystemOrbitView({ planets, highlightPlanetId, onPlanetCl
 
       const sphere = new THREE.Mesh(
         new THREE.SphereGeometry(radius, 24, 24),
-        new THREE.MeshStandardMaterial({ color, roughness: 0.8, metalness: 0.1 })
+        // laag metalness + een lichte emissive-component (zelflichtend, niet
+        // fysiek realistisch maar wel bewust) -- zonder dit werd de
+        // categorische kleur op de schaduwzijde van elke bol te sterk
+        // gedempt/verdonkerd, waardoor het type minder goed afleesbaar was
+        new THREE.MeshStandardMaterial({ color, roughness: 0.75, metalness: 0.05, emissive: color, emissiveIntensity: 0.28 })
       )
       group.add(sphere)
 
