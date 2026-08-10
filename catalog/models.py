@@ -203,7 +203,7 @@ class PriceHistory(models.Model):
 
     class Meta:
         ordering = ["-recorded_at"]
-        indexes = [models.Index(fields=["planet", "recorded_at"], name="pricehistory_planet_recorded_idx")]
+        indexes = [models.Index(fields=["planet", "recorded_at"], name="ph_planet_recorded_idx")]
         verbose_name_plural = "price history"
 
     def __str__(self):

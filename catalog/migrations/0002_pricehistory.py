@@ -24,6 +24,6 @@ class Migration(migrations.Migration):
         ),
         migrations.AddIndex(
             model_name='pricehistory',
-            index=models.Index(fields=['planet', 'recorded_at'], name='pricehistory_planet_recorded_idx'),
+            index=models.Index(fields=['planet', 'recorded_at'], name='ph_planet_recorded_idx'),
         ),
     ]
