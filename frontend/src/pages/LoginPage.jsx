@@ -18,7 +18,7 @@ export default function LoginPage() {
     setIsSubmitting(true)
     try {
       await login(username, password)
-      navigate(location.state?.from?.pathname || "/", { replace: true })
+      navigate(location.state?.from?.pathname || "/catalogus", { replace: true })
     } catch (err) {
       setError(err instanceof ApiError ? err.message : "Inloggen mislukt.")
     } finally {

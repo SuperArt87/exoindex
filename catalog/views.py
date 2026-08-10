@@ -1,5 +1,7 @@
 from datetime import timedelta
 
+import django_filters
+from django.db.models import Q
 from django.utils import timezone
 from rest_framework import viewsets
 from rest_framework.decorators import action
@@ -16,6 +18,22 @@ HISTORY_RANGES = {
 }
 
 
+class PlanetFilter(django_filters.FilterSet):
+    # detected_molecules is een JSONField (lijst) -- "leeg/null" en "gevuld"
+    # zijn geen standaard filterset_fields-lookup, dus een expliciete
+    # BooleanFilter met eigen queryset-logica.
+    has_detected_molecules = django_filters.BooleanFilter(method="filter_has_detected_molecules")
+
+    class Meta:
+        model = Planet
+        fields = ["planet_type", "in_habitable_zone", "is_solar_system",
+                  "biosignature_candidate", "host_name"]
+
+    def filter_has_detected_molecules(self, queryset, name, value):
+        empty = Q(detected_molecules__isnull=True) | Q(detected_molecules=[])
+        return queryset.exclude(empty) if value else queryset.filter(empty)
+
+
 class PlanetViewSet(viewsets.ReadOnlyModelViewSet):
     """
     Read-only API voor de frontend. Schrijven (aankopen, portfolio-mutaties)
@@ -24,8 +42,7 @@ class PlanetViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = Planet.objects.all()
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filterset_fields = ["planet_type", "in_habitable_zone", "is_solar_system",
-                         "biosignature_candidate", "host_name"]
+    filterset_class = PlanetFilter
     search_fields = ["planet_name", "host_name"]
     ordering_fields = ["habitability_score", "resource_score", "distance_from_earth_ly"]
 

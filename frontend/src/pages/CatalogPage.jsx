@@ -25,6 +25,7 @@ export default function CatalogPage() {
   const [search, setSearch] = useState("")
   const [planetType, setPlanetType] = useState("")
   const [inHabitableZone, setInHabitableZone] = useState("")
+  const [hasDetectedMolecules, setHasDetectedMolecules] = useState("")
   const [biosignatureOnly, setBiosignatureOnly] = useState(false)
   const [ordering, setOrdering] = useState("-habitability_score")
   const [page, setPage] = useState(1)
@@ -36,15 +37,16 @@ export default function CatalogPage() {
 
   useEffect(() => {
     setPage(1)
-  }, [search, planetType, inHabitableZone, biosignatureOnly, ordering])
+  }, [search, planetType, inHabitableZone, hasDetectedMolecules, biosignatureOnly, ordering])
 
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["planets", { search, planetType, inHabitableZone, biosignatureOnly, ordering, page }],
+    queryKey: ["planets", { search, planetType, inHabitableZone, hasDetectedMolecules, biosignatureOnly, ordering, page }],
     queryFn: () =>
       listPlanets({
         search: search || undefined,
         planetType: planetType || undefined,
         inHabitableZone: inHabitableZone || undefined,
+        hasDetectedMolecules: hasDetectedMolecules || undefined,
         biosignatureCandidate: biosignatureOnly ? "true" : undefined,
         ordering,
         page,
@@ -65,7 +67,7 @@ export default function CatalogPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-6">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
         <input
           type="text"
           placeholder="Zoek op naam of ster..."
@@ -88,6 +90,15 @@ export default function CatalogPage() {
           <option value="">HZ: alle</option>
           <option value="true">In leefbare zone</option>
           <option value="false">Buiten leefbare zone</option>
+        </select>
+        <select
+          value={hasDetectedMolecules}
+          onChange={(e) => setHasDetectedMolecules(e.target.value)}
+          className="rounded-md bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-slate-100"
+        >
+          <option value="">Moleculen: alle</option>
+          <option value="true">Moleculen gedetecteerd</option>
+          <option value="false">Geen moleculen gedetecteerd</option>
         </select>
         <select
           value={ordering}

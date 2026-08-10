@@ -7,6 +7,7 @@ import { useAuth } from "../context/AuthContext"
 import DataCompletenessBadge from "../components/DataCompletenessBadge"
 import BiosignatureBadge from "../components/BiosignatureBadge"
 import SystemOrbitView from "../components/SystemOrbitView"
+import PriceHistoryChart from "../components/PriceHistoryChart"
 import { ApiError } from "../api/client"
 
 function fmt(value, unit = "") {
@@ -95,7 +96,7 @@ export default function PlanetDetailPage() {
     return (
       <div className="max-w-4xl mx-auto px-4 py-6">
         <p className="text-red-400">Planeet niet gevonden.</p>
-        <Link to="/" className="text-indigo-400 text-sm">← Terug naar catalogus</Link>
+        <Link to="/catalogus" className="text-indigo-400 text-sm">← Terug naar catalogus</Link>
       </div>
     )
   }
@@ -234,6 +235,10 @@ export default function PlanetDetailPage() {
             )}
           </div>
         )}
+      </div>
+
+      <div className="mb-6">
+        <PriceHistoryChart planetId={id} />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

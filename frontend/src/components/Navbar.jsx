@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Link, NavLink } from "react-router-dom"
 import { useAuth } from "../context/AuthContext"
+import logo from "../assets/exoindex-logo-wordmark.png"
 
 const navLinkClass = ({ isActive }) =>
   `px-3 py-2 rounded-md text-sm font-medium ${isActive ? "bg-slate-800 text-white" : "text-slate-300 hover:text-white hover:bg-slate-800/60"
@@ -14,12 +15,14 @@ export default function Navbar() {
     <header className="border-b border-slate-800 bg-[#03040a]/95 backdrop-blur sticky top-0 z-20">
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex items-center justify-between h-14">
-          <Link to="/" className="text-slate-100 font-semibold tracking-tight text-lg">
-            Exo Index
+          <Link to="/" className="flex items-center">
+            <img src={logo} alt="Exo Index" className="h-8 w-auto" />
           </Link>
 
           <nav className="hidden md:flex items-center gap-1">
-            <NavLink to="/" end className={navLinkClass}>Catalogus</NavLink>
+            <NavLink to="/catalogus" className={navLinkClass}>Catalogus</NavLink>
+            <NavLink to="/hoe-werkt-het" className={navLinkClass}>Hoe werkt het</NavLink>
+            <NavLink to="/faq" className={navLinkClass}>FAQ</NavLink>
             {user && <NavLink to="/portfolio" className={navLinkClass}>Portfolio</NavLink>}
           </nav>
 
@@ -55,7 +58,9 @@ export default function Navbar() {
 
         {menuOpen && (
           <div className="md:hidden pb-4 flex flex-col gap-2">
-            <NavLink to="/" end className={navLinkClass} onClick={() => setMenuOpen(false)}>Catalogus</NavLink>
+            <NavLink to="/catalogus" className={navLinkClass} onClick={() => setMenuOpen(false)}>Catalogus</NavLink>
+            <NavLink to="/hoe-werkt-het" className={navLinkClass} onClick={() => setMenuOpen(false)}>Hoe werkt het</NavLink>
+            <NavLink to="/faq" className={navLinkClass} onClick={() => setMenuOpen(false)}>FAQ</NavLink>
             {user && (
               <NavLink to="/portfolio" className={navLinkClass} onClick={() => setMenuOpen(false)}>Portfolio</NavLink>
             )}

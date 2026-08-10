@@ -18,7 +18,7 @@ export default function RegisterPage() {
     setIsSubmitting(true)
     try {
       await register(username, email, password)
-      navigate("/", { replace: true })
+      navigate("/catalogus", { replace: true })
     } catch (err) {
       setError(err instanceof ApiError ? err.message : "Registreren mislukt.")
     } finally {

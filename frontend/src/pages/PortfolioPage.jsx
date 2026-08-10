@@ -50,7 +50,7 @@ export default function PortfolioPage() {
       {portfolioLoading ? (
         <p className="text-slate-500 mb-8">Laden...</p>
       ) : holdings.length === 0 ? (
-        <p className="text-slate-500 mb-8">Je bezit nog geen planeten. <Link to="/" className="text-indigo-400">Bekijk de catalogus</Link>.</p>
+        <p className="text-slate-500 mb-8">Je bezit nog geen planeten. <Link to="/catalogus" className="text-indigo-400">Bekijk de catalogus</Link>.</p>
       ) : (
         <div className="space-y-2 mb-8">
           {holdings.map((h) => {
