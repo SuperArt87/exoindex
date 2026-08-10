@@ -18,11 +18,20 @@ HISTORY_RANGES = {
 }
 
 
+def _molecule_tokens(molecules):
+    # Zelfde tokenisatie als scoring.py: strip "(trace)"/"(tentative)"-
+    # suffixen zodat "CO2 (tentative)" nog steeds matcht op "CO2".
+    return {m.split(" ")[0] for m in (molecules or [])}
+
+
 class PlanetFilter(django_filters.FilterSet):
     # detected_molecules is een JSONField (lijst) -- "leeg/null" en "gevuld"
     # zijn geen standaard filterset_fields-lookup, dus een expliciete
     # BooleanFilter met eigen queryset-logica.
     has_detected_molecules = django_filters.BooleanFilter(method="filter_has_detected_molecules")
+    has_atmosphere = django_filters.BooleanFilter(method="filter_has_atmosphere")
+    has_h2o = django_filters.BooleanFilter(method="filter_has_h2o")
+    has_carbon = django_filters.BooleanFilter(method="filter_has_carbon")
 
     class Meta:
         model = Planet
@@ -32,6 +41,25 @@ class PlanetFilter(django_filters.FilterSet):
     def filter_has_detected_molecules(self, queryset, name, value):
         empty = Q(detected_molecules__isnull=True) | Q(detected_molecules=[])
         return queryset.exclude(empty) if value else queryset.filter(empty)
+
+    def filter_has_atmosphere(self, queryset, name, value):
+        # atmosphere_density kent zowel NULL (onbekend) als het expliciete
+        # "none" (gemeten: geen atmosfeer) -- beide horen bij "geen atmosfeer".
+        no_atmosphere = Q(atmosphere_density__isnull=True) | Q(atmosphere_density="none")
+        return queryset.exclude(no_atmosphere) if value else queryset.filter(no_atmosphere)
+
+    def filter_has_h2o(self, queryset, name, value):
+        # Python-side tokenmatch i.p.v. een JSONField-containment-query,
+        # zodat dit exact hetzelfde gedrag heeft als scoring.py's
+        # "H2O" in tokens -- inclusief het negeren van (trace)/(tentative).
+        ids = [p.id for p in queryset.only("id", "detected_molecules")
+               if "H2O" in _molecule_tokens(p.detected_molecules)]
+        return queryset.filter(id__in=ids) if value else queryset.exclude(id__in=ids)
+
+    def filter_has_carbon(self, queryset, name, value):
+        ids = [p.id for p in queryset.only("id", "detected_molecules")
+               if _molecule_tokens(p.detected_molecules) & {"C", "CO2"}]
+        return queryset.filter(id__in=ids) if value else queryset.exclude(id__in=ids)
 
 
 class PlanetViewSet(viewsets.ReadOnlyModelViewSet):

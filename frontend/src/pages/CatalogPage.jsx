@@ -27,6 +27,9 @@ export default function CatalogPage() {
   const [inHabitableZone, setInHabitableZone] = useState("")
   const [hasDetectedMolecules, setHasDetectedMolecules] = useState("")
   const [biosignatureOnly, setBiosignatureOnly] = useState(false)
+  const [atmosphereOnly, setAtmosphereOnly] = useState(false)
+  const [h2oOnly, setH2oOnly] = useState(false)
+  const [carbonOnly, setCarbonOnly] = useState(false)
   const [ordering, setOrdering] = useState("-habitability_score")
   const [page, setPage] = useState(1)
 
@@ -37,10 +40,10 @@ export default function CatalogPage() {
 
   useEffect(() => {
     setPage(1)
-  }, [search, planetType, inHabitableZone, hasDetectedMolecules, biosignatureOnly, ordering])
+  }, [search, planetType, inHabitableZone, hasDetectedMolecules, biosignatureOnly, atmosphereOnly, h2oOnly, carbonOnly, ordering])
 
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["planets", { search, planetType, inHabitableZone, hasDetectedMolecules, biosignatureOnly, ordering, page }],
+    queryKey: ["planets", { search, planetType, inHabitableZone, hasDetectedMolecules, biosignatureOnly, atmosphereOnly, h2oOnly, carbonOnly, ordering, page }],
     queryFn: () =>
       listPlanets({
         search: search || undefined,
@@ -48,6 +51,9 @@ export default function CatalogPage() {
         inHabitableZone: inHabitableZone || undefined,
         hasDetectedMolecules: hasDetectedMolecules || undefined,
         biosignatureCandidate: biosignatureOnly ? "true" : undefined,
+        hasAtmosphere: atmosphereOnly ? "true" : undefined,
+        hasH2o: h2oOnly ? "true" : undefined,
+        hasCarbon: carbonOnly ? "true" : undefined,
         ordering,
         page,
       }),
@@ -107,7 +113,10 @@ export default function CatalogPage() {
         >
           {ORDERINGS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
         </select>
-        <label className="flex items-center gap-2 text-sm text-slate-300 px-1">
+      </div>
+
+      <div className="flex flex-wrap items-center gap-x-5 gap-y-2 mb-6">
+        <label className="flex items-center gap-2 text-sm text-slate-300">
           <input
             type="checkbox"
             checked={biosignatureOnly}
@@ -115,6 +124,33 @@ export default function CatalogPage() {
             className="rounded border-slate-700"
           />
           Alleen biosignature-kandidaten
+        </label>
+        <label className="flex items-center gap-2 text-sm text-slate-300">
+          <input
+            type="checkbox"
+            checked={atmosphereOnly}
+            onChange={(e) => setAtmosphereOnly(e.target.checked)}
+            className="rounded border-slate-700"
+          />
+          Atmosfeer
+        </label>
+        <label className="flex items-center gap-2 text-sm text-slate-300">
+          <input
+            type="checkbox"
+            checked={h2oOnly}
+            onChange={(e) => setH2oOnly(e.target.checked)}
+            className="rounded border-slate-700"
+          />
+          H2O gedetecteerd
+        </label>
+        <label className="flex items-center gap-2 text-sm text-slate-300">
+          <input
+            type="checkbox"
+            checked={carbonOnly}
+            onChange={(e) => setCarbonOnly(e.target.checked)}
+            className="rounded border-slate-700"
+          />
+          C of CO2 gedetecteerd
         </label>
       </div>
 

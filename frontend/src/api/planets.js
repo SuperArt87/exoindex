@@ -1,12 +1,18 @@
 import { apiFetch } from "./client"
 
-export function listPlanets({ search, planetType, inHabitableZone, biosignatureCandidate, hasDetectedMolecules, ordering, page } = {}) {
+export function listPlanets({
+  search, planetType, inHabitableZone, biosignatureCandidate, hasDetectedMolecules,
+  hasAtmosphere, hasH2o, hasCarbon, ordering, page,
+} = {}) {
   const params = new URLSearchParams()
   if (search) params.set("search", search)
   if (planetType) params.set("planet_type", planetType)
   if (inHabitableZone !== undefined && inHabitableZone !== "") params.set("in_habitable_zone", inHabitableZone)
   if (biosignatureCandidate !== undefined && biosignatureCandidate !== "") params.set("biosignature_candidate", biosignatureCandidate)
   if (hasDetectedMolecules !== undefined && hasDetectedMolecules !== "") params.set("has_detected_molecules", hasDetectedMolecules)
+  if (hasAtmosphere !== undefined && hasAtmosphere !== "") params.set("has_atmosphere", hasAtmosphere)
+  if (hasH2o !== undefined && hasH2o !== "") params.set("has_h2o", hasH2o)
+  if (hasCarbon !== undefined && hasCarbon !== "") params.set("has_carbon", hasCarbon)
   if (ordering) params.set("ordering", ordering)
   if (page) params.set("page", page)
   const qs = params.toString()
