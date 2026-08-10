@@ -66,6 +66,28 @@ function rgbToThreeColor(rgb) {
   return new THREE.Color().setRGB(rgb[0] / 255, rgb[1] / 255, rgb[2] / 255, THREE.SRGBColorSpace)
 }
 
+// Planeten krijgen hier BEWUST een vaste kleur per planet_type i.p.v. de
+// continue planet_color_rgb-kleurschatting (die blijft wel gebruikt op de
+// kaartjes in de catalogus) -- in een animatie met meerdere planeten
+// tegelijk moet het type in één oogopslag te onderscheiden zijn, en de
+// artistieke planet_color_rgb-heuristiek (zie scoring.py) varieert soms te
+// subtiel tussen planeten van hetzelfde type om dat te garanderen. Hex-
+// literalen zijn hier bewust i.p.v. rgbToThreeColor()/setRGB(...,
+// SRGBColorSpace) -- new THREE.Color(hex) interpreteert een hexgetal al
+// standaard correct als sRGB, dus geen aparte conversie nodig.
+const PLANET_TYPE_COLORS = {
+  rocky: 0xa8785a, // aards bruin, zoals Mercurius/Mars
+  super_earth: 0xe0793c, // terracotta -- duidelijk te onderscheiden van rocky
+  sub_neptune: 0x4fd1c5, // teal -- vluchtige-stoffenrijke damp/atmosfeer
+  ice_giant: 0x5b8fd9, // ijsblauw, zoals Uranus/Neptunus
+  gas_giant: 0xe8c15a, // goud/zandkleurig, zoals Jupiter/Saturnus
+}
+
+function planetTypeColor(planetType) {
+  const hex = PLANET_TYPE_COLORS[planetType]
+  return new THREE.Color(hex !== undefined ? hex : 0xaaaaaa)
+}
+
 function planetVisualRadius(radiusEarth) {
   const r = radiusEarth ?? 1.5
   return Math.min(1.6, Math.max(0.28, 0.22 * Math.sqrt(r) + 0.28))
@@ -201,7 +223,7 @@ export default function SystemOrbitView({ planets, highlightPlanetId, onPlanetCl
       scene.add(makeOrbitLine(orbitA, ecc))
 
       const radius = planetVisualRadius(p.radius_earth)
-      const color = rgbToThreeColor(p.planet_color_rgb)
+      const color = planetTypeColor(p.planet_type)
 
       // group = wordt elke frame naar de baanpositie verplaatst. sphere zit
       // ERIN en krijgt de as-rotatie (rotation.y) voor rotation_state -- de
