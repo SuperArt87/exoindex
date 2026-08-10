@@ -44,7 +44,7 @@ from django.utils import timezone
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[4]))
 
-from catalog.models import Planet  # noqa: E402
+from catalog.models import Planet, PriceHistory  # noqa: E402
 from accounts.models import Transaction  # noqa: E402
 
 DEMAND_SENSITIVITY = 0.03   # elke netto-transactie beweegt de prijs 3%
@@ -63,6 +63,7 @@ class Command(BaseCommand):
 
         with transaction.atomic():
             updated = 0
+            snapshots = []
             for planet in Planet.objects.all():
                 if planet.base_market_value_credits is None:
                     continue
@@ -86,4 +87,12 @@ class Command(BaseCommand):
                 planet.save(update_fields=["demand_multiplier", "market_value_credits"])
                 updated += 1
 
-        self.stdout.write(self.style.SUCCESS(f"Finale marktwaarde berekend voor {updated} planeten."))
+                # Momentopname voor de prijshistorie-grafiek -- dit is het
+                # enige punt waar de finale prijs voor dit moment vaststaat.
+                snapshots.append(PriceHistory(planet=planet, market_value_credits=final_value))
+
+            PriceHistory.objects.bulk_create(snapshots)
+
+        self.stdout.write(self.style.SUCCESS(
+            f"Finale marktwaarde berekend voor {updated} planeten ({len(snapshots)} prijshistorie-momentopnamen weggeschreven)."
+        ))

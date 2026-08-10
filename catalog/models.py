@@ -185,3 +185,26 @@ class MarketEvent(models.Model):
         if self.scope == "planet":
             return planet.planet_name == self.scope_value
         return False
+
+
+class PriceHistory(models.Model):
+    """
+    Momentopname van market_value_credits, weggeschreven door
+    apply_demand_pricing (de laatste stap van de pricing-pipeline, zie
+    dat command) -- dat is het enige moment waarop de "officiële" prijs
+    voor dit tijdstip vastgesteld wordt. Puur een logboek, nooit
+    achteraf aangepast/teruggedateerd -- alleen ECHTE metingen, zelfde
+    principe als de rest van dit project (nooit iets tonen dat als
+    gemeten oogt maar dat niet is).
+    """
+    planet = models.ForeignKey(Planet, on_delete=models.CASCADE, related_name="price_history")
+    market_value_credits = models.DecimalField(max_digits=14, decimal_places=2)
+    recorded_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-recorded_at"]
+        indexes = [models.Index(fields=["planet", "recorded_at"], name="pricehistory_planet_recorded_idx")]
+        verbose_name_plural = "price history"
+
+    def __str__(self):
+        return f"{self.planet.planet_name}: {self.market_value_credits} @ {self.recorded_at:%Y-%m-%d %H:%M}"

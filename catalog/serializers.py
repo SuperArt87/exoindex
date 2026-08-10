@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Planet
+from .models import Planet, PriceHistory
 
 
 class PlanetSerializer(serializers.ModelSerializer):
@@ -19,3 +19,9 @@ class PlanetListSerializer(serializers.ModelSerializer):
             "resource_score", "biosignature_candidate", "distance_from_earth_ly",
             "market_value_credits",
         )
+
+
+class PriceHistorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PriceHistory
+        fields = ("recorded_at", "market_value_credits")

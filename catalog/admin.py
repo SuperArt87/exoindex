@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Planet, ResourceDiscovery, MarketEvent
+from .models import Planet, ResourceDiscovery, MarketEvent, PriceHistory
 
 
 @admin.register(ResourceDiscovery)
@@ -7,6 +7,14 @@ class ResourceDiscoveryAdmin(admin.ModelAdmin):
     list_display = ("planet", "title", "points_bonus", "is_verified", "discovered_at")
     list_filter = ("is_verified",)
     search_fields = ("title", "planet__planet_name")
+    autocomplete_fields = ["planet"]
+
+
+@admin.register(PriceHistory)
+class PriceHistoryAdmin(admin.ModelAdmin):
+    list_display = ("planet", "market_value_credits", "recorded_at")
+    list_filter = ("recorded_at",)
+    search_fields = ("planet__planet_name",)
     autocomplete_fields = ["planet"]
 
 
