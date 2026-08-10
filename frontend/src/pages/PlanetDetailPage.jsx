@@ -106,7 +106,7 @@ export default function PlanetDetailPage() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-6 w-full">
-      <Link to="/" className="text-indigo-400 text-sm">← Terug naar catalogus</Link>
+      <Link to="/catalogus" className="text-indigo-400 text-sm">← Terug naar catalogus</Link>
 
       <div className="rounded-lg mt-3 mb-2 overflow-hidden border border-slate-800 bg-slate-900/40 relative">
         {systemPlanets?.results?.length ? (
