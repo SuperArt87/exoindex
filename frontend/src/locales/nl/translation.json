@@ -1,0 +1,297 @@
+{
+  "nav": {
+    "catalog": "Catalogus",
+    "howItWorks": "Hoe werkt het",
+    "faq": "FAQ",
+    "portfolio": "Portfolio",
+    "login": "Inloggen",
+    "register": "Registreren",
+    "logout": "Uitloggen",
+    "menu": "Menu"
+  },
+  "footer": {
+    "about": "Over ons",
+    "howItWorks": "Hoe werkt het",
+    "faq": "FAQ",
+    "dataSources": "Databronnen",
+    "privacy": "Privacy",
+    "terms": "Voorwaarden",
+    "disclaimer": "Exo Index — fictief handelsplatform, geen echte grondeigendom. Atmosferische data: exoplanet.eu, CC BY 4.0."
+  },
+  "common": {
+    "loading": "Laden...",
+    "busy": "Bezig...",
+    "yes": "Ja",
+    "no": "Nee"
+  },
+  "home": {
+    "title": "Handel in de meest veelbelovende exoplaneten van de Melkweg",
+    "subtitle": "Exo Index is een fictief handelsplatform waarop je percelen op ontdekte exoplaneten verzamelt, gewaardeerd op basis van echte astronomische data — van leefbaarheid tot grondstofpotentieel.",
+    "ctaCatalog": "Bekijk de catalogus",
+    "ctaHowItWorks": "Hoe werkt het?",
+    "features": [
+      { "title": "Wetenschappelijk onderbouwd", "body": "Elke planeet krijgt een leefbaarheids- en grondstofscore op basis van echte data uit de NASA Exoplanet Archive en exoplanet.eu — geen gokwerk, geen zwarte doos." },
+      { "title": "Transparante waardering", "body": "De marktwaarde is opgebouwd uit duidelijk gescheiden lagen: wetenschap, marktsentiment en vraag/aanbod. Je kunt altijd zien waarom een planeet duurder of goedkoper is geworden." },
+      { "title": "100% fictief, zonder risico", "body": "Je handelt in gesloten platformcredits, niet in echt geld of echte grondeigendom. Ontdek, verzamel en bouw een portefeuille zonder financieel risico." }
+    ],
+    "bottomTitle": "Van Earth-sized rotsplaneten tot Hot Jupiters",
+    "bottomBody": "Duizenden planeten, elk met een eigen leefbaarheids- en grondstofscore, biosignature-status en actuele marktwaarde. Begin gratis als Explorer, of ontgrendel meer als Prospector of Grondbaron.",
+    "bottomCta": "Maak een gratis account →"
+  },
+  "howItWorks": {
+    "title": "Hoe werkt Exo Index?",
+    "intro": "Elke planeet in de catalogus krijgt vier onafhankelijke scores en een marktwaarde die is opgebouwd uit duidelijk gescheiden lagen. Geen zwarte doos: de waardering is altijd terug te leiden tot echte astronomische data.",
+    "scoresTitle": "De vier scores",
+    "scores": [
+      { "name": "Earth Similarity Index (ESI)", "body": "Een gevestigde wetenschappelijke formule (Schulze-Makuch et al., 2011) die uitdrukt hoe fysiek vergelijkbaar een planeet is met de Aarde, op basis van straal, dichtheid, ontsnappingssnelheid en evenwichtstemperatuur. Let op: de Aarde zelf scoort geen exacte 1.0 — we gebruiken voor alle planeten dezelfde berekende evenwichtstemperatuur in plaats van Aardes werkelijke oppervlaktetemperatuur, voor een eerlijke onderlinge vergelijking." },
+      { "name": "Leefbaarheidsscore (0-100)", "body": "Onze eigen samengestelde score, los van de ESI. Weegt onder andere: ligging in de leefbare zone, het type ster, massa, baanexcentriciteit, rotatiestaat, atmosfeerdichtheid, magnetosfeer en gedetecteerde moleculen. Moleculen wegen contextgevoelig mee — water op een hete gasreus betekent iets heel anders dan water én zuurstof op een gematigde rotsplaneet." },
+      { "name": "Grondstofscore (0-100)", "body": "Volledig losstaand van leefbaarheid. Gebaseerd op dichtheid (metaalrijke kern-indicatie), planeettype, tektonische activiteit en magnetosfeersterkte. Een gloeiend hete gasreus kan dus een hoge grondstofscore hebben en tegelijk een lage leefbaarheidsscore." },
+      { "name": "Confidence-score", "body": "Het percentage van de score dat op echte metingen berust in plaats van aannames. Wat niet gemeten is, blijft onbekend — we gokken nooit een neutrale waarde die als feit oogt. Een planeet met een rijk gekarakteriseerd spectrum (meerdere gedetecteerde moleculen) krijgt een hogere confidence dan een planeet met slechts een losse detectie." }
+    ],
+    "valueTitle": "Hoe de marktwaarde tot stand komt",
+    "valueIntro": "De uiteindelijke prijs van een planeet is de wetenschappelijke basiswaarde, vermenigvuldigd met marktsentiment en vraag/aanbod. Drie lagen met een eigen ritme van verandering, in plaats van één ondoorzichtige formule:",
+    "valueLayers": [
+      { "name": "1. Wetenschappelijke basiswaarde", "body": "Combineert leefbaarheids- en grondstofscore (elk voor de helft), met een schaarstepremie voor planeten die dichter bij de Aarde staan en een correctie voor lage confidence. Verandert alleen bij nieuwe astronomische metingen." },
+      { "name": "2. Marktsentiment", "body": "Een macro-laag die reageert op nieuws — ruimtemissies, technologische doorbraken, algemeen beursklimaat. Effecten vervallen vanzelf na verloop van tijd (half-life), net als echt marktnieuws langzaam uit het geheugen verdwijnt." },
+      { "name": "3. Vraag en aanbod", "body": "De laatste laag reageert op activiteit binnen het platform zelf: veel kopers duwen de prijs omhoog, veel verkopers duwen 'm omlaag — begrensd, zodat een enkele grote transactie de prijs niet laat ontsporen." }
+    ],
+    "biosigTitle": "Biosignature-kandidaten",
+    "biosigBody": "Sommige planeten krijgen een biosignature-badge: zuurstof samen met water of methaan, gedetecteerd op een gematigde rotsachtige planeet in de leefbare zone. Dit is een wetenschappelijk interessant signaal — <0>geen bewijs van leven</0>. Er bestaan bekende verklaringen zonder biologie, zoals fotodissociatie bij rode dwergsterren."
+  },
+  "about": {
+    "title": "Over Exo Index",
+    "intro": "Exo Index is een fantasy-handelsplatform waarop je percelen op exoplaneten en zonnestelselplaneten verzamelt, gewaardeerd door een wetenschappelijk onderbouwde index in plaats van willekeur.",
+    "section1Title": "Geen echte grondeigendom",
+    "section1Body": "Alles op Exo Index is fictief. Volgens het Ruimteverdrag van 1967 (Outer Space Treaty) kan geen enkel land of individu eigendomsclaims leggen op hemellichamen — het kopen van een \"perceel\" op Exo Index geeft dan ook op geen enkele manier echte, juridisch afdwingbare grondeigendom. Je verzamelt een fictief bezit binnen een spel, niets meer en niets minder.",
+    "section2Title": "Gesloten credits, geen echt geld",
+    "section2Body": "Je handelt met platformcredits die je op Exo Index verdient of aanschaft. Deze credits zijn niet inwisselbaar voor echt geld en hebben geen waarde buiten het platform. Exo Index is geen effecten- of beleggingsproduct en biedt geen financieel rendement.",
+    "section3Title": "Hoe we het draaiend houden",
+    "section3Body": "Exo Index werkt met een freemium-model: gratis starten als <0>Explorer</0>, met optionele upgrades naar <1>Prospector</1> of <2>Grondbaron</2> voor extra functionaliteit, plus optionele cosmetische extra's. Zo blijft de kern van het platform gratis toegankelijk.",
+    "section4Title": "Waarom we dit bouwen",
+    "section4Body": "Er is een schat aan publiek beschikbare exoplaneetdata die voor de meeste mensen ontoegankelijk blijft achter wetenschappelijke tabellen. Exo Index maakt die data tastbaar en speels, zonder de wetenschap geweld aan te doen — elke score is terug te herleiden tot echte metingen. Lees meer over de scoringsmethode op de pagina <0>Hoe werkt het</0>."
+  },
+  "faq": {
+    "title": "Veelgestelde vragen",
+    "items": [
+      { "q": "Koop ik echt een stuk van een exoplaneet?", "a": "Nee. Exo Index is volledig fictief entertainment. Volgens het Ruimteverdrag van 1967 kan niemand eigendomsclaims leggen op hemellichamen. Je verzamelt een digitaal spelobject, geen echte grond." },
+      { "q": "Kan ik credits omzetten in echt geld?", "a": "Nee. Platformcredits zijn gesloten: ze zijn alleen te gebruiken binnen Exo Index en hebben geen waarde of wisselkoers buiten het platform." },
+      { "q": "Waar komen de planeetgegevens vandaan?", "a": "Voornamelijk uit de NASA Exoplanet Archive en exoplanet.eu, aangevuld met JWST-detecties. Zie de pagina Databronnen voor het volledige overzicht." },
+      { "q": "Wat betekent de biosignature-badge?", "a": "Die verschijnt bij een specifieke combinatie van gedetecteerde moleculen (zuurstof met water of methaan) op een gematigde rotsplaneet in de leefbare zone. Het is een wetenschappelijk interessant signaal, geen bewijs van leven — er bestaan ook verklaringen zonder biologie." },
+      { "q": "Waarom verandert de prijs van een planeet?", "a": "De marktwaarde combineert drie lagen: de wetenschappelijke basiswaarde (verandert bij nieuwe metingen), marktsentiment (reageert op nieuws en vervaagt vanzelf) en vraag/aanbod (reageert op koop- en verkoopactiviteit binnen het platform). Zie Hoe werkt het voor de volledige uitleg." },
+      { "q": "Wat is het verschil tussen Explorer, Prospector en Grondbaron?", "a": "Explorer is de gratis laag waarmee je direct aan de slag kunt. Prospector en Grondbaron zijn betaalde tiers die extra functionaliteit ontgrendelen. Alle tiers gebruiken hetzelfde wetenschappelijke waarderingsmodel." },
+      { "q": "Is mijn score op de Aarde precies 1,0?", "a": "Nee, bewust niet. De Earth Similarity Index gebruikt voor alle planeten dezelfde berekende evenwichtstemperatuur in plaats van Aardes werkelijke oppervlaktetemperatuur, zodat de vergelijking tussen planeten eerlijk blijft. Daardoor scoort de Aarde zelf net onder de 1,0." }
+    ]
+  },
+  "dataSources": {
+    "title": "Databronnen",
+    "intro": "Elke score op Exo Index is herleidbaar tot publiek beschikbare astronomische data. Hieronder de bronnen die we gebruiken, en waarvoor.",
+    "sources": [
+      { "name": "NASA Exoplanet Archive", "role": "Hoofdbron voor fysieke, orbitale en stellaire data (de pscomppars-tabel). Wekelijks bijgewerkt.", "license": "Publiek beschikbaar (NASA, publiek domein)." },
+      { "name": "exoplanet.eu", "role": "Primaire bron voor gedetecteerde moleculen en magnetische-veldgegevens.", "license": "CC BY 4.0 — commercieel bruikbaar met bronvermelding." },
+      { "name": "JWST-molecuuldata", "role": "Aanvullende bron voor de nieuwste moleculaire detecties die nog niet in exoplanet.eu zijn verwerkt.", "license": "Publiek beschikbare onderzoeksdata." },
+      { "name": "Zonnestelseldata", "role": "Voor de acht planeten van ons eigen zonnestelsel gebruiken we een statische, handmatig samengestelde dataset — deze verandert immers niet.", "license": "Samengesteld op basis van publiek beschikbare NASA-gegevens." }
+    ],
+    "footerNote": "Atmosferische data: exoplanet.eu, CC BY 4.0. Exo Index is niet aangesloten bij of onderschreven door NASA of exoplanet.eu."
+  },
+  "privacy": {
+    "title": "Privacybeleid",
+    "disclaimer": "Dit is een conceptversie, nog niet juridisch getoetst. Voordat Exo Index live gaat met echte gebruikersgegevens, wordt dit document nagelopen door een jurist.",
+    "sections": [
+      { "title": "Welke gegevens we verzamelen", "body": "We beperken ons bewust tot het minimum: gebruikersnaam, e-mailadres, je account-tier en je creditsaldo. Geen overbodige velden, geen gegevens die we niet nodig hebben om het platform te laten werken." },
+      { "title": "Waarom we ze verzamelen", "body": "Om je account te beheren, je portefeuille en transacties bij te houden, en — als je daar toestemming voor geeft — om je op de hoogte te houden van nieuwe functies." },
+      { "title": "Jouw rechten", "body": "Je hebt recht op inzage en overdraagbaarheid van je gegevens, en recht op vergetelheid. Bij een verzoek tot verwijdering anonimiseren we je persoonsgegevens; transactiegegevens bewaren we in dat geval alleen nog in geanonimiseerde vorm, voor zover wettelijk vereist." },
+      { "title": "Bewaartermijn", "body": "We bewaren accountgegevens zolang je account actief is. Bij langdurige inactiviteit hanteren we een nader te bepalen bewaartermijn, die in een definitieve versie van dit beleid wordt vastgelegd." },
+      { "title": "Cookies", "body": "We gebruiken alleen functionele cookies die nodig zijn om je ingelogd te houden. Zodra we analytics- of marketingcookies toevoegen, vragen we daar eerst expliciet toestemming voor." },
+      { "title": "Vragen", "body": "Heb je vragen over je gegevens of wil je een van bovenstaande rechten uitoefenen? Neem contact met ons op via het e-mailadres dat bij je account hoort." }
+    ]
+  },
+  "terms": {
+    "title": "Algemene voorwaarden",
+    "disclaimer": "Dit is een conceptversie, nog niet juridisch getoetst. Voordat Exo Index live gaat met echte gebruikers, wordt dit document nagelopen door een jurist.",
+    "sections": [
+      { "title": "1. Aard van het platform", "body": "Exo Index is een fictief entertainmentplatform. Percelen, planeten en portefeuilles zijn digitale spelobjecten zonder juridische waarde of eigendomsrecht. Niets op dit platform vormt een aanbod tot koop of verkoop van echte grond, effecten of financiële producten." },
+      { "title": "2. Credits", "body": "Platformcredits zijn uitsluitend bruikbaar binnen Exo Index. Ze zijn niet inwisselbaar voor echt geld, niet overdraagbaar buiten het platform, en representeren geen investering of financieel rendement." },
+      { "title": "3. Accounts en tiers", "body": "Je kunt gratis een Explorer-account aanmaken. Betaalde tiers (Prospector, Grondbaron) en eventuele cosmetische aankopen ontgrendelen extra functionaliteit, maar veranderen niets aan de fictieve aard van het platform." },
+      { "title": "4. Wetenschappelijke data", "body": "Scores en waarderingen zijn gebaseerd op publiek beschikbare astronomische data en een eigen waarderingsmodel. Nieuwe metingen kunnen bestaande scores wijzigen. We doen ons best om de data actueel te houden, maar geven geen garantie op volledigheid of juistheid." },
+      { "title": "5. Gedrag op het platform", "body": "Misbruik van het platform — zoals pogingen om de prijsvorming te manipuleren via geautomatiseerde of frauduleuze transacties — kan leiden tot schorsing van je account." },
+      { "title": "6. Wijzigingen", "body": "We kunnen deze voorwaarden aanpassen naarmate het platform zich ontwikkelt. Bij belangrijke wijzigingen laten we dit weten via je account." }
+    ]
+  },
+  "catalog": {
+    "title": "Planetencatalogus",
+    "count_one": "{{count}} planeet",
+    "count_other": "{{count}} planeten",
+    "subtitle": "wetenschappelijk onderbouwde waarderingsindex.",
+    "searchPlaceholder": "Zoek op naam of ster...",
+    "types": {
+      "all": "Alle types",
+      "rocky": "Rotsachtig",
+      "super_earth": "Super-Earth",
+      "sub_neptune": "Sub-Neptune",
+      "ice_giant": "IJsreus",
+      "gas_giant": "Gasreus"
+    },
+    "hz": {
+      "all": "HZ: alle",
+      "inside": "In leefbare zone",
+      "outside": "Buiten leefbare zone"
+    },
+    "molecules": {
+      "all": "Moleculen: alle",
+      "detected": "Moleculen gedetecteerd",
+      "notDetected": "Geen moleculen gedetecteerd"
+    },
+    "orderings": {
+      "-habitability_score": "Leefbaarheid (hoog → laag)",
+      "habitability_score": "Leefbaarheid (laag → hoog)",
+      "-resource_score": "Grondstoffen (hoog → laag)",
+      "resource_score": "Grondstoffen (laag → hoog)",
+      "distance_from_earth_ly": "Afstand (dichtbij → ver)"
+    },
+    "checkboxes": {
+      "biosignature": "Alleen biosignature-kandidaten",
+      "atmosphere": "Atmosfeer",
+      "h2o": "H2O gedetecteerd",
+      "carbon": "C of CO2 gedetecteerd"
+    },
+    "error": "Kon planeten niet laden: {{message}}",
+    "empty": "Geen planeten gevonden met deze filters.",
+    "prev": "Vorige",
+    "next": "Volgende",
+    "page": "Pagina {{page}}"
+  },
+  "planetCard": {
+    "habitability": "Leefbaarheid",
+    "resources": "Grondstoffen",
+    "solarSystem": "Zonnestelsel",
+    "lightYears": "{{value}} lj"
+  },
+  "planetDetail": {
+    "notMeasured": "niet gemeten",
+    "rotationStates": {
+      "free": "Vrij",
+      "resonant": "Resonant",
+      "synchronous": "Synchroon (getijdevergrendeld)"
+    },
+    "buyError": "Kopen mislukt.",
+    "sellError": "Verkopen mislukt.",
+    "notFound": "Planeet niet gevonden.",
+    "backToCatalog": "Terug naar catalogus",
+    "system": "Stelsel {{name}}",
+    "marketValuePerUnit": "Marktwaarde per eenheid",
+    "creditsAmount": "{{value}} credits",
+    "notSyncedYet": "nog niet gesynchroniseerd",
+    "basisSentimentDemand": "basis {{basis}} × sentiment {{sentiment}}× × vraag {{demand}}×",
+    "loginToTrade": "Log in om te handelen",
+    "quantity": "Aantal",
+    "buy": "Koop",
+    "quantityOwned": "Aantal (je bezit {{count}}x)",
+    "all": "alles",
+    "sell": "Verkoop",
+    "sections": {
+      "identification": "Identificatie",
+      "star": "Ster",
+      "orbit": "Baan & systeem",
+      "physical": "Fysiek",
+      "habitabilityContext": "Leefbaarheidscontext",
+      "atmosphere": "Atmosfeer & samenstelling",
+      "scores": "Scores"
+    },
+    "fields": {
+      "discoveredIn": "Ontdekt in",
+      "method": "Methode",
+      "solarSystem": "Zonnestelsel",
+      "spectralType": "Spectraaltype",
+      "temperature": "Temperatuur",
+      "radius": "Straal",
+      "mass": "Massa",
+      "age": "Leeftijd",
+      "type": "Type",
+      "semiMajorAxis": "Halve lange as",
+      "eccentricity": "Excentriciteit",
+      "orbitalPeriod": "Omlooptijd",
+      "rotation": "Rotatie",
+      "moons": "Manen",
+      "rings": "Ringen",
+      "massEarth": "Massa",
+      "radiusEarth": "Straal",
+      "density": "Dichtheid",
+      "gravity": "Zwaartekracht",
+      "equilibriumTemp": "Evenwichtstemperatuur",
+      "distance": "Afstand",
+      "habitableZone": "Leefbare zone",
+      "hzBounds": "HZ-grenzen",
+      "atmosphereDensity": "Dichtheid atmosfeer",
+      "molecules": "Moleculen",
+      "magnetosphere": "Magnetosfeer",
+      "tectonics": "Tektoniek",
+      "esi": "ESI (Earth Similarity)",
+      "habitability": "Leefbaarheid",
+      "resources": "Grondstoffen"
+    },
+    "days": "dagen",
+    "inSolarSystem": "In het zonnestelsel",
+    "lightYearsShort": "lj",
+    "inside": "Binnen",
+    "outside": "Buiten",
+    "dataSourceNote": "Atmosferische data: exoplanet.eu, CC BY 4.0."
+  },
+  "biosignature": {
+    "badge": "Biosignature-kandidaat",
+    "tooltip": "O2 + H2O/CH4 gedetecteerd -- geen bewijs van leven",
+    "body": "Op deze planeet zijn zowel O2 als H2O of CH4 gedetecteerd, in een gematigde, rotsachtige context — wetenschappelijk interessant, maar <0>geen bewijs van leven</0>. Er bestaan bekende abiotische (niet-biologische) verklaringen voor zulke combinaties, bijvoorbeeld foto-dissociatie van water bij rode dwergsterren."
+  },
+  "dataCompleteness": {
+    "unknown": "Data onbekend",
+    "measured": "{{value}}% gemeten"
+  },
+  "priceHistory": {
+    "title": "Waardeverloop",
+    "ranges": { "week": "Week", "month": "Maand", "year": "Jaar" },
+    "noData": "Nog niet genoeg historie voor deze periode.",
+    "noDataHint": "Dit platform draait nog maar kort — de grafiek vult zich naarmate de marktwaarde vaker wordt herberekend."
+  },
+  "login": {
+    "title": "Inloggen",
+    "username": "Gebruikersnaam",
+    "password": "Wachtwoord",
+    "submit": "Inloggen",
+    "error": "Inloggen mislukt.",
+    "noAccount": "Nog geen account?",
+    "registerLink": "Registreer"
+  },
+  "register": {
+    "title": "Account aanmaken",
+    "subtitle": "Je start met 10.000 credits (Explorer-tier, gratis).",
+    "username": "Gebruikersnaam",
+    "email": "E-mail",
+    "password": "Wachtwoord",
+    "minLength": "Minimaal 8 tekens.",
+    "submit": "Registreren",
+    "error": "Registreren mislukt.",
+    "hasAccount": "Al een account?",
+    "loginLink": "Log in"
+  },
+  "portfolio": {
+    "title": "Portfolio",
+    "balance": "Saldo",
+    "holdings": "Bezit",
+    "empty": "Je bezit nog geen planeten.",
+    "viewCatalog": "Bekijk de catalogus",
+    "avgPurchasePrice": "{{quantity}}x · gem. aankoopprijs {{price}}",
+    "sellAll": "Verkoop alles",
+    "sellError": "Verkopen mislukt.",
+    "transactions": "Transactiegeschiedenis",
+    "noTransactions": "Nog geen transacties.",
+    "table": {
+      "planet": "Planeet",
+      "action": "Actie",
+      "quantity": "Aantal",
+      "pricePerUnit": "Prijs/stuk",
+      "total": "Totaal",
+      "date": "Datum",
+      "buy": "Koop",
+      "sell": "Verkoop"
+    }
+  }
+}

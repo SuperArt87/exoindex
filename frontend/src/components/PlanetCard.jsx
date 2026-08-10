@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom"
+import { useTranslation } from "react-i18next"
 import BiosignatureBadge from "./BiosignatureBadge"
+import { formatCreditsRounded } from "../i18n/format"
 
 function rgbCss(rgb) {
   if (!rgb) return "rgb(100,100,110)"
@@ -7,6 +9,9 @@ function rgbCss(rgb) {
 }
 
 export default function PlanetCard({ planet }) {
+  const { t, i18n } = useTranslation()
+  const lang = i18n.resolvedLanguage || i18n.language
+
   return (
     <Link
       to={`/planets/${planet.id}`}
@@ -34,16 +39,16 @@ export default function PlanetCard({ planet }) {
         <BiosignatureBadge isCandidate={planet.biosignature_candidate} />
 
         <div className="flex justify-between text-xs text-slate-400 pt-1">
-          <span>Leefbaarheid: <span className="text-slate-200">{planet.habitability_score ?? "—"}</span></span>
-          <span>Grondstoffen: <span className="text-slate-200">{planet.resource_score ?? "—"}</span></span>
+          <span>{t("planetCard.habitability")}: <span className="text-slate-200">{planet.habitability_score ?? "—"}</span></span>
+          <span>{t("planetCard.resources")}: <span className="text-slate-200">{planet.resource_score ?? "—"}</span></span>
         </div>
 
         <div className="flex justify-between items-center pt-2 border-t border-slate-800">
           <span className="text-xs text-slate-500">
-            {planet.distance_from_earth_ly === 0 ? "Zonnestelsel" : `${planet.distance_from_earth_ly ?? "?"} lj`}
+            {planet.distance_from_earth_ly === 0 ? t("planetCard.solarSystem") : t("planetCard.lightYears", { value: planet.distance_from_earth_ly ?? "?" })}
           </span>
           <span className="text-sm font-medium text-emerald-400">
-            {planet.market_value_credits ? `${Number(planet.market_value_credits).toLocaleString("nl-NL", { maximumFractionDigits: 0 })} cr` : "—"}
+            {planet.market_value_credits ? `${formatCreditsRounded(planet.market_value_credits, lang)} cr` : "—"}
           </span>
         </div>
       </div>

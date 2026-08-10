@@ -1,25 +1,27 @@
 import { Link } from "react-router-dom"
+import { useTranslation } from "react-i18next"
 
-const LINKS = [
-  { to: "/over-ons", label: "Over ons" },
-  { to: "/hoe-werkt-het", label: "Hoe werkt het" },
-  { to: "/faq", label: "FAQ" },
-  { to: "/databronnen", label: "Databronnen" },
-  { to: "/privacy", label: "Privacy" },
-  { to: "/voorwaarden", label: "Voorwaarden" },
+const LINK_KEYS = [
+  { to: "/over-ons", key: "footer.about" },
+  { to: "/hoe-werkt-het", key: "footer.howItWorks" },
+  { to: "/faq", key: "footer.faq" },
+  { to: "/databronnen", key: "footer.dataSources" },
+  { to: "/privacy", key: "footer.privacy" },
+  { to: "/voorwaarden", key: "footer.terms" },
 ]
 
 export default function Footer() {
+  const { t } = useTranslation()
   return (
     <footer className="border-t border-slate-900 py-6 text-center text-xs text-slate-600">
       <nav className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mb-3 px-4">
-        {LINKS.map((l) => (
+        {LINK_KEYS.map((l) => (
           <Link key={l.to} to={l.to} className="hover:text-slate-400">
-            {l.label}
+            {t(l.key)}
           </Link>
         ))}
       </nav>
-      <p>Exo Index — fictief handelsplatform, geen echte grondeigendom. Atmosferische data: exoplanet.eu, CC BY 4.0.</p>
+      <p>{t("footer.disclaimer")}</p>
     </footer>
   )
 }

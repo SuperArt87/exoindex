@@ -1,0 +1,297 @@
+{
+  "nav": {
+    "catalog": "Catalog",
+    "howItWorks": "How it works",
+    "faq": "FAQ",
+    "portfolio": "Portfolio",
+    "login": "Log in",
+    "register": "Register",
+    "logout": "Log out",
+    "menu": "Menu"
+  },
+  "footer": {
+    "about": "About us",
+    "howItWorks": "How it works",
+    "faq": "FAQ",
+    "dataSources": "Data sources",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "disclaimer": "Exo Index — fictional trading platform, no real land ownership. Atmospheric data: exoplanet.eu, CC BY 4.0."
+  },
+  "common": {
+    "loading": "Loading...",
+    "busy": "Working...",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "home": {
+    "title": "Trade the most promising exoplanets in the galaxy",
+    "subtitle": "Exo Index is a fictional trading platform where you collect plots on discovered exoplanets, valued using a scientifically grounded index — from habitability to resource potential.",
+    "ctaCatalog": "View the catalog",
+    "ctaHowItWorks": "How does it work?",
+    "features": [
+      { "title": "Scientifically grounded", "body": "Every planet gets a habitability and resource score based on real data from the NASA Exoplanet Archive and exoplanet.eu — no guesswork, no black box." },
+      { "title": "Transparent valuation", "body": "Market value is built from clearly separated layers: science, market sentiment, and supply/demand. You can always see why a planet became more or less expensive." },
+      { "title": "100% fictional, zero risk", "body": "You trade in closed platform credits, not real money or real land ownership. Discover, collect, and build a portfolio with no financial risk." }
+    ],
+    "bottomTitle": "From Earth-sized rocky planets to Hot Jupiters",
+    "bottomBody": "Thousands of planets, each with its own habitability and resource score, biosignature status, and live market value. Start free as an Explorer, or unlock more as a Prospector or Landbaron.",
+    "bottomCta": "Create a free account →"
+  },
+  "howItWorks": {
+    "title": "How does Exo Index work?",
+    "intro": "Every planet in the catalog gets four independent scores and a market value built from clearly separated layers. No black box: the valuation can always be traced back to real astronomical data.",
+    "scoresTitle": "The four scores",
+    "scores": [
+      { "name": "Earth Similarity Index (ESI)", "body": "An established scientific formula (Schulze-Makuch et al., 2011) expressing how physically similar a planet is to Earth, based on radius, density, escape velocity, and equilibrium temperature. Note: Earth itself doesn't score an exact 1.0 — we use the same calculated equilibrium temperature for every planet instead of Earth's actual surface temperature, for a fair comparison." },
+      { "name": "Habitability score (0-100)", "body": "Our own composite score, separate from the ESI. Weighs factors including: location in the habitable zone, star type, mass, orbital eccentricity, rotation state, atmosphere density, magnetosphere, and detected molecules. Molecules weigh in contextually — water on a hot gas giant means something very different than water and oxygen together on a temperate rocky planet." },
+      { "name": "Resource score (0-100)", "body": "Completely independent of habitability. Based on density (metal-rich core indicator), planet type, tectonic activity, and magnetosphere strength. A scorching hot gas giant can have a high resource score while having a low habitability score." },
+      { "name": "Confidence score", "body": "The percentage of the score based on real measurements rather than assumptions. What hasn't been measured stays unknown — we never guess a neutral-looking value that reads as fact. A planet with a richly characterized spectrum (multiple detected molecules) gets a higher confidence than a planet with just a single loose detection." }
+    ],
+    "valueTitle": "How the market value is determined",
+    "valueIntro": "A planet's final price is its scientific base value, multiplied by market sentiment and supply/demand. Three layers, each with its own rhythm of change, instead of one opaque formula:",
+    "valueLayers": [
+      { "name": "1. Scientific base value", "body": "Combines habitability and resource score (each worth half), with a scarcity premium for planets closer to Earth and a discount for low confidence. Only changes with new astronomical measurements." },
+      { "name": "2. Market sentiment", "body": "A macro layer that reacts to news — space missions, technological breakthroughs, general market climate. Effects decay over time (half-life), just as real market news slowly fades from memory." },
+      { "name": "3. Supply and demand", "body": "The final layer reacts to activity within the platform itself: many buyers push the price up, many sellers push it down — capped so a single large transaction can't send the price off the rails." }
+    ],
+    "biosigTitle": "Biosignature candidates",
+    "biosigBody": "Some planets get a biosignature badge: oxygen together with water or methane, detected on a temperate rocky planet in the habitable zone. This is a scientifically interesting signal — <0>not proof of life</0>. Known explanations without biology exist, such as photodissociation around red dwarf stars."
+  },
+  "about": {
+    "title": "About Exo Index",
+    "intro": "Exo Index is a fantasy trading platform where you collect plots on exoplanets and solar system planets, valued by a scientifically grounded index instead of chance.",
+    "section1Title": "No real land ownership",
+    "section1Body": "Everything on Exo Index is fictional. Under the 1967 Outer Space Treaty, no country or individual can make ownership claims on celestial bodies — buying a \"plot\" on Exo Index therefore does not grant any real, legally enforceable land ownership in any way. You're collecting a fictional possession within a game, nothing more and nothing less.",
+    "section2Title": "Closed credits, not real money",
+    "section2Body": "You trade with platform credits that you earn or purchase on Exo Index. These credits are not exchangeable for real money and have no value outside the platform. Exo Index is not a securities or investment product and offers no financial return.",
+    "section3Title": "How we keep it running",
+    "section3Body": "Exo Index runs on a freemium model: start free as an <0>Explorer</0>, with optional upgrades to <1>Prospector</1> or <2>Landbaron</2> for extra functionality, plus optional cosmetic extras. That keeps the core of the platform free to access.",
+    "section4Title": "Why we're building this",
+    "section4Body": "There's a wealth of publicly available exoplanet data that stays out of reach for most people, locked behind scientific tables. Exo Index makes that data tangible and playful, without doing violence to the science — every score can be traced back to real measurements. Read more about the scoring method on the <0>How it works</0> page."
+  },
+  "faq": {
+    "title": "Frequently asked questions",
+    "items": [
+      { "q": "Am I really buying a piece of an exoplanet?", "a": "No. Exo Index is entirely fictional entertainment. Under the 1967 Outer Space Treaty, no one can make ownership claims on celestial bodies. You're collecting a digital game object, not real land." },
+      { "q": "Can I convert credits into real money?", "a": "No. Platform credits are closed: they can only be used within Exo Index and have no value or exchange rate outside the platform." },
+      { "q": "Where does the planet data come from?", "a": "Mainly from the NASA Exoplanet Archive and exoplanet.eu, supplemented with JWST detections. See the Data Sources page for the full overview." },
+      { "q": "What does the biosignature badge mean?", "a": "It appears for a specific combination of detected molecules (oxygen with water or methane) on a temperate rocky planet in the habitable zone. It's a scientifically interesting signal, not proof of life — explanations without biology also exist." },
+      { "q": "Why does a planet's price change?", "a": "Market value combines three layers: the scientific base value (changes with new measurements), market sentiment (reacts to news and fades over time), and supply/demand (reacts to buying and selling activity on the platform). See How it works for the full explanation." },
+      { "q": "What's the difference between Explorer, Prospector, and Landbaron?", "a": "Explorer is the free tier that lets you get started right away. Prospector and Landbaron are paid tiers that unlock extra functionality. All tiers use the same scientific valuation model." },
+      { "q": "Does Earth score exactly 1.0?", "a": "No, deliberately not. The Earth Similarity Index uses the same calculated equilibrium temperature for every planet instead of Earth's actual surface temperature, keeping the comparison between planets fair. As a result, Earth itself scores just under 1.0." }
+    ]
+  },
+  "dataSources": {
+    "title": "Data sources",
+    "intro": "Every score on Exo Index can be traced back to publicly available astronomical data. Below are the sources we use, and what for.",
+    "sources": [
+      { "name": "NASA Exoplanet Archive", "role": "Primary source for physical, orbital, and stellar data (the pscomppars table). Updated weekly.", "license": "Publicly available (NASA, public domain)." },
+      { "name": "exoplanet.eu", "role": "Primary source for detected molecules and magnetic field data.", "license": "CC BY 4.0 — commercial use permitted with attribution." },
+      { "name": "JWST molecule data", "role": "Supplementary source for the newest molecular detections not yet processed into exoplanet.eu.", "license": "Publicly available research data." },
+      { "name": "Solar system data", "role": "For the eight planets of our own solar system we use a static, manually curated dataset — after all, this doesn't change.", "license": "Compiled from publicly available NASA data." }
+    ],
+    "footerNote": "Atmospheric data: exoplanet.eu, CC BY 4.0. Exo Index is not affiliated with or endorsed by NASA or exoplanet.eu."
+  },
+  "privacy": {
+    "title": "Privacy policy",
+    "disclaimer": "This is a draft version, not yet legally reviewed. Before Exo Index goes live with real user data, this document will be reviewed by a lawyer.",
+    "sections": [
+      { "title": "What data we collect", "body": "We deliberately keep this to a minimum: username, email address, your account tier, and your credit balance. No superfluous fields, no data we don't need to run the platform." },
+      { "title": "Why we collect it", "body": "To manage your account, track your portfolio and transactions, and — if you consent — to keep you informed about new features." },
+      { "title": "Your rights", "body": "You have the right to access and port your data, and the right to be forgotten. On a deletion request, we anonymize your personal data; transaction data is then retained only in anonymized form, to the extent legally required." },
+      { "title": "Retention period", "body": "We retain account data for as long as your account is active. For prolonged inactivity we apply a retention period yet to be determined, which will be set out in a final version of this policy." },
+      { "title": "Cookies", "body": "We only use functional cookies needed to keep you logged in. Before we add analytics or marketing cookies, we'll ask for your explicit consent first." },
+      { "title": "Questions", "body": "Have questions about your data or want to exercise any of the rights above? Contact us via the email address linked to your account." }
+    ]
+  },
+  "terms": {
+    "title": "Terms of service",
+    "disclaimer": "This is a draft version, not yet legally reviewed. Before Exo Index goes live with real users, this document will be reviewed by a lawyer.",
+    "sections": [
+      { "title": "1. Nature of the platform", "body": "Exo Index is a fictional entertainment platform. Plots, planets, and portfolios are digital game objects with no legal value or ownership right. Nothing on this platform constitutes an offer to buy or sell real land, securities, or financial products." },
+      { "title": "2. Credits", "body": "Platform credits can only be used within Exo Index. They are not exchangeable for real money, not transferable outside the platform, and do not represent an investment or financial return." },
+      { "title": "3. Accounts and tiers", "body": "You can create a free Explorer account. Paid tiers (Prospector, Landbaron) and any cosmetic purchases unlock extra functionality, but change nothing about the fictional nature of the platform." },
+      { "title": "4. Scientific data", "body": "Scores and valuations are based on publicly available astronomical data and our own valuation model. New measurements can change existing scores. We do our best to keep the data current, but make no guarantee of completeness or accuracy." },
+      { "title": "5. Conduct on the platform", "body": "Abuse of the platform — such as attempts to manipulate price formation through automated or fraudulent transactions — may lead to account suspension." },
+      { "title": "6. Changes", "body": "We may amend these terms as the platform evolves. We'll let you know via your account for significant changes." }
+    ]
+  },
+  "catalog": {
+    "title": "Planet catalog",
+    "count_one": "{{count}} planet",
+    "count_other": "{{count}} planets",
+    "subtitle": "a scientifically grounded valuation index.",
+    "searchPlaceholder": "Search by name or star...",
+    "types": {
+      "all": "All types",
+      "rocky": "Rocky",
+      "super_earth": "Super-Earth",
+      "sub_neptune": "Sub-Neptune",
+      "ice_giant": "Ice giant",
+      "gas_giant": "Gas giant"
+    },
+    "hz": {
+      "all": "HZ: all",
+      "inside": "In habitable zone",
+      "outside": "Outside habitable zone"
+    },
+    "molecules": {
+      "all": "Molecules: all",
+      "detected": "Molecules detected",
+      "notDetected": "No molecules detected"
+    },
+    "orderings": {
+      "-habitability_score": "Habitability (high → low)",
+      "habitability_score": "Habitability (low → high)",
+      "-resource_score": "Resources (high → low)",
+      "resource_score": "Resources (low → high)",
+      "distance_from_earth_ly": "Distance (near → far)"
+    },
+    "checkboxes": {
+      "biosignature": "Biosignature candidates only",
+      "atmosphere": "Atmosphere",
+      "h2o": "H2O detected",
+      "carbon": "C or CO2 detected"
+    },
+    "error": "Could not load planets: {{message}}",
+    "empty": "No planets found with these filters.",
+    "prev": "Previous",
+    "next": "Next",
+    "page": "Page {{page}}"
+  },
+  "planetCard": {
+    "habitability": "Habitability",
+    "resources": "Resources",
+    "solarSystem": "Solar system",
+    "lightYears": "{{value}} ly"
+  },
+  "planetDetail": {
+    "notMeasured": "not measured",
+    "rotationStates": {
+      "free": "Free",
+      "resonant": "Resonant",
+      "synchronous": "Synchronous (tidally locked)"
+    },
+    "buyError": "Purchase failed.",
+    "sellError": "Sale failed.",
+    "notFound": "Planet not found.",
+    "backToCatalog": "Back to catalog",
+    "system": "System {{name}}",
+    "marketValuePerUnit": "Market value per unit",
+    "creditsAmount": "{{value}} credits",
+    "notSyncedYet": "not synced yet",
+    "basisSentimentDemand": "base {{basis}} × sentiment {{sentiment}}× × demand {{demand}}×",
+    "loginToTrade": "Log in to trade",
+    "quantity": "Quantity",
+    "buy": "Buy",
+    "quantityOwned": "Quantity (you own {{count}}x)",
+    "all": "all",
+    "sell": "Sell",
+    "sections": {
+      "identification": "Identification",
+      "star": "Star",
+      "orbit": "Orbit & system",
+      "physical": "Physical",
+      "habitabilityContext": "Habitability context",
+      "atmosphere": "Atmosphere & composition",
+      "scores": "Scores"
+    },
+    "fields": {
+      "discoveredIn": "Discovered in",
+      "method": "Method",
+      "solarSystem": "Solar system",
+      "spectralType": "Spectral type",
+      "temperature": "Temperature",
+      "radius": "Radius",
+      "mass": "Mass",
+      "age": "Age",
+      "type": "Type",
+      "semiMajorAxis": "Semi-major axis",
+      "eccentricity": "Eccentricity",
+      "orbitalPeriod": "Orbital period",
+      "rotation": "Rotation",
+      "moons": "Moons",
+      "rings": "Rings",
+      "massEarth": "Mass",
+      "radiusEarth": "Radius",
+      "density": "Density",
+      "gravity": "Gravity",
+      "equilibriumTemp": "Equilibrium temperature",
+      "distance": "Distance",
+      "habitableZone": "Habitable zone",
+      "hzBounds": "HZ bounds",
+      "atmosphereDensity": "Atmosphere density",
+      "molecules": "Molecules",
+      "magnetosphere": "Magnetosphere",
+      "tectonics": "Tectonics",
+      "esi": "ESI (Earth Similarity)",
+      "habitability": "Habitability",
+      "resources": "Resources"
+    },
+    "days": "days",
+    "inSolarSystem": "In the solar system",
+    "lightYearsShort": "ly",
+    "inside": "Inside",
+    "outside": "Outside",
+    "dataSourceNote": "Atmospheric data: exoplanet.eu, CC BY 4.0."
+  },
+  "biosignature": {
+    "badge": "Biosignature candidate",
+    "tooltip": "O2 + H2O/CH4 detected -- not proof of life",
+    "body": "Both O2 and H2O or CH4 have been detected on this planet, in a temperate, rocky context — scientifically interesting, but <0>not proof of life</0>. Known abiotic (non-biological) explanations exist for such combinations, for example photodissociation of water around red dwarf stars."
+  },
+  "dataCompleteness": {
+    "unknown": "Data unknown",
+    "measured": "{{value}}% measured"
+  },
+  "priceHistory": {
+    "title": "Value history",
+    "ranges": { "week": "Week", "month": "Month", "year": "Year" },
+    "noData": "Not enough history yet for this period.",
+    "noDataHint": "This platform has only been running for a short while — the chart fills in as market value gets recalculated more often."
+  },
+  "login": {
+    "title": "Log in",
+    "username": "Username",
+    "password": "Password",
+    "submit": "Log in",
+    "error": "Login failed.",
+    "noAccount": "Don't have an account yet?",
+    "registerLink": "Register"
+  },
+  "register": {
+    "title": "Create an account",
+    "subtitle": "You start with 10,000 credits (Explorer tier, free).",
+    "username": "Username",
+    "email": "Email",
+    "password": "Password",
+    "minLength": "At least 8 characters.",
+    "submit": "Register",
+    "error": "Registration failed.",
+    "hasAccount": "Already have an account?",
+    "loginLink": "Log in"
+  },
+  "portfolio": {
+    "title": "Portfolio",
+    "balance": "Balance",
+    "holdings": "Holdings",
+    "empty": "You don't own any planets yet.",
+    "viewCatalog": "View the catalog",
+    "avgPurchasePrice": "{{quantity}}x · avg. purchase price {{price}}",
+    "sellAll": "Sell all",
+    "sellError": "Sale failed.",
+    "transactions": "Transaction history",
+    "noTransactions": "No transactions yet.",
+    "table": {
+      "planet": "Planet",
+      "action": "Action",
+      "quantity": "Quantity",
+      "pricePerUnit": "Price/unit",
+      "total": "Total",
+      "date": "Date",
+      "buy": "Buy",
+      "sell": "Sell"
+    }
+  }
+}

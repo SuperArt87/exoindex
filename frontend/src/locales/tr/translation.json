@@ -1,0 +1,296 @@
+{
+  "nav": {
+    "catalog": "Katalog",
+    "howItWorks": "Nasıl çalışır",
+    "faq": "SSS",
+    "portfolio": "Portföy",
+    "login": "Giriş yap",
+    "register": "Kaydol",
+    "logout": "Çıkış yap",
+    "menu": "Menü"
+  },
+  "footer": {
+    "about": "Hakkımızda",
+    "howItWorks": "Nasıl çalışır",
+    "faq": "SSS",
+    "dataSources": "Veri kaynakları",
+    "privacy": "Gizlilik",
+    "terms": "Koşullar",
+    "disclaimer": "Exo Index — kurgusal bir ticaret platformudur, gerçek arazi mülkiyeti içermez. Atmosfer verileri: exoplanet.eu, CC BY 4.0."
+  },
+  "common": {
+    "loading": "Yükleniyor...",
+    "busy": "İşleniyor...",
+    "yes": "Evet",
+    "no": "Hayır"
+  },
+  "home": {
+    "title": "Galaksinin en umut verici ötegezegenleriyle ticaret yapın",
+    "subtitle": "Exo Index, keşfedilen ötegezegenler üzerinde parseller topladığınız, bilimsel temelli bir endeksle değerlendirilen kurgusal bir ticaret platformudur — yaşanabilirlikten kaynak potansiyeline kadar.",
+    "ctaCatalog": "Kataloğu görüntüle",
+    "ctaHowItWorks": "Nasıl çalışır?",
+    "features": [
+      { "title": "Bilimsel temelli", "body": "Her gezegen, NASA Exoplanet Archive ve exoplanet.eu'dan alınan gerçek verilere dayanan bir yaşanabilirlik ve kaynak puanı alır — tahmin yok, kara kutu yok." },
+      { "title": "Şeffaf değerleme", "body": "Piyasa değeri açıkça ayrılmış katmanlardan oluşturulur: bilim, piyasa duyarlılığı ve arz/talep. Bir gezegenin neden daha pahalı veya daha ucuz hâle geldiğini her zaman görebilirsiniz." },
+      { "title": "%100 kurgusal, sıfır risk", "body": "Gerçek para veya gerçek arazi mülkiyeti değil, kapalı platform kredileriyle ticaret yaparsınız. Finansal risk almadan keşfedin, toplayın ve bir portföy oluşturun." }
+    ],
+    "bottomTitle": "Dünya boyutundaki kayalık gezegenlerden sıcak Jüpiterlere",
+    "bottomBody": "Her biri kendi yaşanabilirlik ve kaynak puanına, biyoimza durumuna ve canlı piyasa değerine sahip binlerce gezegen. Ücretsiz Explorer olarak başlayın, veya Prospector ya da Toprak Baronu olarak daha fazlasının kilidini açın.",
+    "bottomCta": "Ücretsiz hesap oluştur →"
+  },
+  "howItWorks": {
+    "title": "Exo Index nasıl çalışır?",
+    "intro": "Katalogdaki her gezegen dört bağımsız puan ve açıkça ayrılmış katmanlardan oluşturulmuş bir piyasa değeri alır. Kara kutu yok: değerleme her zaman gerçek astronomik verilere kadar izlenebilir.",
+    "scoresTitle": "Dört puan",
+    "scores": [
+      { "name": "Dünya Benzerlik Endeksi (ESI)", "body": "Yarıçap, yoğunluk, kurtulma hızı ve denge sıcaklığına dayanarak bir gezegenin Dünya'ya fiziksel olarak ne kadar benzediğini ifade eden yerleşik bir bilimsel formül (Schulze-Makuch ve ark., 2011). Not: Dünya'nın kendisi tam olarak 1,0 puan almaz — adil bir karşılaştırma için Dünya'nın gerçek yüzey sıcaklığı yerine tüm gezegenler için aynı hesaplanmış denge sıcaklığını kullanıyoruz." },
+      { "name": "Yaşanabilirlik puanı (0-100)", "body": "ESI'den ayrı, kendi bileşik puanımız. Şunları ağırlıklandırır: yaşanabilir bölgedeki konum, yıldız türü, kütle, yörünge dışmerkezliği, dönüş durumu, atmosfer yoğunluğu, manyetosfer ve tespit edilen moleküller. Moleküller bağlama göre ağırlıklandırılır — sıcak bir gaz devinde su, ılıman bir kayalık gezegende su ve oksijenin birlikte bulunmasından çok farklı bir anlam taşır." },
+      { "name": "Kaynak puanı (0-100)", "body": "Yaşanabilirlikten tamamen bağımsızdır. Yoğunluğa (metal açısından zengin çekirdek göstergesi), gezegen türüne, tektonik faaliyete ve manyetosfer gücüne dayanır. Kızgın sıcak bir gaz devi bu nedenle yüksek bir kaynak puanına sahipken aynı zamanda düşük bir yaşanabilirlik puanına sahip olabilir." },
+      { "name": "Güven puanı", "body": "Puanın varsayımlar yerine gerçek ölçümlere dayanan yüzdesi. Ölçülmemiş olan bilinmeyen kalır — gerçek gibi görünen tarafsız bir değeri asla tahmin etmeyiz. Zengin bir şekilde karakterize edilmiş bir tayfa sahip bir gezegen (birden fazla tespit edilen molekül), yalnızca tek bir gevşek tespit içeren bir gezegenden daha yüksek bir güven puanı alır." }
+    ],
+    "valueTitle": "Piyasa değeri nasıl belirlenir",
+    "valueIntro": "Bir gezegenin nihai fiyatı, piyasa duyarlılığı ve arz/talep ile çarpılan bilimsel temel değeridir. Belirsiz tek bir formül yerine, her biri kendi değişim ritmine sahip üç katman:",
+    "valueLayers": [
+      { "name": "1. Bilimsel temel değer", "body": "Yaşanabilirlik ve kaynak puanını birleştirir (her biri yarı ağırlıkta), Dünya'ya daha yakın gezegenler için bir kıtlık primi ve düşük güven için bir indirimle. Yalnızca yeni astronomik ölçümlerle değişir." },
+      { "name": "2. Piyasa duyarlılığı", "body": "Haberlere tepki veren bir makro katman — uzay görevleri, teknolojik atılımlar, genel piyasa iklimi. Etkiler zamanla azalır (yarı ömür), tıpkı gerçek piyasa haberlerinin hafızadan yavaşça silinmesi gibi." },
+      { "name": "3. Arz ve talep", "body": "Son katman, platformun kendi içindeki etkinliğe tepki verir: çok sayıda alıcı fiyatı yukarı iter, çok sayıda satıcı aşağı iter — tek bir büyük işlemin fiyatı kontrolden çıkarmaması için bir üst sınırla." }
+    ],
+    "biosigTitle": "Biyoimza adayları",
+    "biosigBody": "Bazı gezegenler bir biyoimza rozeti alır: yaşanabilir bölgedeki ılıman, kayalık bir gezegende su veya metanla birlikte tespit edilen oksijen. Bu bilimsel açıdan ilginç bir sinyaldir — <0>yaşam kanıtı değildir</0>. Kırmızı cücelerin etrafındaki fotodissosiyasyon gibi, biyoloji içermeyen bilinen açıklamalar mevcuttur."
+  },
+  "about": {
+    "title": "Exo Index Hakkında",
+    "intro": "Exo Index, ötegezegenler ve güneş sistemi gezegenleri üzerinde, şans yerine bilimsel temelli bir endeksle değerlendirilen parseller topladığınız fantastik bir ticaret platformudur.",
+    "section1Title": "Gerçek arazi mülkiyeti yok",
+    "section1Body": "Exo Index'teki her şey kurgusaldır. 1967 Dış Uzay Antlaşması uyarınca hiçbir ülke veya birey gök cisimleri üzerinde mülkiyet iddiasında bulunamaz — bu nedenle Exo Index'te bir \"parsel\" satın almak hiçbir şekilde gerçek, yasal olarak uygulanabilir bir arazi mülkiyeti sağlamaz. Bir oyun içinde kurgusal bir mülk topluyorsunuz, ne fazlası ne de azı.",
+    "section2Title": "Kapalı krediler, gerçek para değil",
+    "section2Body": "Exo Index'te kazandığınız veya satın aldığınız platform kredileriyle ticaret yaparsınız. Bu krediler gerçek paraya çevrilemez ve platform dışında hiçbir değeri yoktur. Exo Index bir menkul kıymet veya yatırım ürünü değildir ve finansal getiri sunmaz.",
+    "section3Title": "Bunu nasıl ayakta tutuyoruz",
+    "section3Body": "Exo Index, freemium bir modelle çalışır: ücretsiz olarak <0>Explorer</0> olarak başlayın, isteğe bağlı olarak <1>Prospector</1> veya <2>Toprak Baronu'na</2> yükseltin ve ekstra işlevsellik kazanın, ayrıca isteğe bağlı kozmetik ekstralar. Böylece platformun çekirdeği ücretsiz erişilebilir kalır.",
+    "section4Title": "Bunu neden yapıyoruz",
+    "section4Body": "Çoğu insan için bilimsel tablolar arkasında erişilemez kalan, kamuya açık zengin bir ötegezegen verisi hazinesi var. Exo Index, bilime zarar vermeden bu verileri somut ve eğlenceli hâle getirir — her puan gerçek ölçümlere kadar izlenebilir. Puanlama yöntemi hakkında daha fazla bilgiyi <0>Nasıl çalışır</0> sayfasında okuyun."
+  },
+  "faq": {
+    "title": "Sıkça sorulan sorular",
+    "items": [
+      { "q": "Gerçekten bir ötegezegenin parçasını mı satın alıyorum?", "a": "Hayır. Exo Index tamamen kurgusal bir eğlencedir. 1967 Dış Uzay Antlaşması uyarınca hiç kimse gök cisimleri üzerinde mülkiyet iddiasında bulunamaz. Gerçek bir arazi değil, dijital bir oyun nesnesi topluyorsunuz." },
+      { "q": "Kredileri gerçek paraya çevirebilir miyim?", "a": "Hayır. Platform kredileri kapalıdır: yalnızca Exo Index içinde kullanılabilir ve platform dışında ne değeri ne de döviz kuru vardır." },
+      { "q": "Gezegen verileri nereden geliyor?", "a": "Öncelikle NASA Exoplanet Archive ve exoplanet.eu'dan, JWST tespitleriyle desteklenmiş şekilde. Tam genel bakış için Veri kaynakları sayfasına bakın." },
+      { "q": "Biyoimza rozeti ne anlama gelir?", "a": "Yaşanabilir bölgedeki ılıman, kayalık bir gezegende tespit edilen moleküllerin (su veya metanla birlikte oksijen) belirli bir kombinasyonunda görünür. Bilimsel açıdan ilginç bir sinyaldir, yaşam kanıtı değildir — biyoloji içermeyen açıklamalar da mevcuttur." },
+      { "q": "Bir gezegenin fiyatı neden değişir?", "a": "Piyasa değeri üç katmanı birleştirir: bilimsel temel değer (yeni ölçümlerle değişir), piyasa duyarlılığı (haberlere tepki verir ve zamanla azalır) ve arz/talep (platformdaki alım satım etkinliğine tepki verir). Tam açıklama için Nasıl çalışır'a bakın." },
+      { "q": "Explorer, Prospector ve Toprak Baronu arasındaki fark nedir?", "a": "Explorer, hemen başlamanızı sağlayan ücretsiz katmandır. Prospector ve Toprak Baronu, ekstra işlevselliğin kilidini açan ücretli katmanlardır. Tüm katmanlar aynı bilimsel değerleme modelini kullanır." },
+      { "q": "Dünya tam olarak 1,0 puan alır mı?", "a": "Hayır, bilerek almaz. Dünya Benzerlik Endeksi, gezegenler arasındaki karşılaştırmayı adil tutmak için Dünya'nın gerçek yüzey sıcaklığı yerine tüm gezegenler için aynı hesaplanmış denge sıcaklığını kullanır. Sonuç olarak Dünya'nın kendisi 1,0'ın hemen altında bir puan alır." }
+    ]
+  },
+  "dataSources": {
+    "title": "Veri kaynakları",
+    "intro": "Exo Index'teki her puan, kamuya açık astronomik verilere kadar izlenebilir. Aşağıda kullandığımız kaynaklar ve ne için kullanıldıkları yer alıyor.",
+    "sources": [
+      { "name": "NASA Exoplanet Archive", "role": "Fiziksel, yörüngesel ve yıldız verileri için ana kaynak (pscomppars tablosu). Haftalık olarak güncellenir.", "license": "Kamuya açık (NASA, kamu malı)." },
+      { "name": "exoplanet.eu", "role": "Tespit edilen moleküller ve manyetik alan verileri için birincil kaynak.", "license": "CC BY 4.0 — atıfla ticari kullanıma izin verilir." },
+      { "name": "JWST molekül verileri", "role": "Henüz exoplanet.eu'da işlenmemiş en yeni moleküler tespitler için ek kaynak.", "license": "Kamuya açık araştırma verileri." },
+      { "name": "Güneş sistemi verileri", "role": "Kendi güneş sistemimizdeki sekiz gezegen için statik, elle derlenmiş bir veri seti kullanıyoruz — sonuçta bu değişmez.", "license": "Kamuya açık NASA verilerinden derlenmiştir." }
+    ],
+    "footerNote": "Atmosfer verileri: exoplanet.eu, CC BY 4.0. Exo Index, NASA veya exoplanet.eu ile bağlantılı değildir ve onlar tarafından onaylanmamıştır."
+  },
+  "privacy": {
+    "title": "Gizlilik politikası",
+    "disclaimer": "Bu, henüz yasal olarak incelenmemiş bir taslak sürümdür. Exo Index gerçek kullanıcı verileriyle yayına girmeden önce, bu belge bir avukat tarafından incelenecektir.",
+    "sections": [
+      { "title": "Hangi verileri topluyoruz", "body": "Kasıtlı olarak minimumla sınırlı kalıyoruz: kullanıcı adı, e-posta adresi, hesap katmanınız ve kredi bakiyeniz. Gereksiz alan yok, platformu çalıştırmak için ihtiyacımız olmayan veri yok." },
+      { "title": "Neden topluyoruz", "body": "Hesabınızı yönetmek, portföyünüzü ve işlemlerinizi takip etmek ve — onay verirseniz — sizi yeni özellikler hakkında bilgilendirmek için." },
+      { "title": "Haklarınız", "body": "Verilerinize erişim ve taşınabilirlik hakkına ve unutulma hakkına sahipsiniz. Bir silme talebinde, kişisel verilerinizi anonimleştiririz; işlem verileri bu durumda yasal olarak gerekli olduğu ölçüde yalnızca anonimleştirilmiş biçimde saklanır." },
+      { "title": "Saklama süresi", "body": "Hesap verilerini, hesabınız aktif olduğu sürece saklarız. Uzun süreli hareketsizlikte, bu politikanın nihai bir sürümünde belirlenecek olan henüz belirlenmemiş bir saklama süresi uygularız." },
+      { "title": "Çerezler", "body": "Yalnızca sizi giriş yapmış tutmak için gerekli işlevsel çerezleri kullanırız. Analiz veya pazarlama çerezleri eklemeden önce, önce açık onayınızı isteyeceğiz." },
+      { "title": "Sorular", "body": "Verileriniz hakkında sorularınız mı var veya yukarıdaki haklardan birini mi kullanmak istiyorsunuz? Hesabınıza bağlı e-posta adresi üzerinden bizimle iletişime geçin." }
+    ]
+  },
+  "terms": {
+    "title": "Kullanım koşulları",
+    "disclaimer": "Bu, henüz yasal olarak incelenmemiş bir taslak sürümdür. Exo Index gerçek kullanıcılarla yayına girmeden önce, bu belge bir avukat tarafından incelenecektir.",
+    "sections": [
+      { "title": "1. Platformun niteliği", "body": "Exo Index kurgusal bir eğlence platformudur. Parseller, gezegenler ve portföyler, yasal değeri veya mülkiyet hakkı olmayan dijital oyun nesneleridir. Bu platformdaki hiçbir şey, gerçek arazi, menkul kıymet veya finansal ürünlerin alım veya satım teklifi teşkil etmez." },
+      { "title": "2. Krediler", "body": "Platform kredileri yalnızca Exo Index içinde kullanılabilir. Gerçek paraya çevrilemez, platform dışına aktarılamaz ve bir yatırım veya finansal getiri temsil etmez." },
+      { "title": "3. Hesaplar ve katmanlar", "body": "Ücretsiz bir Explorer hesabı oluşturabilirsiniz. Ücretli katmanlar (Prospector, Toprak Baronu) ve olası kozmetik satın almalar ekstra işlevselliğin kilidini açar, ancak platformun kurgusal niteliğinde hiçbir şeyi değiştirmez." },
+      { "title": "4. Bilimsel veriler", "body": "Puanlar ve değerlemeler, kamuya açık astronomik verilere ve kendi değerleme modelimize dayanır. Yeni ölçümler mevcut puanları değiştirebilir. Verileri güncel tutmak için elimizden geleni yapıyoruz, ancak eksiksizlik veya doğruluk konusunda garanti vermiyoruz." },
+      { "title": "5. Platformdaki davranış", "body": "Otomatik veya sahte işlemler yoluyla fiyat oluşumunu manipüle etme girişimleri gibi platformun kötüye kullanılması, hesabınızın askıya alınmasına yol açabilir." },
+      { "title": "6. Değişiklikler", "body": "Platform geliştikçe bu koşulları değiştirebiliriz. Önemli değişikliklerde sizi hesabınız üzerinden bilgilendireceğiz." }
+    ]
+  },
+  "catalog": {
+    "title": "Gezegen kataloğu",
+    "count_other": "{{count}} gezegen",
+    "subtitle": "bilimsel temelli değerleme endeksi.",
+    "searchPlaceholder": "İsim veya yıldıza göre ara...",
+    "types": {
+      "all": "Tüm türler",
+      "rocky": "Kayalık",
+      "super_earth": "Süper-Dünya",
+      "sub_neptune": "Alt-Neptün",
+      "ice_giant": "Buz devi",
+      "gas_giant": "Gaz devi"
+    },
+    "hz": {
+      "all": "YB: tümü",
+      "inside": "Yaşanabilir bölgede",
+      "outside": "Yaşanabilir bölge dışında"
+    },
+    "molecules": {
+      "all": "Moleküller: tümü",
+      "detected": "Molekül tespit edildi",
+      "notDetected": "Molekül tespit edilmedi"
+    },
+    "orderings": {
+      "-habitability_score": "Yaşanabilirlik (yüksek → düşük)",
+      "habitability_score": "Yaşanabilirlik (düşük → yüksek)",
+      "-resource_score": "Kaynaklar (yüksek → düşük)",
+      "resource_score": "Kaynaklar (düşük → yüksek)",
+      "distance_from_earth_ly": "Mesafe (yakın → uzak)"
+    },
+    "checkboxes": {
+      "biosignature": "Yalnızca biyoimza adayları",
+      "atmosphere": "Atmosfer",
+      "h2o": "H2O tespit edildi",
+      "carbon": "C veya CO2 tespit edildi"
+    },
+    "error": "Gezegenler yüklenemedi: {{message}}",
+    "empty": "Bu filtrelerle gezegen bulunamadı.",
+    "prev": "Önceki",
+    "next": "Sonraki",
+    "page": "Sayfa {{page}}"
+  },
+  "planetCard": {
+    "habitability": "Yaşanabilirlik",
+    "resources": "Kaynaklar",
+    "solarSystem": "Güneş sistemi",
+    "lightYears": "{{value}} ışık yılı"
+  },
+  "planetDetail": {
+    "notMeasured": "ölçülmedi",
+    "rotationStates": {
+      "free": "Serbest",
+      "resonant": "Rezonanslı",
+      "synchronous": "Senkron (gelgit kilitli)"
+    },
+    "buyError": "Satın alma başarısız oldu.",
+    "sellError": "Satış başarısız oldu.",
+    "notFound": "Gezegen bulunamadı.",
+    "backToCatalog": "Kataloğa dön",
+    "system": "{{name}} sistemi",
+    "marketValuePerUnit": "Birim başına piyasa değeri",
+    "creditsAmount": "{{value}} kredi",
+    "notSyncedYet": "henüz senkronize edilmedi",
+    "basisSentimentDemand": "temel {{basis}} × duyarlılık {{sentiment}}× × talep {{demand}}×",
+    "loginToTrade": "Ticaret yapmak için giriş yapın",
+    "quantity": "Miktar",
+    "buy": "Satın al",
+    "quantityOwned": "Miktar ({{count}}x sahipsiniz)",
+    "all": "hepsi",
+    "sell": "Sat",
+    "sections": {
+      "identification": "Tanımlama",
+      "star": "Yıldız",
+      "orbit": "Yörünge ve sistem",
+      "physical": "Fiziksel",
+      "habitabilityContext": "Yaşanabilirlik bağlamı",
+      "atmosphere": "Atmosfer ve bileşim",
+      "scores": "Puanlar"
+    },
+    "fields": {
+      "discoveredIn": "Keşfedildiği yıl",
+      "method": "Yöntem",
+      "solarSystem": "Güneş sistemi",
+      "spectralType": "Spektral tür",
+      "temperature": "Sıcaklık",
+      "radius": "Yarıçap",
+      "mass": "Kütle",
+      "age": "Yaş",
+      "type": "Tür",
+      "semiMajorAxis": "Yarı büyük eksen",
+      "eccentricity": "Dışmerkezlik",
+      "orbitalPeriod": "Yörünge periyodu",
+      "rotation": "Dönüş",
+      "moons": "Uydular",
+      "rings": "Halkalar",
+      "massEarth": "Kütle",
+      "radiusEarth": "Yarıçap",
+      "density": "Yoğunluk",
+      "gravity": "Yerçekimi",
+      "equilibriumTemp": "Denge sıcaklığı",
+      "distance": "Mesafe",
+      "habitableZone": "Yaşanabilir bölge",
+      "hzBounds": "YB sınırları",
+      "atmosphereDensity": "Atmosfer yoğunluğu",
+      "molecules": "Moleküller",
+      "magnetosphere": "Manyetosfer",
+      "tectonics": "Tektonik",
+      "esi": "ESI (Dünya benzerliği)",
+      "habitability": "Yaşanabilirlik",
+      "resources": "Kaynaklar"
+    },
+    "days": "gün",
+    "inSolarSystem": "Güneş sisteminde",
+    "lightYearsShort": "ışık yılı",
+    "inside": "İçinde",
+    "outside": "Dışında",
+    "dataSourceNote": "Atmosfer verileri: exoplanet.eu, CC BY 4.0."
+  },
+  "biosignature": {
+    "badge": "Biyoimza adayı",
+    "tooltip": "O2 + H2O/CH4 tespit edildi -- yaşam kanıtı değildir",
+    "body": "Bu gezegende, ılıman, kayalık bir bağlamda hem O2 hem de H2O veya CH4 tespit edildi — bilimsel açıdan ilginç, ancak <0>yaşam kanıtı değildir</0>. Kırmızı cücelerin etrafındaki suyun fotodissosiyasyonu gibi, bu tür kombinasyonlar için bilinen abiyotik (biyolojik olmayan) açıklamalar mevcuttur."
+  },
+  "dataCompleteness": {
+    "unknown": "Veri bilinmiyor",
+    "measured": "%{{value}} ölçüldü"
+  },
+  "priceHistory": {
+    "title": "Değer geçmişi",
+    "ranges": { "week": "Hafta", "month": "Ay", "year": "Yıl" },
+    "noData": "Bu dönem için henüz yeterli geçmiş yok.",
+    "noDataHint": "Bu platform yalnızca kısa bir süredir çalışıyor — piyasa değeri daha sık yeniden hesaplandıkça grafik dolacaktır."
+  },
+  "login": {
+    "title": "Giriş yap",
+    "username": "Kullanıcı adı",
+    "password": "Şifre",
+    "submit": "Giriş yap",
+    "error": "Giriş başarısız oldu.",
+    "noAccount": "Henüz hesabınız yok mu?",
+    "registerLink": "Kaydolun"
+  },
+  "register": {
+    "title": "Hesap oluştur",
+    "subtitle": "10.000 kredi ile başlarsınız (Explorer katmanı, ücretsiz).",
+    "username": "Kullanıcı adı",
+    "email": "E-posta",
+    "password": "Şifre",
+    "minLength": "En az 8 karakter.",
+    "submit": "Kaydol",
+    "error": "Kayıt başarısız oldu.",
+    "hasAccount": "Zaten bir hesabınız var mı?",
+    "loginLink": "Giriş yap"
+  },
+  "portfolio": {
+    "title": "Portföy",
+    "balance": "Bakiye",
+    "holdings": "Varlıklar",
+    "empty": "Henüz hiçbir gezegene sahip değilsiniz.",
+    "viewCatalog": "Kataloğu görüntüle",
+    "avgPurchasePrice": "{{quantity}}x · ort. satın alma fiyatı {{price}}",
+    "sellAll": "Hepsini sat",
+    "sellError": "Satış başarısız oldu.",
+    "transactions": "İşlem geçmişi",
+    "noTransactions": "Henüz işlem yok.",
+    "table": {
+      "planet": "Gezegen",
+      "action": "İşlem",
+      "quantity": "Miktar",
+      "pricePerUnit": "Birim fiyat",
+      "total": "Toplam",
+      "date": "Tarih",
+      "buy": "Alım",
+      "sell": "Satım"
+    }
+  }
+}

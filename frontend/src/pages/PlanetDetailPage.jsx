@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useParams, Link, useNavigate } from "react-router-dom"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { useTranslation } from "react-i18next"
 import { getPlanet, listPlanetsByHost } from "../api/planets"
 import { getPortfolio, buyPlanet, sellPlanet } from "../api/trading"
 import { useAuth } from "../context/AuthContext"
@@ -9,11 +10,7 @@ import BiosignatureBadge from "../components/BiosignatureBadge"
 import SystemOrbitView from "../components/SystemOrbitView"
 import PriceHistoryChart from "../components/PriceHistoryChart"
 import { ApiError } from "../api/client"
-
-function fmt(value, unit = "") {
-  if (value === null || value === undefined) return <span className="text-slate-600">niet gemeten</span>
-  return `${value}${unit}`
-}
+import { formatCredits } from "../i18n/format"
 
 function Section({ title, children }) {
   return (
@@ -33,9 +30,9 @@ function Field({ label, value }) {
   )
 }
 
-const ROTATION_LABELS = { free: "Vrij", resonant: "Resonant", synchronous: "Synchroon (getijdevergrendeld)" }
-
 export default function PlanetDetailPage() {
+  const { t, i18n } = useTranslation()
+  const lang = i18n.resolvedLanguage || i18n.language
   const { id } = useParams()
   const navigate = useNavigate()
   const { user, refreshUser } = useAuth()
@@ -44,6 +41,15 @@ export default function PlanetDetailPage() {
   const [sellQty, setSellQty] = useState("")
   const [actionError, setActionError] = useState(null)
   const [actionMessage, setActionMessage] = useState(null)
+
+  const notMeasured = <span className="text-slate-600">{t("planetDetail.notMeasured")}</span>
+  const fmt = (value, unit = "") => (value === null || value === undefined ? notMeasured : `${value}${unit}`)
+
+  const ROTATION_LABELS = {
+    free: t("planetDetail.rotationStates.free"),
+    resonant: t("planetDetail.rotationStates.resonant"),
+    synchronous: t("planetDetail.rotationStates.synchronous"),
+  }
 
   const { data: planet, isLoading, isError } = useQuery({
     queryKey: ["planet", id],
@@ -77,7 +83,7 @@ export default function PlanetDetailPage() {
       setActionMessage(data.detail)
       await invalidateAfterTrade()
     },
-    onError: (err) => setActionError(err instanceof ApiError ? err.message : "Kopen mislukt."),
+    onError: (err) => setActionError(err instanceof ApiError ? err.message : t("planetDetail.buyError")),
   })
 
   const sellMutation = useMutation({
@@ -88,15 +94,15 @@ export default function PlanetDetailPage() {
       setSellQty("")
       await invalidateAfterTrade()
     },
-    onError: (err) => setActionError(err instanceof ApiError ? err.message : "Verkopen mislukt."),
+    onError: (err) => setActionError(err instanceof ApiError ? err.message : t("planetDetail.sellError")),
   })
 
-  if (isLoading) return <div className="max-w-4xl mx-auto px-4 py-6 text-slate-500">Laden...</div>
+  if (isLoading) return <div className="max-w-4xl mx-auto px-4 py-6 text-slate-500">{t("common.loading")}</div>
   if (isError || !planet) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-6">
-        <p className="text-red-400">Planeet niet gevonden.</p>
-        <Link to="/catalogus" className="text-indigo-400 text-sm">← Terug naar catalogus</Link>
+        <p className="text-red-400">{t("planetDetail.notFound")}</p>
+        <Link to="/catalogus" className="text-indigo-400 text-sm">← {t("planetDetail.backToCatalog")}</Link>
       </div>
     )
   }
@@ -106,7 +112,7 @@ export default function PlanetDetailPage() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-6 w-full">
-      <Link to="/catalogus" className="text-indigo-400 text-sm">← Terug naar catalogus</Link>
+      <Link to="/catalogus" className="text-indigo-400 text-sm">← {t("planetDetail.backToCatalog")}</Link>
 
       <div className="rounded-lg mt-3 mb-2 overflow-hidden border border-slate-800 bg-slate-900/40 relative">
         {systemPlanets?.results?.length ? (
@@ -130,7 +136,7 @@ export default function PlanetDetailPage() {
 
       {systemPlanets?.results?.length > 1 && (
         <div className="flex flex-wrap items-center gap-2 mb-4 text-xs">
-          <span className="text-slate-500">Stelsel {planet.host_name}:</span>
+          <span className="text-slate-500">{t("planetDetail.system", { name: planet.host_name })}:</span>
           {systemPlanets.results.map((p) =>
             String(p.id) === String(id) ? (
               <span key={p.id} className="px-2 py-0.5 rounded bg-cyan-900/40 text-cyan-300 border border-cyan-800">
@@ -167,14 +173,18 @@ export default function PlanetDetailPage() {
       <div className="rounded-lg border border-indigo-900 bg-indigo-950/30 p-4 mb-6">
         <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
           <div>
-            <p className="text-xs text-slate-400 uppercase tracking-wide">Marktwaarde per eenheid</p>
+            <p className="text-xs text-slate-400 uppercase tracking-wide">{t("planetDetail.marketValuePerUnit")}</p>
             <p className="text-2xl font-semibold text-emerald-400">
-              {planet.market_value_credits ? `${Number(planet.market_value_credits).toLocaleString("nl-NL", { minimumFractionDigits: 2 })} credits` : "nog niet gesynchroniseerd"}
+              {planet.market_value_credits ? t("planetDetail.creditsAmount", { value: formatCredits(planet.market_value_credits, lang) }) : t("planetDetail.notSyncedYet")}
             </p>
           </div>
           {planet.base_market_value_credits && (
             <p className="text-xs text-slate-500">
-              basis {Number(planet.base_market_value_credits).toLocaleString("nl-NL")} × sentiment {planet.market_sentiment_multiplier}× × vraag {planet.demand_multiplier}×
+              {t("planetDetail.basisSentimentDemand", {
+                basis: Number(planet.base_market_value_credits).toLocaleString(lang),
+                sentiment: planet.market_sentiment_multiplier,
+                demand: planet.demand_multiplier,
+              })}
             </p>
           )}
         </div>
@@ -184,13 +194,13 @@ export default function PlanetDetailPage() {
 
         {!user ? (
           <Link to="/login" className="inline-block px-4 py-2 rounded-md bg-indigo-600 text-white text-sm hover:bg-indigo-500">
-            Log in om te handelen
+            {t("planetDetail.loginToTrade")}
           </Link>
         ) : (
           <div className="flex flex-wrap gap-6">
             <div className="flex items-end gap-2">
               <div>
-                <label className="block text-xs text-slate-400 mb-1">Aantal</label>
+                <label className="block text-xs text-slate-400 mb-1">{t("planetDetail.quantity")}</label>
                 <input
                   type="number"
                   min="1"
@@ -204,7 +214,7 @@ export default function PlanetDetailPage() {
                 disabled={buyMutation.isPending || !planet.market_value_credits}
                 className="px-4 py-1.5 rounded-md bg-emerald-600 text-white text-sm hover:bg-emerald-500 disabled:opacity-50"
               >
-                Koop
+                {t("planetDetail.buy")}
               </button>
             </div>
 
@@ -212,13 +222,13 @@ export default function PlanetDetailPage() {
               <div className="flex items-end gap-2">
                 <div>
                   <label className="block text-xs text-slate-400 mb-1">
-                    Aantal (je bezit {holding.quantity}x)
+                    {t("planetDetail.quantityOwned", { count: holding.quantity })}
                   </label>
                   <input
                     type="number"
                     min="1"
                     max={holding.quantity}
-                    placeholder="alles"
+                    placeholder={t("planetDetail.all")}
                     value={sellQty}
                     onChange={(e) => setSellQty(e.target.value)}
                     className="w-24 rounded-md bg-slate-900 border border-slate-700 px-2 py-1.5 text-sm text-slate-100"
@@ -229,7 +239,7 @@ export default function PlanetDetailPage() {
                   disabled={sellMutation.isPending}
                   className="px-4 py-1.5 rounded-md bg-red-700 text-white text-sm hover:bg-red-600 disabled:opacity-50"
                 >
-                  Verkoop
+                  {t("planetDetail.sell")}
                 </button>
               </div>
             )}
@@ -242,62 +252,69 @@ export default function PlanetDetailPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Section title="Identificatie">
-          <Field label="Ontdekt in" value={fmt(planet.discovery_year)} />
-          <Field label="Methode" value={fmt(planet.discovery_method)} />
-          <Field label="Zonnestelsel" value={planet.is_solar_system ? "Ja" : "Nee"} />
+        <Section title={t("planetDetail.sections.identification")}>
+          <Field label={t("planetDetail.fields.discoveredIn")} value={fmt(planet.discovery_year)} />
+          <Field label={t("planetDetail.fields.method")} value={fmt(planet.discovery_method)} />
+          <Field label={t("planetDetail.fields.solarSystem")} value={planet.is_solar_system ? t("common.yes") : t("common.no")} />
         </Section>
 
-        <Section title="Ster">
-          <Field label="Spectraaltype" value={fmt(planet.star_spectral_type)} />
-          <Field label="Temperatuur" value={fmt(planet.star_teff_k, " K")} />
-          <Field label="Straal" value={fmt(planet.star_radius_solar, " R☉")} />
-          <Field label="Massa" value={fmt(planet.star_mass_solar, " M☉")} />
-          <Field label="Leeftijd" value={fmt(planet.star_age_gyr, " Gyr")} />
+        <Section title={t("planetDetail.sections.star")}>
+          <Field label={t("planetDetail.fields.spectralType")} value={fmt(planet.star_spectral_type)} />
+          <Field label={t("planetDetail.fields.temperature")} value={fmt(planet.star_teff_k, " K")} />
+          <Field label={t("planetDetail.fields.radius")} value={fmt(planet.star_radius_solar, " R☉")} />
+          <Field label={t("planetDetail.fields.mass")} value={fmt(planet.star_mass_solar, " M☉")} />
+          <Field label={t("planetDetail.fields.age")} value={fmt(planet.star_age_gyr, " Gyr")} />
         </Section>
 
-        <Section title="Baan & systeem">
-          <Field label="Type" value={fmt(planet.planet_type)} />
-          <Field label="Halve lange as" value={fmt(planet.orbit_semi_major_axis_au, " AU")} />
-          <Field label="Excentriciteit" value={fmt(planet.orbit_eccentricity)} />
-          <Field label="Omlooptijd" value={fmt(planet.orbit_period_days, " dagen")} />
-          <Field label="Rotatie" value={planet.rotation_state ? ROTATION_LABELS[planet.rotation_state] : fmt(null)} />
-          <Field label="Manen" value={fmt(planet.moon_count)} />
-          <Field label="Ringen" value={planet.has_rings === null ? fmt(null) : planet.has_rings ? "Ja" : "Nee"} />
+        <Section title={t("planetDetail.sections.orbit")}>
+          <Field label={t("planetDetail.fields.type")} value={fmt(planet.planet_type)} />
+          <Field label={t("planetDetail.fields.semiMajorAxis")} value={fmt(planet.orbit_semi_major_axis_au, " AU")} />
+          <Field label={t("planetDetail.fields.eccentricity")} value={fmt(planet.orbit_eccentricity)} />
+          <Field label={t("planetDetail.fields.orbitalPeriod")} value={fmt(planet.orbit_period_days, ` ${t("planetDetail.days")}`)} />
+          <Field label={t("planetDetail.fields.rotation")} value={planet.rotation_state ? ROTATION_LABELS[planet.rotation_state] : notMeasured} />
+          <Field label={t("planetDetail.fields.moons")} value={fmt(planet.moon_count)} />
+          <Field label={t("planetDetail.fields.rings")} value={planet.has_rings === null ? notMeasured : planet.has_rings ? t("common.yes") : t("common.no")} />
         </Section>
 
-        <Section title="Fysiek">
-          <Field label="Massa" value={fmt(planet.mass_earth, " M⊕")} />
-          <Field label="Straal" value={fmt(planet.radius_earth, " R⊕")} />
-          <Field label="Dichtheid" value={fmt(planet.density_g_cm3, " g/cm³")} />
-          <Field label="Zwaartekracht" value={fmt(planet.surface_gravity_g, " g")} />
-          <Field label="Evenwichtstemperatuur" value={fmt(planet.equilibrium_temp_k, " K")} />
+        <Section title={t("planetDetail.sections.physical")}>
+          <Field label={t("planetDetail.fields.massEarth")} value={fmt(planet.mass_earth, " M⊕")} />
+          <Field label={t("planetDetail.fields.radiusEarth")} value={fmt(planet.radius_earth, " R⊕")} />
+          <Field label={t("planetDetail.fields.density")} value={fmt(planet.density_g_cm3, " g/cm³")} />
+          <Field label={t("planetDetail.fields.gravity")} value={fmt(planet.surface_gravity_g, " g")} />
+          <Field label={t("planetDetail.fields.equilibriumTemp")} value={fmt(planet.equilibrium_temp_k, " K")} />
         </Section>
 
-        <Section title="Leefbaarheidscontext">
-          <Field label="Afstand" value={planet.distance_from_earth_ly === 0 ? "In het zonnestelsel" : fmt(planet.distance_from_earth_ly, " lj")} />
-          <Field label="Leefbare zone" value={planet.in_habitable_zone === null ? fmt(null) : planet.in_habitable_zone ? "Binnen" : "Buiten"} />
-          <Field label="HZ-grenzen" value={planet.hz_inner_au && planet.hz_outer_au ? `${planet.hz_inner_au} - ${planet.hz_outer_au} AU` : fmt(null)} />
+        <Section title={t("planetDetail.sections.habitabilityContext")}>
+          <Field
+            label={t("planetDetail.fields.distance")}
+            value={planet.distance_from_earth_ly === 0 ? t("planetDetail.inSolarSystem") : fmt(planet.distance_from_earth_ly, ` ${t("planetDetail.lightYearsShort")}`)}
+          />
+          <Field
+            label={t("planetDetail.fields.habitableZone")}
+            value={planet.in_habitable_zone === null ? notMeasured : planet.in_habitable_zone ? t("planetDetail.inside") : t("planetDetail.outside")}
+          />
+          <Field
+            label={t("planetDetail.fields.hzBounds")}
+            value={planet.hz_inner_au && planet.hz_outer_au ? `${planet.hz_inner_au} - ${planet.hz_outer_au} AU` : notMeasured}
+          />
         </Section>
 
-        <Section title="Atmosfeer & samenstelling">
-          <Field label="Dichtheid atmosfeer" value={fmt(planet.atmosphere_density)} />
-          <Field label="Moleculen" value={planet.detected_molecules?.length ? planet.detected_molecules.join(", ") : fmt(null)} />
-          <Field label="Magnetosfeer" value={fmt(planet.magnetosphere_strength)} />
-          <Field label="Tektoniek" value={fmt(planet.tectonic_activity)} />
+        <Section title={t("planetDetail.sections.atmosphere")}>
+          <Field label={t("planetDetail.fields.atmosphereDensity")} value={fmt(planet.atmosphere_density)} />
+          <Field label={t("planetDetail.fields.molecules")} value={planet.detected_molecules?.length ? planet.detected_molecules.join(", ") : notMeasured} />
+          <Field label={t("planetDetail.fields.magnetosphere")} value={fmt(planet.magnetosphere_strength)} />
+          <Field label={t("planetDetail.fields.tectonics")} value={fmt(planet.tectonic_activity)} />
         </Section>
 
-        <Section title="Scores">
-          <Field label="ESI (Earth Similarity)" value={fmt(planet.esi_score)} />
-          <Field label="Leefbaarheid" value={fmt(planet.habitability_score)} />
-          <Field label="Grondstoffen" value={fmt(planet.resource_score)} />
+        <Section title={t("planetDetail.sections.scores")}>
+          <Field label={t("planetDetail.fields.esi")} value={fmt(planet.esi_score)} />
+          <Field label={t("planetDetail.fields.habitability")} value={fmt(planet.habitability_score)} />
+          <Field label={t("planetDetail.fields.resources")} value={fmt(planet.resource_score)} />
         </Section>
       </div>
 
       {planet.detected_molecules?.length > 0 && planet.molecule_source === "exoplanet.eu" && (
-        <p className="text-xs text-slate-600 mt-6">
-          Atmosferische data: exoplanet.eu, CC BY 4.0.
-        </p>
+        <p className="text-xs text-slate-600 mt-6">{t("planetDetail.dataSourceNote")}</p>
       )}
     </div>
   )

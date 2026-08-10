@@ -1,0 +1,297 @@
+{
+  "nav": {
+    "catalog": "Katalog",
+    "howItWorks": "Sådan virker det",
+    "faq": "Ofte stillede spørgsmål",
+    "portfolio": "Portefølje",
+    "login": "Log ind",
+    "register": "Opret konto",
+    "logout": "Log ud",
+    "menu": "Menu"
+  },
+  "footer": {
+    "about": "Om os",
+    "howItWorks": "Sådan virker det",
+    "faq": "Ofte stillede spørgsmål",
+    "dataSources": "Datakilder",
+    "privacy": "Privatliv",
+    "terms": "Vilkår",
+    "disclaimer": "Exo Index — fiktiv handelsplatform, intet reelt jordejerskab. Atmosfæriske data: exoplanet.eu, CC BY 4.0."
+  },
+  "common": {
+    "loading": "Indlæser...",
+    "busy": "Behandler...",
+    "yes": "Ja",
+    "no": "Nej"
+  },
+  "home": {
+    "title": "Handl med galaksens mest lovende exoplaneter",
+    "subtitle": "Exo Index er en fiktiv handelsplatform, hvor du samler grunde på opdagede exoplaneter, vurderet ud fra et videnskabeligt funderet indeks — fra beboelighed til ressourcepotentiale.",
+    "ctaCatalog": "Se kataloget",
+    "ctaHowItWorks": "Hvordan virker det?",
+    "features": [
+      { "title": "Videnskabeligt funderet", "body": "Hver planet får en beboelighed- og ressourcescore baseret på rigtige data fra NASA Exoplanet Archive og exoplanet.eu — ingen gætværk, ingen sort boks." },
+      { "title": "Gennemsigtig værdiansættelse", "body": "Markedsværdien er opbygget af tydeligt adskilte lag: videnskab, markedssentiment og udbud/efterspørgsel. Du kan altid se, hvorfor en planet er blevet dyrere eller billigere." },
+      { "title": "100 % fiktivt, ingen risiko", "body": "Du handler med lukkede platformkreditter, ikke rigtige penge eller reelt jordejerskab. Opdag, saml og byg en portefølje uden finansiel risiko." }
+    ],
+    "bottomTitle": "Fra jordstore stenplaneter til varme Jupitere",
+    "bottomBody": "Tusindvis af planeter, hver med sin egen beboelighed- og ressourcescore, biosignatur-status og aktuel markedsværdi. Start gratis som Explorer, eller lås mere op som Prospector eller Landbaron.",
+    "bottomCta": "Opret en gratis konto →"
+  },
+  "howItWorks": {
+    "title": "Hvordan virker Exo Index?",
+    "intro": "Hver planet i kataloget får fire uafhængige scorer og en markedsværdi opbygget af tydeligt adskilte lag. Ingen sort boks: værdiansættelsen kan altid spores tilbage til rigtige astronomiske data.",
+    "scoresTitle": "De fire scorer",
+    "scores": [
+      { "name": "Earth Similarity Index (ESI)", "body": "En etableret videnskabelig formel (Schulze-Makuch et al., 2011), der udtrykker, hvor fysisk lig en planet er Jorden, baseret på radius, densitet, undvigelseshastighed og ligevægtstemperatur. Bemærk: Jorden selv får ikke præcis 1,0 — vi bruger den samme beregnede ligevægtstemperatur for alle planeter i stedet for Jordens faktiske overfladetemperatur, for en fair sammenligning." },
+      { "name": "Beboelighedsscore (0-100)", "body": "Vores egen sammensatte score, adskilt fra ESI. Vægter blandt andet: placering i den beboelige zone, stjernetype, masse, baneeccentricitet, rotationstilstand, atmosfæretæthed, magnetosfære og detekterede molekyler. Molekyler vægter kontekstafhængigt — vand på en varm gaskæmpe betyder noget helt andet end vand og ilt sammen på en tempereret stenplanet." },
+      { "name": "Ressourcescore (0-100)", "body": "Fuldstændig uafhængig af beboelighed. Baseret på densitet (indikator for metalrig kerne), planettype, tektonisk aktivitet og magnetosfærestyrke. En glohed gaskæmpe kan derfor have en høj ressourcescore og samtidig en lav beboelighedsscore." },
+      { "name": "Konfidensscore", "body": "Procentdelen af scoren, der er baseret på rigtige målinger frem for antagelser. Det, der ikke er målt, forbliver ukendt — vi gætter aldrig en neutralt udseende værdi, der ligner et faktum. En planet med et rigt karakteriseret spektrum (flere detekterede molekyler) får en højere konfidens end en planet med kun én løs detektion." }
+    ],
+    "valueTitle": "Hvordan markedsværdien opstår",
+    "valueIntro": "Den endelige pris på en planet er dens videnskabelige basisværdi, ganget med markedssentiment og udbud/efterspørgsel. Tre lag, hver med sin egen ændringsrytme, i stedet for én uigennemsigtig formel:",
+    "valueLayers": [
+      { "name": "1. Videnskabelig basisværdi", "body": "Kombinerer beboelighed- og ressourcescore (hver tæller halvt), med en knaphedspræmie for planeter tættere på Jorden og en rabat for lav konfidens. Ændrer sig kun ved nye astronomiske målinger." },
+      { "name": "2. Markedssentiment", "body": "Et makrolag, der reagerer på nyheder — rumfartsmissioner, teknologiske gennembrud, generelt markedsklima. Effekter aftager over tid (halveringstid), ligesom rigtige markedsnyheder langsomt falmer fra hukommelsen." },
+      { "name": "3. Udbud og efterspørgsel", "body": "Det sidste lag reagerer på aktivitet inden for selve platformen: mange købere skubber prisen op, mange sælgere skubber den ned — med et loft, så en enkelt stor transaktion ikke lader prisen løbe løbsk." }
+    ],
+    "biosigTitle": "Biosignatur-kandidater",
+    "biosigBody": "Nogle planeter får et biosignatur-mærke: ilt sammen med vand eller metan, detekteret på en tempereret stenplanet i den beboelige zone. Det er et videnskabeligt interessant signal — <0>ikke bevis for liv</0>. Der findes kendte forklaringer uden biologi, såsom fotodissociation omkring røde dværgstjerner."
+  },
+  "about": {
+    "title": "Om Exo Index",
+    "intro": "Exo Index er en fantasy-handelsplatform, hvor du samler grunde på exoplaneter og planeter i solsystemet, vurderet af et videnskabeligt funderet indeks i stedet for tilfældigheder.",
+    "section1Title": "Intet reelt jordejerskab",
+    "section1Body": "Alt på Exo Index er fiktivt. Ifølge Verdensrumstraktaten fra 1967 kan intet land eller individ gøre ejerskabskrav gældende på himmellegemer — at købe en \"grund\" på Exo Index giver derfor på ingen måde reelt, juridisk håndhævet jordejerskab. Du samler en fiktiv besiddelse i et spil, hverken mere eller mindre.",
+    "section2Title": "Lukkede kreditter, ikke rigtige penge",
+    "section2Body": "Du handler med platformkreditter, som du optjener eller køber på Exo Index. Disse kreditter kan ikke veksles til rigtige penge og har ingen værdi uden for platformen. Exo Index er ikke et værdipapir- eller investeringsprodukt og tilbyder intet finansielt afkast.",
+    "section3Title": "Sådan holder vi det kørende",
+    "section3Body": "Exo Index kører med en freemium-model: start gratis som <0>Explorer</0>, med valgfrie opgraderinger til <1>Prospector</1> eller <2>Landbaron</2> for ekstra funktionalitet, samt valgfrie kosmetiske ekstra. Sådan forbliver platformens kerne gratis tilgængelig.",
+    "section4Title": "Hvorfor vi bygger dette",
+    "section4Body": "Der findes en rigdom af offentligt tilgængelige exoplanet-data, som forbliver utilgængelig for de fleste mennesker bag videnskabelige tabeller. Exo Index gør de data håndgribelige og legende, uden at gøre vold mod videnskaben — hver score kan spores tilbage til rigtige målinger. Læs mere om scoringsmetoden på siden <0>Sådan virker det</0>."
+  },
+  "faq": {
+    "title": "Ofte stillede spørgsmål",
+    "items": [
+      { "q": "Køber jeg virkelig et stykke af en exoplanet?", "a": "Nej. Exo Index er fuldstændig fiktiv underholdning. Ifølge Verdensrumstraktaten fra 1967 kan ingen gøre ejerskabskrav gældende på himmellegemer. Du samler et digitalt spilobjekt, ikke reel jord." },
+      { "q": "Kan jeg omveksle kreditter til rigtige penge?", "a": "Nej. Platformkreditter er lukkede: de kan kun bruges inden for Exo Index og har hverken værdi eller vekselkurs uden for platformen." },
+      { "q": "Hvor kommer planetdataene fra?", "a": "Hovedsageligt fra NASA Exoplanet Archive og exoplanet.eu, suppleret med JWST-detektioner. Se siden Datakilder for det fulde overblik." },
+      { "q": "Hvad betyder biosignatur-mærket?", "a": "Det vises ved en bestemt kombination af detekterede molekyler (ilt med vand eller metan) på en tempereret stenplanet i den beboelige zone. Det er et videnskabeligt interessant signal, ikke bevis for liv — der findes også forklaringer uden biologi." },
+      { "q": "Hvorfor ændrer en planets pris sig?", "a": "Markedsværdien kombinerer tre lag: den videnskabelige basisværdi (ændrer sig ved nye målinger), markedssentiment (reagerer på nyheder og falmer over tid) og udbud/efterspørgsel (reagerer på købs- og salgsaktivitet på platformen). Se Sådan virker det for den fulde forklaring." },
+      { "q": "Hvad er forskellen på Explorer, Prospector og Landbaron?", "a": "Explorer er det gratis niveau, der lader dig komme i gang med det samme. Prospector og Landbaron er betalte niveauer, der låser ekstra funktionalitet op. Alle niveauer bruger den samme videnskabelige værdiansættelsesmodel." },
+      { "q": "Får Jorden præcis 1,0?", "a": "Nej, bevidst ikke. Earth Similarity Index bruger den samme beregnede ligevægtstemperatur for alle planeter i stedet for Jordens faktiske overfladetemperatur, så sammenligningen mellem planeter forbliver fair. Derfor får Jorden selv en score lige under 1,0." }
+    ]
+  },
+  "dataSources": {
+    "title": "Datakilder",
+    "intro": "Hver score på Exo Index kan spores tilbage til offentligt tilgængelige astronomiske data. Nedenfor er de kilder, vi bruger, og hvad de bruges til.",
+    "sources": [
+      { "name": "NASA Exoplanet Archive", "role": "Hovedkilde til fysiske, orbitale og stellare data (pscomppars-tabellen). Opdateres ugentligt.", "license": "Offentligt tilgængelig (NASA, offentligt domæne)." },
+      { "name": "exoplanet.eu", "role": "Primær kilde til detekterede molekyler og magnetfeltdata.", "license": "CC BY 4.0 — kommerciel brug tilladt med kildeangivelse." },
+      { "name": "JWST-molekyledata", "role": "Supplerende kilde til de nyeste molekylære detektioner, der endnu ikke er behandlet i exoplanet.eu.", "license": "Offentligt tilgængelige forskningsdata." },
+      { "name": "Solsystemdata", "role": "For de otte planeter i vores eget solsystem bruger vi et statisk, manuelt kurateret datasæt — det ændrer sig jo trods alt ikke.", "license": "Sammensat af offentligt tilgængelige NASA-data." }
+    ],
+    "footerNote": "Atmosfæriske data: exoplanet.eu, CC BY 4.0. Exo Index er ikke tilknyttet eller godkendt af NASA eller exoplanet.eu."
+  },
+  "privacy": {
+    "title": "Privatlivspolitik",
+    "disclaimer": "Dette er en udkastversion, endnu ikke juridisk gennemgået. Før Exo Index går i luften med rigtige brugerdata, vil dette dokument blive gennemgået af en advokat.",
+    "sections": [
+      { "title": "Hvilke data vi indsamler", "body": "Vi begrænser os bevidst til et minimum: brugernavn, e-mailadresse, dit kontoniveau og din kreditsaldo. Ingen overflødige felter, ingen data vi ikke har brug for for at drive platformen." },
+      { "title": "Hvorfor vi indsamler dem", "body": "For at administrere din konto, spore din portefølje og transaktioner, og — hvis du giver samtykke — for at holde dig informeret om nye funktioner." },
+      { "title": "Dine rettigheder", "body": "Du har ret til indsigt i og overførsel af dine data samt ret til at blive glemt. Ved en anmodning om sletning anonymiserer vi dine personoplysninger; transaktionsdata opbevares derefter kun i anonymiseret form, i det omfang loven kræver det." },
+      { "title": "Opbevaringsperiode", "body": "Vi opbevarer kontodata, så længe din konto er aktiv. Ved langvarig inaktivitet anvender vi en opbevaringsperiode, der endnu ikke er fastlagt, og som vil blive angivet i en endelig version af denne politik." },
+      { "title": "Cookies", "body": "Vi bruger kun funktionelle cookies, der er nødvendige for at holde dig logget ind. Før vi tilføjer analyse- eller marketingcookies, beder vi først om dit udtrykkelige samtykke." },
+      { "title": "Spørgsmål", "body": "Har du spørgsmål om dine data eller ønsker du at gøre brug af en af ovenstående rettigheder? Kontakt os via den e-mailadresse, der er knyttet til din konto." }
+    ]
+  },
+  "terms": {
+    "title": "Vilkår og betingelser",
+    "disclaimer": "Dette er en udkastversion, endnu ikke juridisk gennemgået. Før Exo Index går i luften med rigtige brugere, vil dette dokument blive gennemgået af en advokat.",
+    "sections": [
+      { "title": "1. Platformens karakter", "body": "Exo Index er en fiktiv underholdningsplatform. Grunde, planeter og porteføljer er digitale spilobjekter uden juridisk værdi eller ejendomsret. Intet på denne platform udgør et tilbud om køb eller salg af rigtig jord, værdipapirer eller finansielle produkter." },
+      { "title": "2. Kreditter", "body": "Platformkreditter kan kun bruges inden for Exo Index. De kan ikke veksles til rigtige penge, kan ikke overføres uden for platformen og repræsenterer ikke en investering eller finansielt afkast." },
+      { "title": "3. Konti og niveauer", "body": "Du kan oprette en gratis Explorer-konto. Betalte niveauer (Prospector, Landbaron) og eventuelle kosmetiske køb låser ekstra funktionalitet op, men ændrer intet ved platformens fiktive karakter." },
+      { "title": "4. Videnskabelige data", "body": "Scorer og værdiansættelser er baseret på offentligt tilgængelige astronomiske data og vores egen værdiansættelsesmodel. Nye målinger kan ændre eksisterende scorer. Vi gør vores bedste for at holde dataene aktuelle, men giver ingen garanti for fuldstændighed eller nøjagtighed." },
+      { "title": "5. Adfærd på platformen", "body": "Misbrug af platformen — såsom forsøg på at manipulere prisdannelsen gennem automatiserede eller svigagtige transaktioner — kan føre til suspendering af din konto." },
+      { "title": "6. Ændringer", "body": "Vi kan tilpasse disse vilkår, efterhånden som platformen udvikler sig. Ved væsentlige ændringer giver vi dig besked via din konto." }
+    ]
+  },
+  "catalog": {
+    "title": "Planetkatalog",
+    "count_one": "{{count}} planet",
+    "count_other": "{{count}} planeter",
+    "subtitle": "videnskabeligt funderet værdiansættelsesindeks.",
+    "searchPlaceholder": "Søg efter navn eller stjerne...",
+    "types": {
+      "all": "Alle typer",
+      "rocky": "Stenet",
+      "super_earth": "Superjord",
+      "sub_neptune": "Sub-Neptun",
+      "ice_giant": "Iskæmpe",
+      "gas_giant": "Gaskæmpe"
+    },
+    "hz": {
+      "all": "BZ: alle",
+      "inside": "I beboelig zone",
+      "outside": "Uden for beboelig zone"
+    },
+    "molecules": {
+      "all": "Molekyler: alle",
+      "detected": "Molekyler detekteret",
+      "notDetected": "Ingen molekyler detekteret"
+    },
+    "orderings": {
+      "-habitability_score": "Beboelighed (høj → lav)",
+      "habitability_score": "Beboelighed (lav → høj)",
+      "-resource_score": "Ressourcer (høje → lave)",
+      "resource_score": "Ressourcer (lave → høje)",
+      "distance_from_earth_ly": "Afstand (tæt → fjern)"
+    },
+    "checkboxes": {
+      "biosignature": "Kun biosignatur-kandidater",
+      "atmosphere": "Atmosfære",
+      "h2o": "H2O detekteret",
+      "carbon": "C eller CO2 detekteret"
+    },
+    "error": "Kunne ikke indlæse planeter: {{message}}",
+    "empty": "Ingen planeter fundet med disse filtre.",
+    "prev": "Forrige",
+    "next": "Næste",
+    "page": "Side {{page}}"
+  },
+  "planetCard": {
+    "habitability": "Beboelighed",
+    "resources": "Ressourcer",
+    "solarSystem": "Solsystem",
+    "lightYears": "{{value}} lysår"
+  },
+  "planetDetail": {
+    "notMeasured": "ikke målt",
+    "rotationStates": {
+      "free": "Fri",
+      "resonant": "Resonant",
+      "synchronous": "Synkron (tidevandslåst)"
+    },
+    "buyError": "Køb mislykkedes.",
+    "sellError": "Salg mislykkedes.",
+    "notFound": "Planet ikke fundet.",
+    "backToCatalog": "Tilbage til kataloget",
+    "system": "System {{name}}",
+    "marketValuePerUnit": "Markedsværdi pr. enhed",
+    "creditsAmount": "{{value}} kreditter",
+    "notSyncedYet": "endnu ikke synkroniseret",
+    "basisSentimentDemand": "basis {{basis}} × sentiment {{sentiment}}× × efterspørgsel {{demand}}×",
+    "loginToTrade": "Log ind for at handle",
+    "quantity": "Antal",
+    "buy": "Køb",
+    "quantityOwned": "Antal (du ejer {{count}}x)",
+    "all": "alt",
+    "sell": "Sælg",
+    "sections": {
+      "identification": "Identifikation",
+      "star": "Stjerne",
+      "orbit": "Bane & system",
+      "physical": "Fysisk",
+      "habitabilityContext": "Beboelighedskontekst",
+      "atmosphere": "Atmosfære & sammensætning",
+      "scores": "Scorer"
+    },
+    "fields": {
+      "discoveredIn": "Opdaget i",
+      "method": "Metode",
+      "solarSystem": "Solsystem",
+      "spectralType": "Spektraltype",
+      "temperature": "Temperatur",
+      "radius": "Radius",
+      "mass": "Masse",
+      "age": "Alder",
+      "type": "Type",
+      "semiMajorAxis": "Halv storakse",
+      "eccentricity": "Excentricitet",
+      "orbitalPeriod": "Omløbstid",
+      "rotation": "Rotation",
+      "moons": "Måner",
+      "rings": "Ringe",
+      "massEarth": "Masse",
+      "radiusEarth": "Radius",
+      "density": "Densitet",
+      "gravity": "Tyngdekraft",
+      "equilibriumTemp": "Ligevægtstemperatur",
+      "distance": "Afstand",
+      "habitableZone": "Beboelig zone",
+      "hzBounds": "BZ-grænser",
+      "atmosphereDensity": "Atmosfæretæthed",
+      "molecules": "Molekyler",
+      "magnetosphere": "Magnetosfære",
+      "tectonics": "Tektonik",
+      "esi": "ESI (Jordlighed)",
+      "habitability": "Beboelighed",
+      "resources": "Ressourcer"
+    },
+    "days": "dage",
+    "inSolarSystem": "I solsystemet",
+    "lightYearsShort": "lysår",
+    "inside": "Inden for",
+    "outside": "Uden for",
+    "dataSourceNote": "Atmosfæriske data: exoplanet.eu, CC BY 4.0."
+  },
+  "biosignature": {
+    "badge": "Biosignatur-kandidat",
+    "tooltip": "O2 + H2O/CH4 detekteret -- ikke bevis for liv",
+    "body": "På denne planet er både O2 og H2O eller CH4 detekteret, i en tempereret, stenet kontekst — videnskabeligt interessant, men <0>ikke bevis for liv</0>. Der findes kendte abiotiske (ikke-biologiske) forklaringer på sådanne kombinationer, for eksempel fotodissociation af vand omkring røde dværgstjerner."
+  },
+  "dataCompleteness": {
+    "unknown": "Data ukendt",
+    "measured": "{{value}}% målt"
+  },
+  "priceHistory": {
+    "title": "Værdiudvikling",
+    "ranges": { "week": "Uge", "month": "Måned", "year": "År" },
+    "noData": "Endnu ikke nok historik for denne periode.",
+    "noDataHint": "Denne platform har kun kørt kort tid — grafen fyldes op, efterhånden som markedsværdien genberegnes oftere."
+  },
+  "login": {
+    "title": "Log ind",
+    "username": "Brugernavn",
+    "password": "Adgangskode",
+    "submit": "Log ind",
+    "error": "Login mislykkedes.",
+    "noAccount": "Har du ikke en konto endnu?",
+    "registerLink": "Opret konto"
+  },
+  "register": {
+    "title": "Opret en konto",
+    "subtitle": "Du starter med 10.000 kreditter (Explorer-niveau, gratis).",
+    "username": "Brugernavn",
+    "email": "E-mail",
+    "password": "Adgangskode",
+    "minLength": "Mindst 8 tegn.",
+    "submit": "Opret konto",
+    "error": "Oprettelse mislykkedes.",
+    "hasAccount": "Har du allerede en konto?",
+    "loginLink": "Log ind"
+  },
+  "portfolio": {
+    "title": "Portefølje",
+    "balance": "Saldo",
+    "holdings": "Beholdning",
+    "empty": "Du ejer endnu ingen planeter.",
+    "viewCatalog": "Se kataloget",
+    "avgPurchasePrice": "{{quantity}}x · gns. købspris {{price}}",
+    "sellAll": "Sælg alt",
+    "sellError": "Salg mislykkedes.",
+    "transactions": "Transaktionshistorik",
+    "noTransactions": "Endnu ingen transaktioner.",
+    "table": {
+      "planet": "Planet",
+      "action": "Handling",
+      "quantity": "Antal",
+      "pricePerUnit": "Pris/enhed",
+      "total": "I alt",
+      "date": "Dato",
+      "buy": "Køb",
+      "sell": "Salg"
+    }
+  }
+}

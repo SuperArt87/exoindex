@@ -1,12 +1,10 @@
 import { useMemo, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
+import { useTranslation } from "react-i18next"
 import { getPlanetHistory } from "../api/planets"
+import { formatCreditsRounded, formatDate, formatDateTime } from "../i18n/format"
 
-const RANGES = [
-  { value: "week", label: "Week" },
-  { value: "month", label: "Maand" },
-  { value: "year", label: "Jaar" },
-]
+const RANGES = ["week", "month", "year"]
 
 const WIDTH = 480
 const HEIGHT = 180
@@ -14,16 +12,6 @@ const PAD_LEFT = 56
 const PAD_RIGHT = 12
 const PAD_TOP = 12
 const PAD_BOTTOM = 26
-
-function formatCredits(value) {
-  return `${Number(value).toLocaleString("nl-NL", { maximumFractionDigits: 0 })} cr`
-}
-
-function formatDate(iso, range) {
-  const d = new Date(iso)
-  if (range === "year") return d.toLocaleDateString("nl-NL", { month: "short", year: "2-digit" })
-  return d.toLocaleDateString("nl-NL", { day: "numeric", month: "short" })
-}
 
 /**
  * Prijshistorie-grafiek -- toont ALLEEN echte momentopnamen (PriceHistory,
@@ -36,6 +24,8 @@ function formatDate(iso, range) {
  * aan een zware dependency hiervoor.
  */
 export default function PriceHistoryChart({ planetId }) {
+  const { t, i18n } = useTranslation()
+  const lang = i18n.resolvedLanguage || i18n.language
   const [range, setRange] = useState("month")
   const [hoverIndex, setHoverIndex] = useState(null)
 
@@ -66,34 +56,34 @@ export default function PriceHistoryChart({ planetId }) {
     return { coords, vMin, vMax }
   }, [points])
 
+  const dateOpts = range === "year" ? { month: "short", year: "2-digit" } : { day: "numeric", month: "short" }
+
   return (
     <div className="rounded-lg border border-slate-800 bg-slate-900/40 p-4">
       <div className="flex items-center justify-between mb-3">
-        <h2 className="text-sm font-semibold text-slate-300 uppercase tracking-wide">Waardeverloop</h2>
+        <h2 className="text-sm font-semibold text-slate-300 uppercase tracking-wide">{t("priceHistory.title")}</h2>
         <div className="flex gap-1">
           {RANGES.map((r) => (
             <button
-              key={r.value}
-              onClick={() => setRange(r.value)}
-              className={`px-2.5 py-1 text-xs rounded ${range === r.value
+              key={r}
+              onClick={() => setRange(r)}
+              className={`px-2.5 py-1 text-xs rounded ${range === r
                 ? "bg-indigo-600 text-white"
                 : "bg-slate-800 text-slate-400 hover:text-slate-200"
                 }`}
             >
-              {r.label}
+              {t(`priceHistory.ranges.${r}`)}
             </button>
           ))}
         </div>
       </div>
 
       {isLoading ? (
-        <p className="text-slate-500 text-sm h-[180px] flex items-center justify-center">Laden...</p>
+        <p className="text-slate-500 text-sm h-[180px] flex items-center justify-center">{t("common.loading")}</p>
       ) : !geometry ? (
         <div className="h-[180px] flex flex-col items-center justify-center text-center gap-1">
-          <p className="text-slate-500 text-sm">Nog niet genoeg historie voor deze periode.</p>
-          <p className="text-slate-600 text-xs">
-            Dit platform draait nog maar kort -- de grafiek vult zich naarmate de marktwaarde vaker wordt herberekend.
-          </p>
+          <p className="text-slate-500 text-sm">{t("priceHistory.noData")}</p>
+          <p className="text-slate-600 text-xs">{t("priceHistory.noDataHint")}</p>
         </div>
       ) : (
         <div
@@ -118,14 +108,14 @@ export default function PriceHistoryChart({ planetId }) {
             <line x1={PAD_LEFT} y1={PAD_TOP} x2={WIDTH - PAD_RIGHT} y2={PAD_TOP} stroke="#1e293b" strokeWidth="1" />
             <line x1={PAD_LEFT} y1={HEIGHT - PAD_BOTTOM} x2={WIDTH - PAD_RIGHT} y2={HEIGHT - PAD_BOTTOM} stroke="#1e293b" strokeWidth="1" />
 
-            <text x={4} y={PAD_TOP + 4} fill="#64748b" fontSize="10">{formatCredits(geometry.vMax)}</text>
-            <text x={4} y={HEIGHT - PAD_BOTTOM + 4} fill="#64748b" fontSize="10">{formatCredits(geometry.vMin)}</text>
+            <text x={4} y={PAD_TOP + 4} fill="#64748b" fontSize="10">{formatCreditsRounded(geometry.vMax, lang)} cr</text>
+            <text x={4} y={HEIGHT - PAD_BOTTOM + 4} fill="#64748b" fontSize="10">{formatCreditsRounded(geometry.vMin, lang)} cr</text>
 
             <text x={PAD_LEFT} y={HEIGHT - 6} fill="#64748b" fontSize="10">
-              {formatDate(points[0].recorded_at, range)}
+              {formatDate(points[0].recorded_at, lang, dateOpts)}
             </text>
             <text x={WIDTH - PAD_RIGHT} y={HEIGHT - 6} fill="#64748b" fontSize="10" textAnchor="end">
-              {formatDate(points[points.length - 1].recorded_at, range)}
+              {formatDate(points[points.length - 1].recorded_at, lang, dateOpts)}
             </text>
 
             <polyline
@@ -156,8 +146,8 @@ export default function PriceHistoryChart({ planetId }) {
 
           {hoverIndex !== null && (
             <p className="text-xs text-slate-300 text-center -mt-1">
-              {new Date(geometry.coords[hoverIndex].recorded_at).toLocaleString("nl-NL")} ·{" "}
-              <span className="text-emerald-400">{formatCredits(geometry.coords[hoverIndex].value)}</span>
+              {formatDateTime(geometry.coords[hoverIndex].recorded_at, lang)} ·{" "}
+              <span className="text-emerald-400">{formatCreditsRounded(geometry.coords[hoverIndex].value, lang)} cr</span>
             </p>
           )}
         </div>

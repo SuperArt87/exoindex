@@ -1,9 +1,11 @@
 import { useState } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
+import { useTranslation } from "react-i18next"
 import { useAuth } from "../context/AuthContext"
 import { ApiError } from "../api/client"
 
 export default function LoginPage() {
+  const { t } = useTranslation()
   const { login } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
@@ -20,7 +22,7 @@ export default function LoginPage() {
       await login(username, password)
       navigate(location.state?.from?.pathname || "/catalogus", { replace: true })
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : "Inloggen mislukt.")
+      setError(err instanceof ApiError ? err.message : t("login.error"))
     } finally {
       setIsSubmitting(false)
     }
@@ -28,10 +30,10 @@ export default function LoginPage() {
 
   return (
     <div className="max-w-sm mx-auto px-4 py-16 w-full">
-      <h1 className="text-xl font-semibold text-slate-100 mb-6">Inloggen</h1>
+      <h1 className="text-xl font-semibold text-slate-100 mb-6">{t("login.title")}</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm text-slate-400 mb-1">Gebruikersnaam</label>
+          <label className="block text-sm text-slate-400 mb-1">{t("login.username")}</label>
           <input
             type="text"
             value={username}
@@ -41,7 +43,7 @@ export default function LoginPage() {
           />
         </div>
         <div>
-          <label className="block text-sm text-slate-400 mb-1">Wachtwoord</label>
+          <label className="block text-sm text-slate-400 mb-1">{t("login.password")}</label>
           <input
             type="password"
             value={password}
@@ -56,11 +58,11 @@ export default function LoginPage() {
           disabled={isSubmitting}
           className="w-full py-2 rounded-md bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-500 disabled:opacity-50"
         >
-          {isSubmitting ? "Bezig..." : "Inloggen"}
+          {isSubmitting ? t("common.busy") : t("login.submit")}
         </button>
       </form>
       <p className="text-sm text-slate-500 mt-4">
-        Nog geen account? <Link to="/register" className="text-indigo-400">Registreer</Link>
+        {t("login.noAccount")} <Link to="/register" className="text-indigo-400">{t("login.registerLink")}</Link>
       </p>
     </div>
   )

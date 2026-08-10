@@ -1,26 +1,16 @@
 import { useEffect, useState } from "react"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
+import { useTranslation } from "react-i18next"
 import { listPlanets } from "../api/planets"
 import PlanetCard from "../components/PlanetCard"
 
-const PLANET_TYPES = [
-  { value: "", label: "Alle types" },
-  { value: "rocky", label: "Rotsachtig" },
-  { value: "super_earth", label: "Super-Earth" },
-  { value: "sub_neptune", label: "Sub-Neptune" },
-  { value: "ice_giant", label: "IJsreus" },
-  { value: "gas_giant", label: "Gasreus" },
-]
-
-const ORDERINGS = [
-  { value: "-habitability_score", label: "Leefbaarheid (hoog → laag)" },
-  { value: "habitability_score", label: "Leefbaarheid (laag → hoog)" },
-  { value: "-resource_score", label: "Grondstoffen (hoog → laag)" },
-  { value: "resource_score", label: "Grondstoffen (laag → hoog)" },
-  { value: "distance_from_earth_ly", label: "Afstand (dichtbij → ver)" },
+const PLANET_TYPE_VALUES = ["", "rocky", "super_earth", "sub_neptune", "ice_giant", "gas_giant"]
+const ORDERING_VALUES = [
+  "-habitability_score", "habitability_score", "-resource_score", "resource_score", "distance_from_earth_ly",
 ]
 
 export default function CatalogPage() {
+  const { t } = useTranslation()
   const [searchInput, setSearchInput] = useState("")
   const [search, setSearch] = useState("")
   const [planetType, setPlanetType] = useState("")
@@ -34,8 +24,8 @@ export default function CatalogPage() {
   const [page, setPage] = useState(1)
 
   useEffect(() => {
-    const t = setTimeout(() => setSearch(searchInput), 350)
-    return () => clearTimeout(t)
+    const timeout = setTimeout(() => setSearch(searchInput), 350)
+    return () => clearTimeout(timeout)
   }, [searchInput])
 
   useEffect(() => {
@@ -67,16 +57,16 @@ export default function CatalogPage() {
   return (
     <div className="max-w-6xl mx-auto px-4 py-6 w-full">
       <div className="mb-6">
-        <h1 className="text-2xl font-semibold text-slate-100">Planetencatalogus</h1>
+        <h1 className="text-2xl font-semibold text-slate-100">{t("catalog.title")}</h1>
         <p className="text-slate-500 text-sm mt-1">
-          {data ? `${data.count} planeten` : "Laden..."} — wetenschappelijk onderbouwde waarderingsindex.
+          {data ? t("catalog.count", { count: data.count }) : t("common.loading")} — {t("catalog.subtitle")}
         </p>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
         <input
           type="text"
-          placeholder="Zoek op naam of ster..."
+          placeholder={t("catalog.searchPlaceholder")}
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
           className="col-span-2 sm:col-span-3 lg:col-span-2 rounded-md bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-indigo-500"
@@ -86,32 +76,36 @@ export default function CatalogPage() {
           onChange={(e) => setPlanetType(e.target.value)}
           className="rounded-md bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-slate-100"
         >
-          {PLANET_TYPES.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+          {PLANET_TYPE_VALUES.map((v) => (
+            <option key={v} value={v}>{t(`catalog.types.${v || "all"}`)}</option>
+          ))}
         </select>
         <select
           value={inHabitableZone}
           onChange={(e) => setInHabitableZone(e.target.value)}
           className="rounded-md bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-slate-100"
         >
-          <option value="">HZ: alle</option>
-          <option value="true">In leefbare zone</option>
-          <option value="false">Buiten leefbare zone</option>
+          <option value="">{t("catalog.hz.all")}</option>
+          <option value="true">{t("catalog.hz.inside")}</option>
+          <option value="false">{t("catalog.hz.outside")}</option>
         </select>
         <select
           value={hasDetectedMolecules}
           onChange={(e) => setHasDetectedMolecules(e.target.value)}
           className="rounded-md bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-slate-100"
         >
-          <option value="">Moleculen: alle</option>
-          <option value="true">Moleculen gedetecteerd</option>
-          <option value="false">Geen moleculen gedetecteerd</option>
+          <option value="">{t("catalog.molecules.all")}</option>
+          <option value="true">{t("catalog.molecules.detected")}</option>
+          <option value="false">{t("catalog.molecules.notDetected")}</option>
         </select>
         <select
           value={ordering}
           onChange={(e) => setOrdering(e.target.value)}
           className="rounded-md bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-slate-100"
         >
-          {ORDERINGS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+          {ORDERING_VALUES.map((v) => (
+            <option key={v} value={v}>{t(`catalog.orderings.${v}`)}</option>
+          ))}
         </select>
       </div>
 
@@ -123,7 +117,7 @@ export default function CatalogPage() {
             onChange={(e) => setBiosignatureOnly(e.target.checked)}
             className="rounded border-slate-700"
           />
-          Alleen biosignature-kandidaten
+          {t("catalog.checkboxes.biosignature")}
         </label>
         <label className="flex items-center gap-2 text-sm text-slate-300">
           <input
@@ -132,7 +126,7 @@ export default function CatalogPage() {
             onChange={(e) => setAtmosphereOnly(e.target.checked)}
             className="rounded border-slate-700"
           />
-          Atmosfeer
+          {t("catalog.checkboxes.atmosphere")}
         </label>
         <label className="flex items-center gap-2 text-sm text-slate-300">
           <input
@@ -141,7 +135,7 @@ export default function CatalogPage() {
             onChange={(e) => setH2oOnly(e.target.checked)}
             className="rounded border-slate-700"
           />
-          H2O gedetecteerd
+          {t("catalog.checkboxes.h2o")}
         </label>
         <label className="flex items-center gap-2 text-sm text-slate-300">
           <input
@@ -150,18 +144,18 @@ export default function CatalogPage() {
             onChange={(e) => setCarbonOnly(e.target.checked)}
             className="rounded border-slate-700"
           />
-          C of CO2 gedetecteerd
+          {t("catalog.checkboxes.carbon")}
         </label>
       </div>
 
       {isError && (
-        <p className="text-red-400 text-sm mb-4">Kon planeten niet laden: {error.message}</p>
+        <p className="text-red-400 text-sm mb-4">{t("catalog.error", { message: error.message })}</p>
       )}
 
       {isLoading ? (
-        <p className="text-slate-500">Laden...</p>
+        <p className="text-slate-500">{t("common.loading")}</p>
       ) : results.length === 0 ? (
-        <p className="text-slate-500">Geen planeten gevonden met deze filters.</p>
+        <p className="text-slate-500">{t("catalog.empty")}</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {results.map((p) => <PlanetCard key={p.id} planet={p} />)}
@@ -174,15 +168,15 @@ export default function CatalogPage() {
           onClick={() => setPage((p) => p - 1)}
           className="px-4 py-2 text-sm rounded-md border border-slate-700 text-slate-300 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-slate-800"
         >
-          Vorige
+          {t("catalog.prev")}
         </button>
-        <span className="px-3 py-2 text-sm text-slate-500">Pagina {page}</span>
+        <span className="px-3 py-2 text-sm text-slate-500">{t("catalog.page", { page })}</span>
         <button
           disabled={!hasNext}
           onClick={() => setPage((p) => p + 1)}
           className="px-4 py-2 text-sm rounded-md border border-slate-700 text-slate-300 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-slate-800"
         >
-          Volgende
+          {t("catalog.next")}
         </button>
       </div>
     </div>

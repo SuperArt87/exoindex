@@ -1,6 +1,9 @@
 import { useState } from "react"
 import { Link, NavLink } from "react-router-dom"
+import { useTranslation } from "react-i18next"
 import { useAuth } from "../context/AuthContext"
+import { formatCredits } from "../i18n/format"
+import LanguageSwitcher from "./LanguageSwitcher"
 import logo from "../assets/exoindex-logo-wordmark.png"
 
 const navLinkClass = ({ isActive }) =>
@@ -8,8 +11,10 @@ const navLinkClass = ({ isActive }) =>
   }`
 
 export default function Navbar() {
+  const { t, i18n } = useTranslation()
   const { user, logout } = useAuth()
   const [menuOpen, setMenuOpen] = useState(false)
+  const lang = i18n.resolvedLanguage || i18n.language
 
   return (
     <header className="border-b border-slate-800 bg-[#03040a]/95 backdrop-blur sticky top-0 z-20">
@@ -20,29 +25,30 @@ export default function Navbar() {
           </Link>
 
           <nav className="hidden md:flex items-center gap-1">
-            <NavLink to="/catalogus" className={navLinkClass}>Catalogus</NavLink>
-            <NavLink to="/hoe-werkt-het" className={navLinkClass}>Hoe werkt het</NavLink>
-            <NavLink to="/faq" className={navLinkClass}>FAQ</NavLink>
-            {user && <NavLink to="/portfolio" className={navLinkClass}>Portfolio</NavLink>}
+            <NavLink to="/catalogus" className={navLinkClass}>{t("nav.catalog")}</NavLink>
+            <NavLink to="/hoe-werkt-het" className={navLinkClass}>{t("nav.howItWorks")}</NavLink>
+            <NavLink to="/faq" className={navLinkClass}>{t("nav.faq")}</NavLink>
+            {user && <NavLink to="/portfolio" className={navLinkClass}>{t("nav.portfolio")}</NavLink>}
           </nav>
 
           <div className="hidden md:flex items-center gap-3">
+            <LanguageSwitcher />
             {user ? (
               <>
                 <span className="text-sm text-slate-400">
-                  {user.username} · <span className="text-emerald-400">{Number(user.credits_balance).toLocaleString("nl-NL", { minimumFractionDigits: 2 })} cr</span>
+                  {user.username} · <span className="text-emerald-400">{formatCredits(user.credits_balance, lang)} cr</span>
                 </span>
                 <button
                   onClick={logout}
                   className="px-3 py-1.5 text-sm rounded-md border border-slate-700 text-slate-300 hover:bg-slate-800"
                 >
-                  Uitloggen
+                  {t("nav.logout")}
                 </button>
               </>
             ) : (
               <>
-                <Link to="/login" className="px-3 py-1.5 text-sm rounded-md text-slate-300 hover:text-white">Inloggen</Link>
-                <Link to="/register" className="px-3 py-1.5 text-sm rounded-md bg-indigo-600 text-white hover:bg-indigo-500">Registreren</Link>
+                <Link to="/login" className="px-3 py-1.5 text-sm rounded-md text-slate-300 hover:text-white">{t("nav.login")}</Link>
+                <Link to="/register" className="px-3 py-1.5 text-sm rounded-md bg-indigo-600 text-white hover:bg-indigo-500">{t("nav.register")}</Link>
               </>
             )}
           </div>
@@ -50,7 +56,7 @@ export default function Navbar() {
           <button
             className="md:hidden text-slate-300 p-2"
             onClick={() => setMenuOpen((v) => !v)}
-            aria-label="Menu"
+            aria-label={t("nav.menu")}
           >
             {menuOpen ? "✕" : "☰"}
           </button>
@@ -58,28 +64,31 @@ export default function Navbar() {
 
         {menuOpen && (
           <div className="md:hidden pb-4 flex flex-col gap-2">
-            <NavLink to="/catalogus" className={navLinkClass} onClick={() => setMenuOpen(false)}>Catalogus</NavLink>
-            <NavLink to="/hoe-werkt-het" className={navLinkClass} onClick={() => setMenuOpen(false)}>Hoe werkt het</NavLink>
-            <NavLink to="/faq" className={navLinkClass} onClick={() => setMenuOpen(false)}>FAQ</NavLink>
+            <NavLink to="/catalogus" className={navLinkClass} onClick={() => setMenuOpen(false)}>{t("nav.catalog")}</NavLink>
+            <NavLink to="/hoe-werkt-het" className={navLinkClass} onClick={() => setMenuOpen(false)}>{t("nav.howItWorks")}</NavLink>
+            <NavLink to="/faq" className={navLinkClass} onClick={() => setMenuOpen(false)}>{t("nav.faq")}</NavLink>
             {user && (
-              <NavLink to="/portfolio" className={navLinkClass} onClick={() => setMenuOpen(false)}>Portfolio</NavLink>
+              <NavLink to="/portfolio" className={navLinkClass} onClick={() => setMenuOpen(false)}>{t("nav.portfolio")}</NavLink>
             )}
+            <div className="px-3 py-1">
+              <LanguageSwitcher className="w-full" />
+            </div>
             {user ? (
               <>
                 <span className="px-3 py-1 text-sm text-slate-400">
-                  {user.username} · <span className="text-emerald-400">{Number(user.credits_balance).toLocaleString("nl-NL", { minimumFractionDigits: 2 })} cr</span>
+                  {user.username} · <span className="text-emerald-400">{formatCredits(user.credits_balance, lang)} cr</span>
                 </span>
                 <button
                   onClick={() => { logout(); setMenuOpen(false) }}
                   className="mx-3 px-3 py-1.5 text-sm rounded-md border border-slate-700 text-slate-300 text-left"
                 >
-                  Uitloggen
+                  {t("nav.logout")}
                 </button>
               </>
             ) : (
               <>
-                <Link to="/login" className="px-3 py-2 text-sm text-slate-300" onClick={() => setMenuOpen(false)}>Inloggen</Link>
-                <Link to="/register" className="mx-3 px-3 py-1.5 text-sm rounded-md bg-indigo-600 text-white text-center" onClick={() => setMenuOpen(false)}>Registreren</Link>
+                <Link to="/login" className="px-3 py-2 text-sm text-slate-300" onClick={() => setMenuOpen(false)}>{t("nav.login")}</Link>
+                <Link to="/register" className="mx-3 px-3 py-1.5 text-sm rounded-md bg-indigo-600 text-white text-center" onClick={() => setMenuOpen(false)}>{t("nav.register")}</Link>
               </>
             )}
           </div>

@@ -1,0 +1,297 @@
+{
+  "nav": {
+    "catalog": "Catalogue",
+    "howItWorks": "Comment ça marche",
+    "faq": "FAQ",
+    "portfolio": "Portefeuille",
+    "login": "Connexion",
+    "register": "S'inscrire",
+    "logout": "Déconnexion",
+    "menu": "Menu"
+  },
+  "footer": {
+    "about": "À propos",
+    "howItWorks": "Comment ça marche",
+    "faq": "FAQ",
+    "dataSources": "Sources de données",
+    "privacy": "Confidentialité",
+    "terms": "Conditions",
+    "disclaimer": "Exo Index — plateforme d'échange fictive, aucune propriété foncière réelle. Données atmosphériques : exoplanet.eu, CC BY 4.0."
+  },
+  "common": {
+    "loading": "Chargement...",
+    "busy": "En cours...",
+    "yes": "Oui",
+    "no": "Non"
+  },
+  "home": {
+    "title": "Échangez les exoplanètes les plus prometteuses de la galaxie",
+    "subtitle": "Exo Index est une plateforme d'échange fictive où vous collectionnez des parcelles sur des exoplanètes découvertes, évaluées grâce à un indice scientifiquement fondé — de l'habitabilité au potentiel de ressources.",
+    "ctaCatalog": "Voir le catalogue",
+    "ctaHowItWorks": "Comment ça marche ?",
+    "features": [
+      { "title": "Scientifiquement fondé", "body": "Chaque planète reçoit un score d'habitabilité et de ressources basé sur des données réelles issues du NASA Exoplanet Archive et d'exoplanet.eu — pas de conjecture, pas de boîte noire." },
+      { "title": "Valorisation transparente", "body": "La valeur marchande est construite à partir de couches clairement séparées : science, sentiment de marché et offre/demande. Vous pouvez toujours voir pourquoi une planète est devenue plus chère ou moins chère." },
+      { "title": "100 % fictif, sans risque", "body": "Vous échangez des crédits fermés de la plateforme, pas de l'argent réel ni de propriété foncière réelle. Découvrez, collectionnez et constituez un portefeuille sans risque financier." }
+    ],
+    "bottomTitle": "Des planètes rocheuses de la taille de la Terre aux Jupiters chauds",
+    "bottomBody": "Des milliers de planètes, chacune avec son propre score d'habitabilité et de ressources, son statut de biosignature et sa valeur marchande en direct. Commencez gratuitement en tant qu'Explorateur, ou débloquez plus en tant que Prospecteur ou Baron Foncier.",
+    "bottomCta": "Créez un compte gratuit →"
+  },
+  "howItWorks": {
+    "title": "Comment fonctionne Exo Index ?",
+    "intro": "Chaque planète du catalogue reçoit quatre scores indépendants et une valeur marchande construite à partir de couches clairement séparées. Pas de boîte noire : l'évaluation peut toujours être retracée jusqu'à des données astronomiques réelles.",
+    "scoresTitle": "Les quatre scores",
+    "scores": [
+      { "name": "Indice de similarité avec la Terre (ESI)", "body": "Une formule scientifique établie (Schulze-Makuch et al., 2011) exprimant à quel point une planète est physiquement similaire à la Terre, sur la base du rayon, de la densité, de la vitesse de libération et de la température d'équilibre. À noter : la Terre elle-même n'obtient pas exactement 1,0 — nous utilisons la même température d'équilibre calculée pour toutes les planètes plutôt que la température réelle de la surface terrestre, pour une comparaison équitable." },
+      { "name": "Score d'habitabilité (0-100)", "body": "Notre propre score composite, distinct de l'ESI. Il pondère notamment : la position dans la zone habitable, le type d'étoile, la masse, l'excentricité orbitale, l'état de rotation, la densité atmosphérique, la magnétosphère et les molécules détectées. Les molécules pèsent de façon contextuelle — l'eau sur une géante gazeuse chaude ne signifie pas la même chose que de l'eau et de l'oxygène ensemble sur une planète rocheuse tempérée." },
+      { "name": "Score de ressources (0-100)", "body": "Totalement indépendant de l'habitabilité. Basé sur la densité (indicateur de noyau riche en métaux), le type de planète, l'activité tectonique et la force de la magnétosphère. Une géante gazeuse brûlante peut ainsi avoir un score de ressources élevé tout en ayant un score d'habitabilité faible." },
+      { "name": "Score de confiance", "body": "Le pourcentage du score reposant sur des mesures réelles plutôt que sur des suppositions. Ce qui n'a pas été mesuré reste inconnu — nous ne devinons jamais une valeur d'apparence neutre qui semblerait être un fait. Une planète avec un spectre richement caractérisé (plusieurs molécules détectées) obtient une confiance plus élevée qu'une planète avec une seule détection isolée." }
+    ],
+    "valueTitle": "Comment la valeur marchande est déterminée",
+    "valueIntro": "Le prix final d'une planète est sa valeur de base scientifique, multipliée par le sentiment de marché et l'offre/demande. Trois couches, chacune avec son propre rythme de changement, plutôt qu'une formule opaque :",
+    "valueLayers": [
+      { "name": "1. Valeur de base scientifique", "body": "Combine le score d'habitabilité et de ressources (chacun comptant pour moitié), avec une prime de rareté pour les planètes plus proches de la Terre et une décote pour faible confiance. Ne change qu'avec de nouvelles mesures astronomiques." },
+      { "name": "2. Sentiment de marché", "body": "Une couche macro qui réagit à l'actualité — missions spatiales, avancées technologiques, climat général du marché. Les effets s'estompent avec le temps (demi-vie), tout comme les vraies nouvelles du marché s'effacent lentement de la mémoire." },
+      { "name": "3. Offre et demande", "body": "La dernière couche réagit à l'activité au sein de la plateforme elle-même : de nombreux acheteurs font monter le prix, de nombreux vendeurs le font baisser — plafonné, afin qu'une seule grosse transaction ne fasse pas déraper le prix." }
+    ],
+    "biosigTitle": "Candidats à la biosignature",
+    "biosigBody": "Certaines planètes reçoivent un badge de biosignature : oxygène associé à de l'eau ou du méthane, détectés sur une planète rocheuse tempérée dans la zone habitable. C'est un signal scientifiquement intéressant — <0>pas une preuve de vie</0>. Des explications connues sans biologie existent, comme la photodissociation autour des naines rouges."
+  },
+  "about": {
+    "title": "À propos d'Exo Index",
+    "intro": "Exo Index est une plateforme d'échange fantaisiste où vous collectionnez des parcelles sur des exoplanètes et des planètes du système solaire, évaluées par un indice scientifiquement fondé plutôt que par le hasard.",
+    "section1Title": "Aucune propriété foncière réelle",
+    "section1Body": "Tout sur Exo Index est fictif. En vertu du Traité de l'espace de 1967, aucun pays ni individu ne peut revendiquer la propriété de corps célestes — l'achat d'une « parcelle » sur Exo Index n'accorde donc en aucune façon une propriété foncière réelle et juridiquement opposable. Vous collectionnez un bien fictif au sein d'un jeu, ni plus ni moins.",
+    "section2Title": "Crédits fermés, pas d'argent réel",
+    "section2Body": "Vous échangez avec des crédits de plateforme que vous gagnez ou achetez sur Exo Index. Ces crédits ne sont pas échangeables contre de l'argent réel et n'ont aucune valeur en dehors de la plateforme. Exo Index n'est pas un produit de valeurs mobilières ou d'investissement et n'offre aucun rendement financier.",
+    "section3Title": "Comment nous faisons tourner la plateforme",
+    "section3Body": "Exo Index fonctionne avec un modèle freemium : commencez gratuitement en tant qu'<0>Explorateur</0>, avec des mises à niveau optionnelles vers <1>Prospecteur</1> ou <2>Baron Foncier</2> pour des fonctionnalités supplémentaires, en plus d'extras cosmétiques optionnels. Le cœur de la plateforme reste ainsi accessible gratuitement.",
+    "section4Title": "Pourquoi nous construisons cela",
+    "section4Body": "Il existe une richesse de données publiques sur les exoplanètes qui reste inaccessible à la plupart des gens, enfermée derrière des tableaux scientifiques. Exo Index rend ces données tangibles et ludiques, sans trahir la science — chaque score peut être retracé jusqu'à des mesures réelles. Découvrez la méthode de notation sur la page <0>Comment ça marche</0>."
+  },
+  "faq": {
+    "title": "Questions fréquentes",
+    "items": [
+      { "q": "Est-ce que j'achète vraiment un morceau d'exoplanète ?", "a": "Non. Exo Index est un divertissement entièrement fictif. En vertu du Traité de l'espace de 1967, personne ne peut revendiquer la propriété de corps célestes. Vous collectionnez un objet de jeu numérique, pas un terrain réel." },
+      { "q": "Puis-je convertir des crédits en argent réel ?", "a": "Non. Les crédits de la plateforme sont fermés : ils ne peuvent être utilisés qu'au sein d'Exo Index et n'ont ni valeur ni taux de change en dehors de la plateforme." },
+      { "q": "D'où viennent les données des planètes ?", "a": "Principalement du NASA Exoplanet Archive et d'exoplanet.eu, complétées par des détections du JWST. Consultez la page Sources de données pour l'aperçu complet." },
+      { "q": "Que signifie le badge de biosignature ?", "a": "Il apparaît pour une combinaison spécifique de molécules détectées (oxygène avec eau ou méthane) sur une planète rocheuse tempérée dans la zone habitable. C'est un signal scientifiquement intéressant, pas une preuve de vie — des explications sans biologie existent également." },
+      { "q": "Pourquoi le prix d'une planète change-t-il ?", "a": "La valeur marchande combine trois couches : la valeur de base scientifique (change avec de nouvelles mesures), le sentiment de marché (réagit à l'actualité et s'estompe avec le temps) et l'offre/demande (réagit à l'activité d'achat et de vente sur la plateforme). Voir Comment ça marche pour l'explication complète." },
+      { "q": "Quelle est la différence entre Explorateur, Prospecteur et Baron Foncier ?", "a": "Explorateur est le niveau gratuit qui vous permet de commencer immédiatement. Prospecteur et Baron Foncier sont des niveaux payants qui débloquent des fonctionnalités supplémentaires. Tous les niveaux utilisent le même modèle d'évaluation scientifique." },
+      { "q": "La Terre obtient-elle exactement 1,0 ?", "a": "Non, délibérément pas. L'indice de similarité avec la Terre utilise la même température d'équilibre calculée pour toutes les planètes plutôt que la température réelle de la surface terrestre, afin de garder une comparaison équitable entre planètes. La Terre elle-même obtient donc un score légèrement inférieur à 1,0." }
+    ]
+  },
+  "dataSources": {
+    "title": "Sources de données",
+    "intro": "Chaque score sur Exo Index peut être retracé jusqu'à des données astronomiques accessibles au public. Voici les sources que nous utilisons, et pour quoi.",
+    "sources": [
+      { "name": "NASA Exoplanet Archive", "role": "Source principale des données physiques, orbitales et stellaires (la table pscomppars). Mise à jour chaque semaine.", "license": "Accessible au public (NASA, domaine public)." },
+      { "name": "exoplanet.eu", "role": "Source principale des molécules détectées et des données de champ magnétique.", "license": "CC BY 4.0 — usage commercial autorisé avec attribution." },
+      { "name": "Données moléculaires du JWST", "role": "Source complémentaire pour les détections moléculaires les plus récentes pas encore intégrées à exoplanet.eu.", "license": "Données de recherche accessibles au public." },
+      { "name": "Données du système solaire", "role": "Pour les huit planètes de notre propre système solaire, nous utilisons un jeu de données statique constitué manuellement — après tout, cela ne change pas.", "license": "Compilé à partir de données NASA accessibles au public." }
+    ],
+    "footerNote": "Données atmosphériques : exoplanet.eu, CC BY 4.0. Exo Index n'est ni affilié ni approuvé par la NASA ou exoplanet.eu."
+  },
+  "privacy": {
+    "title": "Politique de confidentialité",
+    "disclaimer": "Ceci est une version provisoire, pas encore validée juridiquement. Avant qu'Exo Index ne soit lancé avec de véritables données utilisateurs, ce document sera relu par un juriste.",
+    "sections": [
+      { "title": "Quelles données nous collectons", "body": "Nous nous limitons délibérément au strict minimum : nom d'utilisateur, adresse e-mail, votre niveau de compte et votre solde de crédits. Aucun champ superflu, aucune donnée dont nous n'avons pas besoin pour faire fonctionner la plateforme." },
+      { "title": "Pourquoi nous les collectons", "body": "Pour gérer votre compte, suivre votre portefeuille et vos transactions et — si vous y consentez — pour vous tenir informé des nouvelles fonctionnalités." },
+      { "title": "Vos droits", "body": "Vous avez le droit d'accéder à vos données et de les porter, ainsi que le droit à l'oubli. Lors d'une demande de suppression, nous anonymisons vos données personnelles ; les données de transaction sont alors conservées uniquement sous forme anonymisée, dans la mesure requise par la loi." },
+      { "title": "Durée de conservation", "body": "Nous conservons les données de compte tant que votre compte est actif. En cas d'inactivité prolongée, nous appliquons une durée de conservation encore à déterminer, qui sera fixée dans une version définitive de cette politique." },
+      { "title": "Cookies", "body": "Nous n'utilisons que des cookies fonctionnels nécessaires pour vous maintenir connecté. Avant d'ajouter des cookies d'analyse ou marketing, nous demanderons d'abord votre consentement explicite." },
+      { "title": "Questions", "body": "Des questions sur vos données ou vous souhaitez exercer l'un des droits ci-dessus ? Contactez-nous via l'adresse e-mail associée à votre compte." }
+    ]
+  },
+  "terms": {
+    "title": "Conditions générales",
+    "disclaimer": "Ceci est une version provisoire, pas encore validée juridiquement. Avant qu'Exo Index ne soit lancé avec de véritables utilisateurs, ce document sera relu par un juriste.",
+    "sections": [
+      { "title": "1. Nature de la plateforme", "body": "Exo Index est une plateforme de divertissement fictive. Les parcelles, planètes et portefeuilles sont des objets de jeu numériques sans valeur juridique ni droit de propriété. Rien sur cette plateforme ne constitue une offre d'achat ou de vente de terrain réel, de valeurs mobilières ou de produits financiers." },
+      { "title": "2. Crédits", "body": "Les crédits de la plateforme ne peuvent être utilisés qu'au sein d'Exo Index. Ils ne sont pas échangeables contre de l'argent réel, ne sont pas transférables en dehors de la plateforme et ne représentent ni un investissement ni un rendement financier." },
+      { "title": "3. Comptes et niveaux", "body": "Vous pouvez créer un compte Explorateur gratuit. Les niveaux payants (Prospecteur, Baron Foncier) et tout achat cosmétique débloquent des fonctionnalités supplémentaires, mais ne changent rien à la nature fictive de la plateforme." },
+      { "title": "4. Données scientifiques", "body": "Les scores et évaluations reposent sur des données astronomiques accessibles au public et sur notre propre modèle d'évaluation. De nouvelles mesures peuvent modifier les scores existants. Nous faisons de notre mieux pour maintenir les données à jour, mais ne garantissons ni leur exhaustivité ni leur exactitude." },
+      { "title": "5. Comportement sur la plateforme", "body": "Tout abus de la plateforme — comme des tentatives de manipulation de la formation des prix via des transactions automatisées ou frauduleuses — peut entraîner la suspension de votre compte." },
+      { "title": "6. Modifications", "body": "Nous pouvons modifier ces conditions à mesure que la plateforme évolue. Nous vous en informerons via votre compte en cas de changements importants." }
+    ]
+  },
+  "catalog": {
+    "title": "Catalogue de planètes",
+    "count_one": "{{count}} planète",
+    "count_other": "{{count}} planètes",
+    "subtitle": "indice de valorisation scientifiquement fondé.",
+    "searchPlaceholder": "Rechercher par nom ou étoile...",
+    "types": {
+      "all": "Tous les types",
+      "rocky": "Rocheuse",
+      "super_earth": "Super-Terre",
+      "sub_neptune": "Sous-Neptune",
+      "ice_giant": "Géante de glace",
+      "gas_giant": "Géante gazeuse"
+    },
+    "hz": {
+      "all": "ZH : toutes",
+      "inside": "Dans la zone habitable",
+      "outside": "Hors de la zone habitable"
+    },
+    "molecules": {
+      "all": "Molécules : toutes",
+      "detected": "Molécules détectées",
+      "notDetected": "Aucune molécule détectée"
+    },
+    "orderings": {
+      "-habitability_score": "Habitabilité (haute → basse)",
+      "habitability_score": "Habitabilité (basse → haute)",
+      "-resource_score": "Ressources (hautes → basses)",
+      "resource_score": "Ressources (basses → hautes)",
+      "distance_from_earth_ly": "Distance (proche → lointaine)"
+    },
+    "checkboxes": {
+      "biosignature": "Candidats à la biosignature uniquement",
+      "atmosphere": "Atmosphère",
+      "h2o": "H2O détectée",
+      "carbon": "C ou CO2 détecté"
+    },
+    "error": "Impossible de charger les planètes : {{message}}",
+    "empty": "Aucune planète trouvée avec ces filtres.",
+    "prev": "Précédent",
+    "next": "Suivant",
+    "page": "Page {{page}}"
+  },
+  "planetCard": {
+    "habitability": "Habitabilité",
+    "resources": "Ressources",
+    "solarSystem": "Système solaire",
+    "lightYears": "{{value}} al"
+  },
+  "planetDetail": {
+    "notMeasured": "non mesuré",
+    "rotationStates": {
+      "free": "Libre",
+      "resonant": "Résonante",
+      "synchronous": "Synchrone (verrouillage gravitationnel)"
+    },
+    "buyError": "L'achat a échoué.",
+    "sellError": "La vente a échoué.",
+    "notFound": "Planète introuvable.",
+    "backToCatalog": "Retour au catalogue",
+    "system": "Système {{name}}",
+    "marketValuePerUnit": "Valeur marchande par unité",
+    "creditsAmount": "{{value}} crédits",
+    "notSyncedYet": "pas encore synchronisé",
+    "basisSentimentDemand": "base {{basis}} × sentiment {{sentiment}}× × demande {{demand}}×",
+    "loginToTrade": "Connectez-vous pour échanger",
+    "quantity": "Quantité",
+    "buy": "Acheter",
+    "quantityOwned": "Quantité (vous possédez {{count}}x)",
+    "all": "tout",
+    "sell": "Vendre",
+    "sections": {
+      "identification": "Identification",
+      "star": "Étoile",
+      "orbit": "Orbite et système",
+      "physical": "Physique",
+      "habitabilityContext": "Contexte d'habitabilité",
+      "atmosphere": "Atmosphère et composition",
+      "scores": "Scores"
+    },
+    "fields": {
+      "discoveredIn": "Découverte en",
+      "method": "Méthode",
+      "solarSystem": "Système solaire",
+      "spectralType": "Type spectral",
+      "temperature": "Température",
+      "radius": "Rayon",
+      "mass": "Masse",
+      "age": "Âge",
+      "type": "Type",
+      "semiMajorAxis": "Demi-grand axe",
+      "eccentricity": "Excentricité",
+      "orbitalPeriod": "Période orbitale",
+      "rotation": "Rotation",
+      "moons": "Lunes",
+      "rings": "Anneaux",
+      "massEarth": "Masse",
+      "radiusEarth": "Rayon",
+      "density": "Densité",
+      "gravity": "Gravité",
+      "equilibriumTemp": "Température d'équilibre",
+      "distance": "Distance",
+      "habitableZone": "Zone habitable",
+      "hzBounds": "Limites de la ZH",
+      "atmosphereDensity": "Densité de l'atmosphère",
+      "molecules": "Molécules",
+      "magnetosphere": "Magnétosphère",
+      "tectonics": "Tectonique",
+      "esi": "ESI (similarité avec la Terre)",
+      "habitability": "Habitabilité",
+      "resources": "Ressources"
+    },
+    "days": "jours",
+    "inSolarSystem": "Dans le système solaire",
+    "lightYearsShort": "al",
+    "inside": "À l'intérieur",
+    "outside": "À l'extérieur",
+    "dataSourceNote": "Données atmosphériques : exoplanet.eu, CC BY 4.0."
+  },
+  "biosignature": {
+    "badge": "Candidat à la biosignature",
+    "tooltip": "O2 + H2O/CH4 détectés -- pas une preuve de vie",
+    "body": "Sur cette planète, à la fois O2 et H2O ou CH4 ont été détectés, dans un contexte rocheux tempéré — scientifiquement intéressant, mais <0>pas une preuve de vie</0>. Il existe des explications abiotiques (non biologiques) connues pour de telles combinaisons, par exemple la photodissociation de l'eau autour des naines rouges."
+  },
+  "dataCompleteness": {
+    "unknown": "Données inconnues",
+    "measured": "{{value}} % mesuré"
+  },
+  "priceHistory": {
+    "title": "Historique de valeur",
+    "ranges": { "week": "Semaine", "month": "Mois", "year": "Année" },
+    "noData": "Pas encore assez d'historique pour cette période.",
+    "noDataHint": "Cette plateforme ne tourne que depuis peu de temps — le graphique se remplit à mesure que la valeur marchande est recalculée plus souvent."
+  },
+  "login": {
+    "title": "Connexion",
+    "username": "Nom d'utilisateur",
+    "password": "Mot de passe",
+    "submit": "Se connecter",
+    "error": "Échec de la connexion.",
+    "noAccount": "Pas encore de compte ?",
+    "registerLink": "S'inscrire"
+  },
+  "register": {
+    "title": "Créer un compte",
+    "subtitle": "Vous commencez avec 10 000 crédits (niveau Explorateur, gratuit).",
+    "username": "Nom d'utilisateur",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "minLength": "Au moins 8 caractères.",
+    "submit": "S'inscrire",
+    "error": "Échec de l'inscription.",
+    "hasAccount": "Déjà un compte ?",
+    "loginLink": "Se connecter"
+  },
+  "portfolio": {
+    "title": "Portefeuille",
+    "balance": "Solde",
+    "holdings": "Avoirs",
+    "empty": "Vous ne possédez encore aucune planète.",
+    "viewCatalog": "Voir le catalogue",
+    "avgPurchasePrice": "{{quantity}}x · prix d'achat moyen {{price}}",
+    "sellAll": "Tout vendre",
+    "sellError": "La vente a échoué.",
+    "transactions": "Historique des transactions",
+    "noTransactions": "Aucune transaction pour l'instant.",
+    "table": {
+      "planet": "Planète",
+      "action": "Action",
+      "quantity": "Quantité",
+      "pricePerUnit": "Prix/unité",
+      "total": "Total",
+      "date": "Date",
+      "buy": "Achat",
+      "sell": "Vente"
+    }
+  }
+}

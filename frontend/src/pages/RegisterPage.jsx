@@ -1,9 +1,11 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import { useTranslation } from "react-i18next"
 import { useAuth } from "../context/AuthContext"
 import { ApiError } from "../api/client"
 
 export default function RegisterPage() {
+  const { t } = useTranslation()
   const { register } = useAuth()
   const navigate = useNavigate()
   const [username, setUsername] = useState("")
@@ -20,7 +22,7 @@ export default function RegisterPage() {
       await register(username, email, password)
       navigate("/catalogus", { replace: true })
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : "Registreren mislukt.")
+      setError(err instanceof ApiError ? err.message : t("register.error"))
     } finally {
       setIsSubmitting(false)
     }
@@ -28,11 +30,11 @@ export default function RegisterPage() {
 
   return (
     <div className="max-w-sm mx-auto px-4 py-16 w-full">
-      <h1 className="text-xl font-semibold text-slate-100 mb-2">Account aanmaken</h1>
-      <p className="text-sm text-slate-500 mb-6">Je start met 10.000 credits (Explorer-tier, gratis).</p>
+      <h1 className="text-xl font-semibold text-slate-100 mb-2">{t("register.title")}</h1>
+      <p className="text-sm text-slate-500 mb-6">{t("register.subtitle")}</p>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm text-slate-400 mb-1">Gebruikersnaam</label>
+          <label className="block text-sm text-slate-400 mb-1">{t("register.username")}</label>
           <input
             type="text"
             value={username}
@@ -42,7 +44,7 @@ export default function RegisterPage() {
           />
         </div>
         <div>
-          <label className="block text-sm text-slate-400 mb-1">E-mail</label>
+          <label className="block text-sm text-slate-400 mb-1">{t("register.email")}</label>
           <input
             type="email"
             value={email}
@@ -51,7 +53,7 @@ export default function RegisterPage() {
           />
         </div>
         <div>
-          <label className="block text-sm text-slate-400 mb-1">Wachtwoord</label>
+          <label className="block text-sm text-slate-400 mb-1">{t("register.password")}</label>
           <input
             type="password"
             value={password}
@@ -60,7 +62,7 @@ export default function RegisterPage() {
             minLength={8}
             className="w-full rounded-md bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-indigo-500"
           />
-          <p className="text-xs text-slate-600 mt-1">Minimaal 8 tekens.</p>
+          <p className="text-xs text-slate-600 mt-1">{t("register.minLength")}</p>
         </div>
         {error && <p className="text-red-400 text-sm">{error}</p>}
         <button
@@ -68,11 +70,11 @@ export default function RegisterPage() {
           disabled={isSubmitting}
           className="w-full py-2 rounded-md bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-500 disabled:opacity-50"
         >
-          {isSubmitting ? "Bezig..." : "Registreren"}
+          {isSubmitting ? t("common.busy") : t("register.submit")}
         </button>
       </form>
       <p className="text-sm text-slate-500 mt-4">
-        Al een account? <Link to="/login" className="text-indigo-400">Log in</Link>
+        {t("register.hasAccount")} <Link to="/login" className="text-indigo-400">{t("register.loginLink")}</Link>
       </p>
     </div>
   )

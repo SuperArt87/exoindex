@@ -1,15 +1,16 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { useTranslation } from "react-i18next"
 import { getPortfolio, getTransactions, sellPlanet } from "../api/trading"
 import { useAuth } from "../context/AuthContext"
 import { ApiError } from "../api/client"
-
-function credits(value) {
-  return `${Number(value).toLocaleString("nl-NL", { minimumFractionDigits: 2 })} cr`
-}
+import { formatCredits, formatDateTime } from "../i18n/format"
 
 export default function PortfolioPage() {
+  const { t, i18n } = useTranslation()
+  const lang = i18n.resolvedLanguage || i18n.language
+  const credits = (value) => `${formatCredits(value, lang)} cr`
   const { user, refreshUser } = useAuth()
   const queryClient = useQueryClient()
   const [error, setError] = useState(null)
@@ -32,25 +33,27 @@ export default function PortfolioPage() {
       await queryClient.invalidateQueries({ queryKey: ["transactions"] })
       await refreshUser()
     },
-    onError: (err) => setError(err instanceof ApiError ? err.message : "Verkopen mislukt."),
+    onError: (err) => setError(err instanceof ApiError ? err.message : t("portfolio.sellError")),
   })
 
   const holdings = portfolio?.results ?? []
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-6 w-full">
-      <h1 className="text-2xl font-semibold text-slate-100 mb-1">Portfolio</h1>
+      <h1 className="text-2xl font-semibold text-slate-100 mb-1">{t("portfolio.title")}</h1>
       <p className="text-slate-400 mb-6">
-        Saldo: <span className="text-emerald-400 font-medium">{user ? credits(user.credits_balance) : "..."}</span>
+        {t("portfolio.balance")}: <span className="text-emerald-400 font-medium">{user ? credits(user.credits_balance) : "..."}</span>
       </p>
 
       {error && <p className="text-red-400 text-sm mb-4">{error}</p>}
 
-      <h2 className="text-sm font-semibold text-slate-300 uppercase tracking-wide mb-3">Bezit</h2>
+      <h2 className="text-sm font-semibold text-slate-300 uppercase tracking-wide mb-3">{t("portfolio.holdings")}</h2>
       {portfolioLoading ? (
-        <p className="text-slate-500 mb-8">Laden...</p>
+        <p className="text-slate-500 mb-8">{t("common.loading")}</p>
       ) : holdings.length === 0 ? (
-        <p className="text-slate-500 mb-8">Je bezit nog geen planeten. <Link to="/catalogus" className="text-indigo-400">Bekijk de catalogus</Link>.</p>
+        <p className="text-slate-500 mb-8">
+          {t("portfolio.empty")} <Link to="/catalogus" className="text-indigo-400">{t("portfolio.viewCatalog")}</Link>.
+        </p>
       ) : (
         <div className="space-y-2 mb-8">
           {holdings.map((h) => {
@@ -62,7 +65,7 @@ export default function PortfolioPage() {
                 <div>
                   <Link to={`/planets/${h.planet}`} className="text-slate-100 font-medium hover:text-white">{h.planet_name}</Link>
                   <p className="text-xs text-slate-500">
-                    {h.quantity}x · gem. aankoopprijs {credits(h.purchase_price_credits)}
+                    {t("portfolio.avgPurchasePrice", { quantity: h.quantity, price: credits(h.purchase_price_credits) })}
                   </p>
                 </div>
                 <div className="text-right">
@@ -78,7 +81,7 @@ export default function PortfolioPage() {
                   disabled={sellMutation.isPending}
                   className="px-3 py-1.5 rounded-md border border-red-800 text-red-400 text-sm hover:bg-red-950 disabled:opacity-50"
                 >
-                  Verkoop alles
+                  {t("portfolio.sellAll")}
                 </button>
               </div>
             )
@@ -86,35 +89,35 @@ export default function PortfolioPage() {
         </div>
       )}
 
-      <h2 className="text-sm font-semibold text-slate-300 uppercase tracking-wide mb-3">Transactiegeschiedenis</h2>
+      <h2 className="text-sm font-semibold text-slate-300 uppercase tracking-wide mb-3">{t("portfolio.transactions")}</h2>
       {txLoading ? (
-        <p className="text-slate-500">Laden...</p>
+        <p className="text-slate-500">{t("common.loading")}</p>
       ) : !transactions?.results?.length ? (
-        <p className="text-slate-500">Nog geen transacties.</p>
+        <p className="text-slate-500">{t("portfolio.noTransactions")}</p>
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="text-left text-slate-500 border-b border-slate-800">
-                <th className="py-2 pr-4">Planeet</th>
-                <th className="py-2 pr-4">Actie</th>
-                <th className="py-2 pr-4">Aantal</th>
-                <th className="py-2 pr-4">Prijs/stuk</th>
-                <th className="py-2 pr-4">Totaal</th>
-                <th className="py-2">Datum</th>
+                <th className="py-2 pr-4">{t("portfolio.table.planet")}</th>
+                <th className="py-2 pr-4">{t("portfolio.table.action")}</th>
+                <th className="py-2 pr-4">{t("portfolio.table.quantity")}</th>
+                <th className="py-2 pr-4">{t("portfolio.table.pricePerUnit")}</th>
+                <th className="py-2 pr-4">{t("portfolio.table.total")}</th>
+                <th className="py-2">{t("portfolio.table.date")}</th>
               </tr>
             </thead>
             <tbody>
-              {transactions.results.map((t) => (
-                <tr key={t.id} className="border-b border-slate-900">
-                  <td className="py-2 pr-4 text-slate-200">{t.planet_name}</td>
-                  <td className={`py-2 pr-4 ${t.action === "buy" ? "text-emerald-400" : "text-red-400"}`}>
-                    {t.action === "buy" ? "Koop" : "Verkoop"}
+              {transactions.results.map((tr) => (
+                <tr key={tr.id} className="border-b border-slate-900">
+                  <td className="py-2 pr-4 text-slate-200">{tr.planet_name}</td>
+                  <td className={`py-2 pr-4 ${tr.action === "buy" ? "text-emerald-400" : "text-red-400"}`}>
+                    {tr.action === "buy" ? t("portfolio.table.buy") : t("portfolio.table.sell")}
                   </td>
-                  <td className="py-2 pr-4 text-slate-300">{t.quantity}x</td>
-                  <td className="py-2 pr-4 text-slate-300">{credits(t.price_credits)}</td>
-                  <td className="py-2 pr-4 text-slate-300">{credits(t.total_price_credits)}</td>
-                  <td className="py-2 text-slate-500">{new Date(t.created_at).toLocaleString("nl-NL")}</td>
+                  <td className="py-2 pr-4 text-slate-300">{tr.quantity}x</td>
+                  <td className="py-2 pr-4 text-slate-300">{credits(tr.price_credits)}</td>
+                  <td className="py-2 pr-4 text-slate-300">{credits(tr.total_price_credits)}</td>
+                  <td className="py-2 text-slate-500">{formatDateTime(tr.created_at, lang)}</td>
                 </tr>
               ))}
             </tbody>
