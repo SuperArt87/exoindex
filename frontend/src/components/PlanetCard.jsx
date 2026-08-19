@@ -31,9 +31,19 @@ export default function PlanetCard({ planet }) {
       </div>
 
       <div className="p-4 space-y-2">
-        <div>
-          <h3 className="text-slate-100 font-medium group-hover:text-white truncate">{planet.planet_name}</h3>
-          <p className="text-xs text-slate-500 truncate">{planet.host_name}</p>
+        <div className="flex items-start justify-between gap-2">
+          <div className="min-w-0">
+            <h3 className="text-slate-100 font-medium group-hover:text-white truncate">{planet.planet_name}</h3>
+            <p className="text-xs text-slate-500 truncate">{planet.host_name}</p>
+          </div>
+          {planet.is_updated && (
+            <span
+              className="shrink-0 text-xs px-2 py-0.5 rounded bg-amber-900/40 text-amber-300 border border-amber-800"
+              title={t("planetCard.updatedTooltip")}
+            >
+              {t("planetCard.updated")}
+            </span>
+          )}
         </div>
 
         <BiosignatureBadge isCandidate={planet.biosignature_candidate} />

@@ -29,6 +29,13 @@ class User(AbstractUser):
     )
     anonymized_at = models.DateTimeField(null=True, blank=True)
 
+    # Wanneer deze gebruiker de catalogus-lijst voor het laatst heeft
+    # opgehaald -- gezet door PlanetViewSet.list() (catalog/views.py), NIET
+    # bij het ?full=true-verzoek voor de stelsel-3D-view, want dat is geen
+    # "catalogus bekijken". Bepaalt welke planeten de "update"-tag krijgen
+    # (Planet.last_content_update_at nieuwer dan dit veld).
+    catalog_last_viewed_at = models.DateTimeField(null=True, blank=True)
+
     def anonymize(self):
         """
         Verwerkt een verwijderverzoek (recht op vergetelheid, AVG art. 17).

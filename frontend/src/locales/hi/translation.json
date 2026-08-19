@@ -164,7 +164,9 @@
     "habitability": "रहने योग्यता",
     "resources": "संसाधन",
     "solarSystem": "सौर मंडल",
-    "lightYears": "{{value}} प्रकाश वर्ष"
+    "lightYears": "{{value}} प्रकाश वर्ष",
+    "updated": "अपडेट",
+    "updatedTooltip": "आपकी पिछली विज़िट के बाद नई जानकारी"
   },
   "planetDetail": {
     "notMeasured": "मापा नहीं गया",

@@ -163,7 +163,9 @@
     "habitability": "宜居性",
     "resources": "资源",
     "solarSystem": "太阳系",
-    "lightYears": "{{value}} 光年"
+    "lightYears": "{{value}} 光年",
+    "updated": "更新",
+    "updatedTooltip": "自您上次访问以来的新信息"
   },
   "planetDetail": {
     "notMeasured": "未测量",

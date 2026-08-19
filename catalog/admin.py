@@ -32,14 +32,14 @@ class PlanetAdmin(admin.ModelAdmin):
     list_display = (
         "planet_name", "host_name", "visual_tag", "planet_type",
         "habitability_score", "base_resource_score", "resource_score", "confidence_score",
-        "biosignature_candidate", "is_solar_system", "last_synced_at",
+        "biosignature_candidate", "is_solar_system", "last_synced_at", "last_content_update_at",
     )
     list_filter = (
         "is_solar_system", "planet_type", "in_habitable_zone",
         "biosignature_candidate", "molecule_source", "rotation_state",
     )
     search_fields = ("planet_name", "host_name")
-    readonly_fields = ("last_synced_at",)
+    readonly_fields = ("last_synced_at", "last_content_update_at")
     ordering = ("-habitability_score",)
 
     fieldsets = (

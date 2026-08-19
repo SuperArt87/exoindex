@@ -163,7 +163,9 @@
     "habitability": "居住可能性",
     "resources": "資源",
     "solarSystem": "太陽系",
-    "lightYears": "{{value}} 光年"
+    "lightYears": "{{value}} 光年",
+    "updated": "更新",
+    "updatedTooltip": "前回の訪問以降の新しい情報"
   },
   "planetDetail": {
     "notMeasured": "未測定",

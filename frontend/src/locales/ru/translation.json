@@ -166,7 +166,9 @@
     "habitability": "Обитаемость",
     "resources": "Ресурсы",
     "solarSystem": "Солнечная система",
-    "lightYears": "{{value}} св. лет"
+    "lightYears": "{{value}} св. лет",
+    "updated": "Обновление",
+    "updatedTooltip": "Новая информация с момента вашего последнего посещения"
   },
   "planetDetail": {
     "notMeasured": "не измерено",

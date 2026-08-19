@@ -16,7 +16,12 @@ export function listPlanets({
   if (ordering) params.set("ordering", ordering)
   if (page) params.set("page", page)
   const qs = params.toString()
-  return apiFetch(`/api/planets/${qs ? `?${qs}` : ""}`)
+  // auth: true -- niet verplicht (catalogus is publiek), maar zorgt dat een
+  // ingelogde gebruiker de "update"-tag (is_updated) en de bijbehorende
+  // catalog_last_viewed_at-bijwerking krijgt. Zonder token stuurt apiFetch
+  // gewoon geen Authorization-header mee, dan werkt dit endpoint identiek
+  // aan voorheen.
+  return apiFetch(`/api/planets/${qs ? `?${qs}` : ""}`, { auth: true })
 }
 
 export function getPlanet(id) {

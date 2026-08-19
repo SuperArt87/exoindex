@@ -163,7 +163,9 @@
     "habitability": "Yaşanabilirlik",
     "resources": "Kaynaklar",
     "solarSystem": "Güneş sistemi",
-    "lightYears": "{{value}} ışık yılı"
+    "lightYears": "{{value}} ışık yılı",
+    "updated": "Güncelleme",
+    "updatedTooltip": "Son ziyaretinizden bu yana yeni bilgiler"
   },
   "planetDetail": {
     "notMeasured": "ölçülmedi",

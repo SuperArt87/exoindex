@@ -167,7 +167,9 @@
     "habitability": "قابلية السكن",
     "resources": "الموارد",
     "solarSystem": "المجموعة الشمسية",
-    "lightYears": "{{value}} سنة ضوئية"
+    "lightYears": "{{value}} سنة ضوئية",
+    "updated": "تحديث",
+    "updatedTooltip": "معلومات جديدة منذ زيارتك الأخيرة"
   },
   "planetDetail": {
     "notMeasured": "غير مُقاس",

@@ -75,6 +75,13 @@ class Planet(models.Model):
     market_value_credits = models.DecimalField(max_digits=14, decimal_places=2, null=True, blank=True)
 
     last_synced_at = models.DateTimeField(auto_now=True)
+    # Wanneer hier voor het laatst ECHTE nieuwe informatie bijkwam (nieuwe
+    # verified ResourceDiscovery, of een wezenlijk gewijzigde wetenschappelijke
+    # meting bij sync_planets) -- NIET bij elke routinematige marktprijs-
+    # herberekening (die draait dagelijks/uurlijks voor alle planeten en zou
+    # de "update"-tag in de catalogus zinloos maken). Drijft die tag t.o.v.
+    # User.catalog_last_viewed_at, zie catalog/views.py PlanetViewSet.
+    last_content_update_at = models.DateTimeField(null=True, blank=True, db_index=True)
 
     class Meta:
         ordering = ["-habitability_score"]

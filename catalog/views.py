@@ -43,10 +43,20 @@ class PlanetFilter(django_filters.FilterSet):
         return queryset.exclude(empty) if value else queryset.filter(empty)
 
     def filter_has_atmosphere(self, queryset, name, value):
-        # atmosphere_density kent zowel NULL (onbekend) als het expliciete
-        # "none" (gemeten: geen atmosfeer) -- beide horen bij "geen atmosfeer".
-        no_atmosphere = Q(atmosphere_density__isnull=True) | Q(atmosphere_density="none")
-        return queryset.exclude(no_atmosphere) if value else queryset.filter(no_atmosphere)
+        # "Heeft atmosfeer" = ELK bewijs van een atmosfeer: een dichtheids-
+        # classificatie (trace/thin/moderate/thick/deep -- MEASURED, maar
+        # alleen ooit gezet voor het zonnestelsel, zie build_database.py) OF
+        # een gepubliceerde moleculedetectie (exoplaneten, zie
+        # detected_molecules/jwst_molecule_data.py). Bewust twee losse
+        # soorten metingen samengevoegd onder dit ene filter -- zonder
+        # detected_molecules zou "Atmosfeer" in de praktijk altijd
+        # zonnestelsel-only opleveren, terwijl er wel degelijk exoplaneten
+        # met bevestigde atmosferische samenstelling in de catalogus zitten.
+        # Alleen als BEIDE ontbreken is er geen enkel atmosferisch bewijs.
+        no_density = Q(atmosphere_density__isnull=True) | Q(atmosphere_density="none")
+        no_molecules = Q(detected_molecules__isnull=True) | Q(detected_molecules=[])
+        no_evidence = no_density & no_molecules
+        return queryset.exclude(no_evidence) if value else queryset.filter(no_evidence)
 
     def filter_has_h2o(self, queryset, name, value):
         # Python-side tokenmatch i.p.v. een JSONField-containment-query,
@@ -82,6 +92,28 @@ class PlanetViewSet(viewsets.ReadOnlyModelViewSet):
         if self.action == "list" and not wants_full:
             return PlanetListSerializer
         return PlanetSerializer
+
+    def _is_catalog_browse(self):
+        # Onderscheidt een echt catalogus-bezoek van het ?full=true-verzoek
+        # dat de stelsel-3D-view gebruikt (zelfde list-action, ander doel) --
+        # dat laatste mag de "laatst bekeken"-stand niet stilzwijgend bijwerken.
+        return self.action == "list" and self.request.query_params.get("full") != "true"
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        if self._is_catalog_browse():
+            user = self.request.user
+            context["catalog_since"] = user.catalog_last_viewed_at if user.is_authenticated else None
+        return context
+
+    def list(self, request, *args, **kwargs):
+        response = super().list(request, *args, **kwargs)
+        # Pas NA het serialiseren bijwerken: get_serializer_context() hierboven
+        # moet nog de OUDE waarde lezen om te bepalen wat er sinds toen nieuw is.
+        if self._is_catalog_browse() and request.user.is_authenticated:
+            request.user.catalog_last_viewed_at = timezone.now()
+            request.user.save(update_fields=["catalog_last_viewed_at"])
+        return response
 
     @action(detail=True, methods=["get"])
     def history(self, request, pk=None):

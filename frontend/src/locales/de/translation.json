@@ -164,7 +164,9 @@
     "habitability": "Bewohnbarkeit",
     "resources": "Ressourcen",
     "solarSystem": "Sonnensystem",
-    "lightYears": "{{value}} Lj"
+    "lightYears": "{{value}} Lj",
+    "updated": "Update",
+    "updatedTooltip": "Neue Informationen seit deinem letzten Besuch"
   },
   "planetDetail": {
     "notMeasured": "nicht gemessen",

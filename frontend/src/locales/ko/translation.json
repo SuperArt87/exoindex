@@ -163,7 +163,9 @@
     "habitability": "거주 가능성",
     "resources": "자원",
     "solarSystem": "태양계",
-    "lightYears": "{{value}} 광년"
+    "lightYears": "{{value}} 광년",
+    "updated": "업데이트",
+    "updatedTooltip": "마지막 방문 이후 새로운 정보"
   },
   "planetDetail": {
     "notMeasured": "측정되지 않음",

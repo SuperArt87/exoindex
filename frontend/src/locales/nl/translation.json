@@ -164,7 +164,9 @@
     "habitability": "Leefbaarheid",
     "resources": "Grondstoffen",
     "solarSystem": "Zonnestelsel",
-    "lightYears": "{{value}} lj"
+    "lightYears": "{{value}} lj",
+    "updated": "Update",
+    "updatedTooltip": "Nieuwe informatie sinds je laatste bezoek"
   },
   "planetDetail": {
     "notMeasured": "niet gemeten",
