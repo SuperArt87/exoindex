@@ -7,6 +7,7 @@ import { getPortfolio, buyPlanet, sellPlanet } from "../api/trading"
 import { useAuth } from "../context/AuthContext"
 import DataCompletenessBadge from "../components/DataCompletenessBadge"
 import BiosignatureBadge from "../components/BiosignatureBadge"
+import PlanetSphere from "../components/PlanetSphere"
 import SystemOrbitView from "../components/SystemOrbitView"
 import PriceHistoryChart from "../components/PriceHistoryChart"
 import { ApiError } from "../api/client"
@@ -107,31 +108,33 @@ export default function PlanetDetailPage() {
     )
   }
 
-  const rgb = planet.planet_color_rgb
-  const rgbCss = rgb ? `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})` : "rgb(100,100,110)"
-
   return (
     <div className="max-w-4xl mx-auto px-4 py-6 w-full">
       <Link to="/catalogus" className="text-indigo-400 text-sm">← {t("planetDetail.backToCatalog")}</Link>
 
-      <div className="rounded-lg mt-3 mb-2 overflow-hidden border border-slate-800 bg-slate-900/40 relative">
-        {systemPlanets?.results?.length ? (
-          <SystemOrbitView
-            planets={systemPlanets.results}
-            highlightPlanetId={id}
-            onPlanetClick={(planetId) => navigate(`/planets/${planetId}`)}
-          />
-        ) : (
-          <div
-            className="h-64 sm:h-80"
-            style={{ background: `radial-gradient(circle at 30% 30%, ${rgbCss}, #03040a 85%)` }}
-          />
-        )}
-        {planet.visual_tag && (
-          <span className="absolute bottom-3 left-3 text-sm px-2 py-1 rounded bg-black/50 text-slate-100 backdrop-blur">
-            {planet.visual_tag}
-          </span>
-        )}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3 mb-2">
+        <div className="rounded-lg overflow-hidden border border-slate-800 bg-slate-900/40 relative">
+          <PlanetSphere planet={planet} />
+          {planet.visual_tag && (
+            <span className="absolute bottom-3 left-3 text-sm px-2 py-1 rounded bg-black/50 text-slate-100 backdrop-blur">
+              {planet.visual_tag}
+            </span>
+          )}
+        </div>
+
+        <div className="rounded-lg overflow-hidden border border-slate-800 bg-slate-900/40">
+          {systemPlanets?.results?.length ? (
+            <SystemOrbitView
+              planets={systemPlanets.results}
+              highlightPlanetId={id}
+              onPlanetClick={(planetId) => navigate(`/planets/${planetId}`)}
+            />
+          ) : (
+            <div className="h-64 sm:h-80 flex items-center justify-center text-slate-600 text-sm">
+              {t("common.loading")}
+            </div>
+          )}
+        </div>
       </div>
 
       {systemPlanets?.results?.length > 1 && (
