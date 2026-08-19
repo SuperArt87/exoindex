@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useParams, Link, useNavigate } from "react-router-dom"
+import { useParams, useLocation, useNavigate, Link } from "react-router-dom"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { useTranslation } from "react-i18next"
 import { getPlanet, listPlanetsByHost } from "../api/planets"
@@ -36,6 +36,7 @@ export default function PlanetDetailPage() {
   const lang = i18n.resolvedLanguage || i18n.language
   const { id } = useParams()
   const navigate = useNavigate()
+  const location = useLocation()
   const { user, refreshUser } = useAuth()
   const queryClient = useQueryClient()
   const [buyQty, setBuyQty] = useState(1)
@@ -71,6 +72,19 @@ export default function PlanetDetailPage() {
 
   const holding = portfolio?.results?.find((entry) => String(entry.planet) === String(id))
 
+  // Navigeert terug in de browserhistory i.p.v. altijd naar het kale
+  // "/catalogus" -- als je hier via een gefilterde catalogus-kaart bent
+  // gekomen, staat die filter-querystring al in de vorige history-entry
+  // (CatalogPage.jsx spiegelt filters naar de URL), dus history-back
+  // herstelt ze vanzelf. location.key === "default" betekent dat er geen
+  // eigen in-app-historie is (bv. direct geopende/ververste URL) -- dan
+  // zou navigate(-1) de gebruiker de site uit sturen, dus dan alsnog naar
+  // de kale catalogus.
+  const backToCatalog = () => {
+    if (location.key !== "default") navigate(-1)
+    else navigate("/catalogus")
+  }
+
   const invalidateAfterTrade = async () => {
     await queryClient.invalidateQueries({ queryKey: ["portfolio"] })
     await queryClient.invalidateQueries({ queryKey: ["transactions"] })
@@ -103,14 +117,14 @@ export default function PlanetDetailPage() {
     return (
       <div className="max-w-4xl mx-auto px-4 py-6">
         <p className="text-red-400">{t("planetDetail.notFound")}</p>
-        <Link to="/catalogus" className="text-indigo-400 text-sm">← {t("planetDetail.backToCatalog")}</Link>
+        <button type="button" onClick={backToCatalog} className="text-indigo-400 text-sm">← {t("planetDetail.backToCatalog")}</button>
       </div>
     )
   }
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-6 w-full">
-      <Link to="/catalogus" className="text-indigo-400 text-sm">← {t("planetDetail.backToCatalog")}</Link>
+      <button type="button" onClick={backToCatalog} className="text-indigo-400 text-sm">← {t("planetDetail.backToCatalog")}</button>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3 mb-2">
         <div className="rounded-lg overflow-hidden border border-slate-800 bg-slate-900/40 relative">
