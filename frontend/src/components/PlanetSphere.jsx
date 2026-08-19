@@ -37,6 +37,12 @@ export default function PlanetSphere({ planet }) {
     const renderer = new THREE.WebGLRenderer({ antialias: true })
     renderer.setSize(width, height)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    // ACES-tonemapping i.p.v. de (three.js-)default lineaire mapping -- geeft
+    // merkbaar rijkere, minder "vlakke" belichting/kleuren voor dezelfde
+    // geometrie/textuur, puur een renderer-instelling, geen extra data.
+    renderer.toneMapping = THREE.ACESFilmicToneMapping
+    renderer.toneMappingExposure = 1.15
+    renderer.outputColorSpace = THREE.SRGBColorSpace
     mount.appendChild(renderer.domElement)
 
     const starGeo = new THREE.BufferGeometry()
@@ -46,17 +52,33 @@ export default function PlanetSphere({ planet }) {
     starGeo.setAttribute("position", new THREE.BufferAttribute(starPositions, 3))
     scene.add(new THREE.Points(starGeo, new THREE.PointsMaterial({ color: 0xffffff, size: 0.15 })))
 
-    const rgb = planet.planet_color_rgb || [140, 140, 150]
-    const { recipe, rng } = pickPlanetVariant(planet)
+    const { recipe, rng, colorOverride } = pickPlanetVariant(planet)
+    // colorOverride: vaste, herkenbare kleur voor onze 8 zonnestelselplaneten
+    // (zie SOLAR_SYSTEM_RECIPES in planetVisuals.js) -- buiten het
+    // zonnestelsel valt dit terug op de algoritmische planet_color_rgb-schatting.
+    const rgb = colorOverride || planet.planet_color_rgb || [140, 140, 150]
+    const rgbColor = new THREE.Color().setRGB(rgb[0] / 255, rgb[1] / 255, rgb[2] / 255, THREE.SRGBColorSpace)
     const { canvas: surfaceCanvas, spot } = buildSurfaceCanvas(recipe, rng, rgb)
     const surfaceTexture = new THREE.CanvasTexture(surfaceCanvas)
     surfaceTexture.colorSpace = THREE.SRGBColorSpace
+    // Anisotropic filtering -- zonder dit oogde de textuur bij de gebogen
+    // rand van de bol (waar texels sterk schuin bemonsterd worden) alsnog
+    // blokkerig, ook al is de textuur zelf al vloeiend (zie planetVisuals.js).
+    surfaceTexture.anisotropy = renderer.capabilities.getMaxAnisotropy()
 
-    // axisGroup krijgt de as-rotatie (uitgezet bij tidal lock) -- alles wat
-    // WEL onvoorwaardelijk moet blijven bewegen (wolken, stormvlek-puls)
-    // zit hier zelf weer NIET (direct) aan vast, zie hieronder.
+    // tiltGroup zet de vaste askanteling (alleen Uranus, zie
+    // SOLAR_SYSTEM_RECIPES.tiltDeg) -- dat is de herkenbare "op z'n kant
+    // liggende" aanblik, een statische orientatie, geen animatie. axisGroup
+    // daarbinnen krijgt de eigenlijke as-ROTATIE (uitgezet bij tidal lock).
+    // Wolken zitten ook in tiltGroup (delen dezelfde evenaar) maar NIET in
+    // axisGroup, want die moeten WEL onvoorwaardelijk blijven bewegen, ook
+    // als de planeet zelf tidally locked is.
+    const tiltGroup = new THREE.Group()
+    tiltGroup.rotation.z = THREE.MathUtils.degToRad(recipe.tiltDeg || 0)
+    scene.add(tiltGroup)
+
     const axisGroup = new THREE.Group()
-    scene.add(axisGroup)
+    tiltGroup.add(axisGroup)
 
     const sphere = new THREE.Mesh(
       new THREE.SphereGeometry(1, 48, 48),
@@ -97,27 +119,45 @@ export default function PlanetSphere({ planet }) {
       const cloudTexture = new THREE.CanvasTexture(cloudCanvas)
       cloudTexture.colorSpace = THREE.SRGBColorSpace
       cloudTexture.wrapS = THREE.RepeatWrapping
+      cloudTexture.anisotropy = renderer.capabilities.getMaxAnisotropy()
       cloudMesh = new THREE.Mesh(
         new THREE.SphereGeometry(1.02, 48, 48),
         new THREE.MeshBasicMaterial({ map: cloudTexture, transparent: true, depthWrite: false })
       )
-      scene.add(cloudMesh)
+      tiltGroup.add(cloudMesh)
     }
 
     if (planet.has_rings) {
       const ring = new THREE.Mesh(
         new THREE.RingGeometry(1.35, 1.9, 64),
-        new THREE.MeshBasicMaterial({
-          color: new THREE.Color().setRGB(rgb[0] / 255, rgb[1] / 255, rgb[2] / 255, THREE.SRGBColorSpace),
-          side: THREE.DoubleSide, transparent: true, opacity: 0.5,
-        })
+        new THREE.MeshBasicMaterial({ color: rgbColor, side: THREE.DoubleSide, transparent: true, opacity: 0.5 })
       )
       ring.rotation.x = Math.PI / 2.4
       scene.add(ring)
     }
 
-    scene.add(new THREE.PointLight(0xffffff, 4, 30).translateOnAxis(new THREE.Vector3(1, 0.6, 1).normalize(), 6))
-    scene.add(new THREE.AmbientLight(0x404040, 0.7))
+    // Zachte gloed rond de silhouetrand -- een iets grotere bol die alleen
+    // van de BINNENkant gerenderd wordt (BackSide) toont zich als een dunne
+    // halo rond de rand van de planeet, een goedkope en veelgebruikte truc
+    // voor een "atmosferische" uitstraling zonder een losse shader.
+    const glow = new THREE.Mesh(
+      new THREE.SphereGeometry(1.14, 32, 32),
+      new THREE.MeshBasicMaterial({ color: rgbColor, transparent: true, opacity: 0.22, side: THREE.BackSide, depthWrite: false })
+    )
+    scene.add(glow)
+
+    // Sleutellicht (warm, vanaf schuin voor) + zwakker tegenlicht (koel,
+    // vanaf de andere kant) i.p.v. één enkel puntlicht + platte ambient --
+    // geeft de bol echte richting/diepte i.p.v. een vlak verlicht silhouet.
+    // HemisphereLight zorgt voor een zachte hemel/grond-kleurschakering in
+    // de schaduwzijde i.p.v. egaal grijs.
+    const keyLight = new THREE.PointLight(0xfff4e0, 5.5, 30)
+    keyLight.position.set(4, 2.4, 4)
+    scene.add(keyLight)
+    const fillLight = new THREE.PointLight(0x6a7cff, 1.1, 30)
+    fillLight.position.set(-3.5, -1.2, -3)
+    scene.add(fillLight)
+    scene.add(new THREE.HemisphereLight(0x8899bb, 0x0a0a12, 0.55))
 
     let frameId
     const clock = new THREE.Clock()
@@ -161,6 +201,8 @@ export default function PlanetSphere({ planet }) {
       sphere.material.dispose()
       if (cloudMesh) { cloudMesh.geometry.dispose(); cloudMesh.material.map?.dispose(); cloudMesh.material.dispose() }
       if (spotMesh) { spotMesh.geometry.dispose(); spotMesh.material.dispose() }
+      glow.geometry.dispose()
+      glow.material.dispose()
       renderer.dispose()
     }
   }, [planet])
